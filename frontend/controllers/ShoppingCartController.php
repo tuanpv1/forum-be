@@ -194,7 +194,6 @@ class ShoppingCartController extends Controller
                         </tbody>
                     </table>";
                 if(!$order_detail->save()){
-                    Yii::info(Yii::$app->getErrorHandler());
                     $message = 'Đặt hàng không thành công. không lưu thành công chi tiết đơn hàng!';
                     return Json::encode(['success' => false, 'message' => $message]);
                 }
