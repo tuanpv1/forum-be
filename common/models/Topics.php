@@ -103,13 +103,13 @@ class Topics extends \yii\db\ActiveRecord
     {
         return [
             'topic_id' => 'Topic ID',
-            'forum_id' => 'Forum ID',
+            'forum_id' => 'Thuộc Danh mục',
             'icon_id' => 'Icon ID',
             'topic_attachment' => 'Topic Attachment',
             'topic_reported' => 'Topic Reported',
-            'topic_title' => 'Topic Title',
+            'topic_title' => 'Tên bài viết',
             'topic_poster' => 'Topic Poster',
-            'topic_time' => 'Topic Time',
+            'topic_time' => 'Ngày tạo',
             'topic_time_limit' => 'Topic Time Limit',
             'topic_views' => 'Topic Views',
             'topic_status' => 'Topic Status',

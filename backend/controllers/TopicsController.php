@@ -180,37 +180,12 @@ class TopicsController extends Controller
             }
             return [
                 'success' => true,
-                'message' => "Duyệt " . $feedbacksApprove . " feedback thành công!"
+                'message' => "Duyệt " . $feedbacksApprove . " Topics thành công!"
             ];
         } else {
             return [
                 'success' => false,
-                'message' => 'Không tìm thấy feedback trên hệ thống'
-            ];
-        }
-    }
-
-    public function actionReject()
-    {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        $post = Yii::$app->request->post();
-        if (isset($post['ids'])) {
-            $ids = $post['ids'];
-            $feedbacks = Topics::findAll($ids);
-            $feedbacksReject = 0;
-            foreach ($feedbacks as $feedback) {
-                if ($feedback->reject()) {
-                    $feedbacksReject++;
-                }
-            }
-            return [
-                'success' => true,
-                'message' => "Từ chối " . $feedbacksReject . " feedback thành công!"
-            ];
-        } else {
-            return [
-                'success' => false,
-                'message' => 'Không tìm thấy feedback trên hệ thống'
+                'message' => 'Không tìm thấy Topics trên hệ thống'
             ];
         }
     }
