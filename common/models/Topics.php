@@ -49,6 +49,7 @@ use Yii;
  */
 class Topics extends \yii\db\ActiveRecord
 {
+    const STATUS_INACTIVE = 0;
     const STATUS_NEW_POST = 1;
     const STATUS_IN_PROCESS = 2;
     const STATUS_ANSWERED = 3;
@@ -65,6 +66,7 @@ class Topics extends \yii\db\ActiveRecord
     public static function getStatus()
     {
         $ls = [
+            self::STATUS_INACTIVE => Yii::t('app','Chưa duyệt'),
             self::STATUS_NEW_POST => Yii::t('app','Mới post'),
             self::STATUS_IN_PROCESS => Yii::t('app',"Đang xử lý"),
             self::STATUS_ANSWERED => Yii::t('app',"Đang giải quyết"),
@@ -134,29 +136,18 @@ class Topics extends \yii\db\ActiveRecord
             'topic_visibility' => 'Topic Visibility',
             'topic_delete_time' => 'Topic Delete Time',
             'topic_delete_reason' => 'Topic Delete Reason',
-            'topic_delete_user' => 'Topic Delete User',
+            'topic_delete_user' => 'Xóa bởi QTV',
             'topic_posts_approved' => 'Topic Posts Approved',
             'topic_posts_unapproved' => 'Topic Posts Unapproved',
             'topic_posts_softdeleted' => 'Topic Posts Softdeleted',
+            'topic_status_display' => 'Trạng thái',
         ];
     }
 
-    public function approve($user = null)
+    public function approve($status,$user = null)
     {
-        if ($this->status_topics == self::STATUS_ACTIVE) {
-            return true;
-        }
-        $this->status_topics = self::STATUS_ACTIVE;
+        $this->topic_status_display = $status;
 
-        return $this->update(false);
-    }
-
-    public function reject()
-    {
-        if ($this->status_topics == self::STATUS_REJECT) {
-            return true;
-        }
-        $this->status_topics = self::STATUS_REJECT;
         return $this->update(false);
     }
 }

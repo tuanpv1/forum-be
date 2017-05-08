@@ -1,5 +1,7 @@
 <?php
 
+use common\helpers\CUtils;
+use common\models\Forums;
 use common\models\Topics;
 use yii\helpers\Html;
 use kartik\grid\GridView;
@@ -20,20 +22,22 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php
 $approveUrl = \yii\helpers\Url::to(['topics/approve']);
-$rejectUrl = \yii\helpers\Url::to(['topics/reject']);
 
 
 $js = <<<JS
-    function approveFeedback(){
+    function approveFeedback(status){
     feedbacks = $("#content-feedback-grid").yiiGridView("getSelectedRows");
     if(feedbacks.length <= 0){
-    alert("Chưa chọn feedback! Xin vui lòng chọn ít nhất một feedback để duyệt.");
+    alert("Chưa chọn Topics! Xin vui lòng chọn ít nhất một Topics để duyệt.");
     return;
     }
 
     jQuery.post(
         '{$approveUrl}',
-        { ids:feedbacks }
+        {
+            ids:feedbacks,
+            status:status
+            }
     )
     .done(function(result) {
     if(result.success){
@@ -49,33 +53,6 @@ $js = <<<JS
     }
 JS;
 
-$this->registerJs($js, \yii\web\View::POS_END);
-
-$js = <<<JS
-    function rejectFeedback(){
-    feedbacks = $("#content-feedback-grid").yiiGridView("getSelectedRows");
-    if(feedbacks.length <= 0){
-    alert("Chưa chọn feedback! Xin vui lòng chọn ít nhất một feedback để duyệt.");
-    return;
-    }
-
-    jQuery.post(
-    '{$rejectUrl}',
-    { ids:feedbacks }
-    )
-    .done(function(result) {
-    if(result.success){
-    toastr.success(result.message);
-    jQuery.pjax.reload({container:'#content-feedback-grid'});
-    }else{
-    toastr.error(result.message);
-    }
-    })
-    .fail(function() {
-    toastr.error("server error");
-    });
-    }
-JS;
 
 $this->registerJs($js, \yii\web\View::POS_END);
 ?>
@@ -107,21 +84,41 @@ $this->registerJs($js, \yii\web\View::POS_END);
                     'toolbar' => [
                         [
                             'content' =>
-                                Html::button('<i class="glyphicon glyphicon-ok"></i> Duyệt Topics', [
+                                Html::button('<i class="glyphicon glyphicon-ok"></i> Mới Post', [
                                     'type' => 'button',
-                                    'title' => 'Duyệt Topics',
+                                    'title' => 'Mới Post',
                                     'class' => 'btn btn-success',
-                                    'onclick' => 'approveFeedback();'
+                                    'onclick' => 'approveFeedback('.Topics::STATUS_NEW_POST.');'
                                 ])
 
                         ],
                         [
                             'content' =>
-                                Html::button('<i class="glyphicon glyphicon-minus"></i> Từ chối Topics', [
+                                Html::button('<i class="glyphicon glyphicon-minus"></i>Đang xử lý', [
                                     'type' => 'button',
-                                    'title' => 'Từ chối feedback',
+                                    'title' => 'Đang xử lý',
+                                    'class' => 'btn btn-info',
+                                    'onclick' => 'approveFeedback('.Topics::STATUS_IN_PROCESS.');'
+                                ])
+
+                        ],
+                        [
+                            'content' =>
+                                Html::button('<i class="glyphicon glyphicon-minus"></i> Đang giải quyết', [
+                                    'type' => 'button',
+                                    'title' => 'Đang giải quyết',
+                                    'class' => 'btn btn-primary',
+                                    'onclick' => 'approveFeedback('.Topics::STATUS_ANSWERED.');'
+                                ])
+
+                        ],
+                        [
+                            'content' =>
+                                Html::button('<i class="glyphicon glyphicon-minus"></i> Chưa trả lời', [
+                                    'type' => 'button',
+                                    'title' => 'Chưa trả lời',
                                     'class' => 'btn btn-danger',
-                                    'onclick' => 'rejectFeedback();'
+                                    'onclick' => 'approveFeedback('.Topics::STATUS_UNANSWERED.');'
                                 ])
 
                         ],
@@ -133,14 +130,14 @@ $this->registerJs($js, \yii\web\View::POS_END);
                             'class' => '\kartik\grid\DataColumn',
                             'attribute'=>'topic_title',
                             'value' => function ($model, $key, $index, $widget) {
-                                return $model->topic_title;
+                                return CUtils::substr($model->topic_title, 50);
                             }
                         ],
                         [
                             'class' => '\kartik\grid\DataColumn',
                             'attribute'=>'forum_id',
                             'value' => function ($model, $key, $index, $widget) {
-                                return $model->forum_id;
+                                return CUtils::substr(Forums::findOne(['forum_id'=>$model->forum_id])->forum_name, 50);
                             }
                         ],
                         [

@@ -23,9 +23,9 @@ class TopicsController extends Controller
     public function behaviors()
     {
         return [
-            [
-                'class' => ActionAdminFilter::className(),
-            ],
+//            [
+//                'class' => ActionAdminFilter::className(),
+//            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -168,13 +168,13 @@ class TopicsController extends Controller
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $post = Yii::$app->request->post();
-        $cp = Yii::$app->user->id;
         if (isset($post['ids'])) {
             $ids = $post['ids'];
+            $status = $post['status'];
             $feedbacks = Topics::findAll($ids);
             $feedbacksApprove = 0;
             foreach ($feedbacks as $feedback) {
-                if ($feedback->approve($cp)) {
+                if ($feedback->approve($status)) {
                     $feedbacksApprove++;
                 }
             }

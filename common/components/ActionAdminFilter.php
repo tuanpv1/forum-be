@@ -42,7 +42,7 @@ class ActionAdminFilter extends ActionFilter
         /**
          * @var \common\models\Users $user
          */
-        $user_check = \common\models\Users::findOne($user->id);
+        $user_check = \common\models\Users::findOne($user->user_id);
         $group_mod = Groups::findOne(['group_name'=>'GLOBAL_MODERATORS']);
         $group_admin = Groups::findOne(['group_name'=>'ADMINISTRATORS']);
         if($user_check->group_id == $group_mod->group_id){
