@@ -1,6 +1,5 @@
 <?php
 use backend\assets\AppAsset;
-use common\models\User;
 use common\widgets\Alert;
 use common\widgets\Nav;
 use common\widgets\NavBar;
@@ -12,11 +11,9 @@ use yii\widgets\Breadcrumbs;
 /* @var $content string */
 
 AppAsset::register($this);
-
-\common\assets\ToastAsset::register($this);
-\common\assets\ToastAsset::config($this, [
-    'positionClass' => \common\assets\ToastAsset::POSITION_TOP_RIGHT
-]);
+$this->registerJs("Metronic.init();");
+$this->registerJs("Layout.init();");
+$tilte = Yii::t('app',"Shop - Trang quản trị");
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -25,96 +22,92 @@ AppAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
+    <title><?= $tilte ?></title>
     <?php $this->head() ?>
 </head>
-<body class="page-container-bg-solid page-boxed page-md">
+<body class="page-header-menu-fixed">
 <?php $this->beginBody() ?>
 <div class="page-header">
-    <!-- BEGIN HEADER TOP -->
-    <div class="container">
-        <?php
-
-        NavBar::begin([
-            'brandLabel' => '<img width="50px" src="' . Url::to("@web/img/logo-big.png") . '" alt="logo" class="logo-default"/>',
-            'brandUrl' => Yii::$app->homeUrl,
-            'brandOptions' => [
-                'class' => 'page-logo'
-            ],
-            'renderInnerContainer' => true,
-            'innerContainerOptions' => [
-                'class' => 'container-fluid'
-            ],
+    <?php
+    NavBar::begin([
+        'brandUrl' => Yii::$app->homeUrl,
+        'brandOptions' => [
+            'class' => 'page-logo'
+        ],
+        'renderInnerContainer' => true,
+        'innerContainerOptions' => [
+            'class' => 'container-fluid'
+        ],
+        'options' => [
+            'class' => 'page-header-top',
+        ],
+        'containerOptions' => [
+            'class' => 'top-menu'
+        ],
+    ]);
+    if (Yii::$app->user->isGuest) {
+        $rightItems[] = [
+            'encode' => false,
+            'label' => '<i class="icon-user"></i><span class="username username-hide-on-mobile">'.Yii::t('app','Đăng nhập').'</span>',
+            'url' => Yii::$app->urlManager->createUrl("site/login"),
             'options' => [
-                'class' => 'page-header-top',
+                'class' => 'dropdown dropdown-user'
             ],
-            'containerOptions' => [
-                'class' => 'top-menu'
+            'linkOptions' => [
+                'class' => "dropdown-toggle",
             ],
-        ]);
-        $rightItems = [];
-        if (Yii::$app->user->isGuest) {
-
-        } else {
-
-            $rightItems[] = [
-                'encode' => false,
-                'label' => '<img alt="" class="img-circle" src="' . Url::to("@web/img/avatar0.jpg") . '"/>
+        ];
+    } else {
+        $rightItems[] = [
+            'encode' => false,
+            'label' => '<img alt="" class="img-circle" src="' . Url::to("@web/img/scorn.ico") . '"/>
 					<span class="username username-hide-on-mobile">
 						 ' . Yii::$app->user->identity->username . '
 					</span>',
-                'options' => ['class' => 'dropdown dropdown-user dropdown-dark'],
-                'linkOptions' => [
-                    'data-hover' => "dropdown",
-                    'data-close-others' => "true"
+            'options' => ['class' => 'dropdown dropdown-user dropdown-dark'],
+            'linkOptions' => [
+                'data-hover' => "dropdown",
+                'data-close-others' => "true"
+            ],
+            'url' => 'javascript:;',
+            'items' => [
+                [
+                    'encode' => false,
+                    'label' => '<i class="icon-user"></i> '.Yii::t('app','Thông tin tài khoàn').' </a>',
+                    'url' => ['user/info']
                 ],
-                'url' => 'javascript:;',
-                'items' => [
-                    [
-                        'encode' => false,
-                        'label' => '<i class="icon-change"></i> Đổi mật khẩu',
-                        'url' => ['/site/change-password'],
-                        'linkOptions' => ['data-method' => 'post'],
-                    ],
-
-                    [
-                        'encode' => false,
-                        'label' => '<i class="icon-key"></i> Đăng xuất',
-                        'url' => ['/site/logout'],
-                        'linkOptions' => ['data-method' => 'post'],
-                    ],
-                ]
-            ];
-        }
-
-        echo Nav::widget([
-            'options' => ['class' => 'navbar-nav pull-right'],
-            'items' => $rightItems,
-            'activateParents' => true
-        ]);
-        echo \common\widgets\Badge::widget([]);
-
-        NavBar::end();
-        ?>
-    </div>
-    <!-- END HEADER TOP -->
+                [
+                    'encode' => false,
+                    'label' => '<i class="icon-key"></i> '.Yii::t('app','Đăng xuất'),
+                    'url' => ['/site/logout'],
+                    'linkOptions' => ['data-method' => 'post'],
+                ],
+            ]
+        ];
+    }
+    echo Nav::widget([
+        'options' => ['class' => 'navbar-nav pull-right'],
+        'items' => $rightItems,
+        'activateParents' => true
+    ]);
+    NavBar::end();
+    ?>
 
     <?php
     NavBar::begin([
         'renderInnerContainer' => true,
         'innerContainerOptions' => [
-            'class' => 'container '
+            'class' => 'container-fluid'
         ],
         'options' => [
-            'class' => 'page-header-menu green',
-            'style' => 'display: block; background:#32d3c3;border-bottom: solid 4px #1baa9c;'
+            'class' => 'page-header-menu',
+            'style' => 'display: block;'
         ],
         'containerOptions' => [
             'class' => 'hor-menu'
         ],
         'toggleBtn' => false
     ]);
-
     $menuItems = [
         [
             'encode' => false,
@@ -129,59 +122,37 @@ AppAsset::register($this);
     ]);
     NavBar::end();
     ?>
-
-
 </div>
-
-<style>
-    .hor-menu ul li {
-        border-left: solid 1px rgba(255, 255, 255, 0.3);
-    }
-
-    .hor-menu li:last-child {
-        border-right: solid 1px rgba(255, 255, 255, 0.3);
-    }
-
-    .hor-menu ul li a {
-        color: white !important;
-    }
-
-    .hor-menu ul li a:hover {
-        background-color: #1baa9c !important;
-    }
-
-</style>
 <!-- BEGIN CONTAINER -->
 <div class="page-container">
-
-    <div class="page-content-wrapper">
-        <!-- BEGIN PAGE CONTENT BODY -->
-        <div class="page-content">
-            <div class="container-fluid">
-                <?= Breadcrumbs::widget([
-                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                    'options' => [
-                        'class' => 'page-breadcrumb breadcrumb'
-                    ],
-                    'itemTemplate' => "<li>{link}<i class=\"fa fa-circle\"></i></li>\n",
-                    'activeItemTemplate' => "<li class=\"active\">{link}</li>\n"
-                ]) ?>
-                <?= Alert::widget() ?>
-                <?= \common\widgets\Toast::widget(['view' => $this]) ?>
-                <div class="page-content-inner">
-                    <?= $content ?>
-                </div>
-            </div>
+    <!--    <div class="page-head">-->
+    <!--        <div class="container-fluid">-->
+    <!--            <div class="page-title">-->
+    <!--                <h1>--><?php //echo $this->title ?><!--</h1>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <div class="page-content">
+        <div class="container-fluid">
+            <?= Breadcrumbs::widget([
+                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                'options' => [
+                    'class' => 'page-breadcrumb breadcrumb'
+                ],
+                'itemTemplate' => "<li>{link}<i class=\"fa fa-circle\"></i></li>\n",
+                'activeItemTemplate' => "<li class=\"active\">{link}</li>\n"
+            ]) ?>
+            <?= Alert::widget() ?>
+            <?= $content ?>
         </div>
-        <!-- END PAGE CONTENT BODY -->
     </div>
 </div>
 <!-- END CONTAINER -->
 
 <!-- BEGIN FOOTER -->
-<div class="page-footer">
+<div class="page-footer footer">
     <div class="container-fluid">
-        <p><b>&copy;Copyright 2017 </b>. CMS by DH-TP.</p>
+        <p><b>&copy;Copyright  <?php echo date('Y'); ?> </b>. All Rights Reserved. <b> forum-backend </b></p>
     </div>
 </div>
 <div class="scroll-to-top">
@@ -193,3 +164,4 @@ AppAsset::register($this);
 </body>
 </html>
 <?php $this->endPage() ?>
+
