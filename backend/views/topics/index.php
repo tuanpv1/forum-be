@@ -135,7 +135,7 @@ $this->registerJs($js, \yii\web\View::POS_END);
                         ],
                         [
                             'class' => '\kartik\grid\DataColumn',
-                            'attribute'=>'forum_id',
+                            'attribute'=>'forum_name',
                             'value' => function ($model, $key, $index, $widget) {
                                 return CUtils::substr(Forums::findOne(['forum_id'=>$model->forum_id])->forum_name, 50);
                             }
@@ -198,7 +198,9 @@ $this->registerJs($js, \yii\web\View::POS_END);
                                 return date('d/m/Y H:i:s', $model->topic_last_post_time);
                             }
                         ],
-                        ['class' => 'yii\grid\ActionColumn'],
+                        ['class' => 'kartik\grid\ActionColumn',
+                            'template'=>'{view}',
+                        ],
                         [
                             'class' => 'kartik\grid\CheckboxColumn',
                             'headerOptions' => ['class' => 'kartik-sheet-style'],

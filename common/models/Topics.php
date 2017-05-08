@@ -122,7 +122,7 @@ class Topics extends \yii\db\ActiveRecord
             'topic_last_poster_name' => 'Topic Last Poster Name',
             'topic_last_poster_colour' => 'Topic Last Poster Colour',
             'topic_last_post_subject' => 'Topic Last Post Subject',
-            'topic_last_post_time' => 'Topic Last Post Time',
+            'topic_last_post_time' => 'Thời gian post bài',
             'topic_last_view_time' => 'Topic Last View Time',
             'topic_moved_id' => 'Topic Moved ID',
             'topic_bumped' => 'Topic Bumped',
