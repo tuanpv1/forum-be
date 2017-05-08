@@ -81,8 +81,11 @@ use yii\web\IdentityInterface;
 class Users extends ActiveRecord implements IdentityInterface
 {
 
-    const USER_INACTIVE = 0;
-    const USER_NORMAL = 10;
+    const USER_TYPE_ACTIVE = 0;
+    const USER_TYPE_INACTIVE = 1;
+    const USER_TYPE_DELETED = 2;
+
+    const BOTS = 6;
     /**
      * @inheritdoc
      */
@@ -239,5 +242,40 @@ class Users extends ActiveRecord implements IdentityInterface
     public function validatePassword($password)
     {
         return Yii::$app->security->validatePassword($password, $this->user_password);
+    }
+
+    public function approve($status,$user = null)
+    {
+        if($status != self::USER_TYPE_DELETED){
+            $this->user_type = $status;
+            return $this->update(false);
+        }else{
+            $userGroup = UserGroup::findAll(['user_id'=>$this->user_id]);
+            if(!empty($userGroup)){
+                foreach($userGroup as $item){
+                    $item->delete();
+                }
+            }
+            return $this->delete();
+        }
+
+    }
+
+    public static function getStatus()
+    {
+        $ls = [
+            self::USER_TYPE_ACTIVE => Yii::t('app','Đã Duyệt'),
+            self::USER_TYPE_INACTIVE => Yii::t('app','Chưa Duyệt'),
+        ];
+        return $ls;
+    }
+
+    public function getStatusName()
+    {
+        $lst = self::getStatus();
+        if (array_key_exists($this->user_type, $lst)) {
+            return $lst[$this->user_type];
+        }
+        return $this->user_type;
     }
 }

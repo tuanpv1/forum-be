@@ -30,6 +30,7 @@ $tilte = Yii::t('app',"Shop - Trang quản trị");
 <div class="page-header">
     <?php
     NavBar::begin([
+        'brandLabel' => '<img src="' . Url::to("@web/img/logo_vettel.png") . '" alt="logo" class="logo-default"  width="115" style="margin-top:4px;"/>',
         'brandUrl' => Yii::$app->homeUrl,
         'brandOptions' => [
             'class' => 'page-logo'
@@ -113,6 +114,11 @@ $tilte = Yii::t('app',"Shop - Trang quản trị");
             'encode' => false,
             'label' => Yii::t('app','Quản lý Topic'),
             'url' => ['topics/index'],
+        ],
+        [
+            'encode' => false,
+            'label' => Yii::t('app','Quản lý User'),
+            'url' => ['users/index'],
         ],
     ];
     echo Nav::widget([

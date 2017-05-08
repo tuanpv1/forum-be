@@ -1,16 +1,16 @@
 <?php
 
-use common\helpers\CUtils;
-use common\models\Forums;
+use common\models\Groups;
 use common\models\Topics;
+use common\models\Users;
 use yii\helpers\Html;
 use kartik\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel common\models\TopicsSearch */
+/* @var $searchModel common\models\UsersSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Topics';
+$this->title = 'Users';
 $this->params['breadcrumbs'][] = $this->title;
 
 \common\assets\ToastAsset::register($this);
@@ -21,14 +21,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 <?php
-$approveUrl = \yii\helpers\Url::to(['topics/approve']);
+$approveUrl = \yii\helpers\Url::to(['users/approve']);
 
 
 $js = <<<JS
-    function approveTopics(status){
-    feedbacks = $("#topic-index-grid").yiiGridView("getSelectedRows");
+    function approveUsers(status){
+    feedbacks = $("#user-index-grid").yiiGridView("getSelectedRows");
     if(feedbacks.length <= 0){
-    alert("Chưa chọn Topics! Xin vui lòng chọn ít nhất một Topics để duyệt.");
+    alert("Chưa chọn Topics! Xin vui lòng chọn ít nhất một User để duyệt.");
     return;
     }
 
@@ -37,12 +37,12 @@ $js = <<<JS
         {
             ids:feedbacks,
             status:status
-            }
+        }
     )
     .done(function(result) {
     if(result.success){
     toastr.success(result.message);
-    jQuery.pjax.reload({container:'#topic-index-grid'});
+    jQuery.pjax.reload({container:'#user-index-grid'});
     }else{
     toastr.error(result.message);
     }
@@ -74,51 +74,41 @@ $this->registerJs($js, \yii\web\View::POS_END);
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
-                    'id' => 'topic-index-grid',
+                    'id' => 'user-index-grid',
                     'responsive' => true,
                     'pjax' => true,
                     'panel' => [
                         'type' => GridView::TYPE_PRIMARY,
-                        'heading' => 'Danh sách Topics'
+                        'heading' => 'Danh sách Users'
                     ],
                     'toolbar' => [
                         [
                             'content' =>
-                                Html::button('<i class="glyphicon glyphicon-ok"></i> Mới Post', [
+                                Html::button('<i class="glyphicon glyphicon-ok"></i> Duyệt User', [
                                     'type' => 'button',
-                                    'title' => 'Mới Post',
+                                    'title' => 'Duyệt User',
                                     'class' => 'btn btn-success',
-                                    'onclick' => 'approveTopics('.Topics::STATUS_NEW_POST.');'
+                                    'onclick' => 'approveUsers('.Users::USER_TYPE_ACTIVE.');'
                                 ])
 
                         ],
                         [
                             'content' =>
-                                Html::button('<i class="glyphicon glyphicon-minus"></i>Đang xử lý', [
+                                Html::button('<i class="glyphicon glyphicon-minus"></i>Chờ Duyệt', [
                                     'type' => 'button',
-                                    'title' => 'Đang xử lý',
+                                    'title' => 'Chờ Duyệt',
                                     'class' => 'btn btn-info',
-                                    'onclick' => 'approveTopics('.Topics::STATUS_IN_PROCESS.');'
+                                    'onclick' => 'approveUsers('.Users::USER_TYPE_INACTIVE.');'
                                 ])
 
                         ],
                         [
                             'content' =>
-                                Html::button('<i class="glyphicon glyphicon-minus"></i> Đang giải quyết', [
+                                Html::button('<i class="glyphicon glyphicon-minus"></i>Xóa User chờ Duyệt', [
                                     'type' => 'button',
-                                    'title' => 'Đang giải quyết',
-                                    'class' => 'btn btn-primary',
-                                    'onclick' => 'approveTopics('.Topics::STATUS_ANSWERED.');'
-                                ])
-
-                        ],
-                        [
-                            'content' =>
-                                Html::button('<i class="glyphicon glyphicon-minus"></i> Chưa trả lời', [
-                                    'type' => 'button',
-                                    'title' => 'Chưa trả lời',
+                                    'title' => 'Xóa User chờ Duyệt',
                                     'class' => 'btn btn-danger',
-                                    'onclick' => 'approveTopics('.Topics::STATUS_UNANSWERED.');'
+                                    'onclick' => 'approveUsers('.Users::USER_TYPE_DELETED.');'
                                 ])
 
                         ],
@@ -128,25 +118,18 @@ $this->registerJs($js, \yii\web\View::POS_END);
                         ['class' => 'yii\grid\SerialColumn'],
                         [
                             'class' => '\kartik\grid\DataColumn',
-                            'attribute'=>'topic_title',
+                            'attribute'=>'group_id',
                             'value' => function ($model, $key, $index, $widget) {
-                                return CUtils::substr($model->topic_title, 50);
+                                return Groups::findOne(['group_id'=>$model->group_id])->group_name;
                             }
                         ],
                         [
-                            'class' => '\kartik\grid\DataColumn',
-                            'attribute'=>'forum_name',
-                            'value' => function ($model, $key, $index, $widget) {
-                                return CUtils::substr(Forums::findOne(['forum_id'=>$model->forum_id])->forum_name, 50);
-                            }
-                        ],
-                        [
-                            'attribute' => 'topic_status_display',
+                            'attribute' => 'user_type',
                             'class' => '\kartik\grid\DataColumn',
                             'width'=>'200px',
                             'value' => function ($model, $key, $index, $widget) {
                                 /**
-                                 * @var $model Topics
+                                 * @var $model Users
                                  */
                                 return $model->getStatusName();
                             },
@@ -157,11 +140,14 @@ $this->registerJs($js, \yii\web\View::POS_END);
                             ],
                             'filterInputOptions' => ['placeholder' => Yii::t('app', 'Tất cả')],
                         ],
+                         'username',
+                         'user_email:email',
+                         'user_lang',
                         [
                             'class' => '\kartik\grid\DataColumn',
-                            'attribute'=>'topic_last_post_time',
+                            'attribute'=>'user_regdate',
                             'value' => function ($model, $key, $index, $widget) {
-                                return date('d/m/Y H:i:s', $model->topic_last_post_time);
+                                return date('d/m/Y H:i:s', $model->user_regdate);
                             }
                         ],
                         ['class' => 'kartik\grid\ActionColumn',
@@ -177,3 +163,4 @@ $this->registerJs($js, \yii\web\View::POS_END);
         </div>
     </div>
 </div>
+
