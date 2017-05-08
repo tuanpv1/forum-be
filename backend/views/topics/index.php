@@ -19,8 +19,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 <?php
-$approveUrl = \yii\helpers\Url::to(['content-feedback/approve']);
-$rejectUrl = \yii\helpers\Url::to(['content-feedback/reject']);
+$approveUrl = \yii\helpers\Url::to(['topics/approve']);
+$rejectUrl = \yii\helpers\Url::to(['topics/reject']);
 
 
 $js = <<<JS
@@ -97,6 +97,9 @@ $this->registerJs($js, \yii\web\View::POS_END);
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
+                    'id' => 'content-feedback-grid',
+                    'responsive' => true,
+                    'pjax' => true,
                     'panel' => [
                         'type' => GridView::TYPE_PRIMARY,
                         'heading' => 'Danh sách Topics'
@@ -104,9 +107,9 @@ $this->registerJs($js, \yii\web\View::POS_END);
                     'toolbar' => [
                         [
                             'content' =>
-                                Html::button('<i class="glyphicon glyphicon-ok"></i> Approve', [
+                                Html::button('<i class="glyphicon glyphicon-ok"></i> Duyệt Topics', [
                                     'type' => 'button',
-                                    'title' => 'Duyệt feedback',
+                                    'title' => 'Duyệt Topics',
                                     'class' => 'btn btn-success',
                                     'onclick' => 'approveFeedback();'
                                 ])
@@ -114,7 +117,7 @@ $this->registerJs($js, \yii\web\View::POS_END);
                         ],
                         [
                             'content' =>
-                                Html::button('<i class="glyphicon glyphicon-minus"></i> Reject', [
+                                Html::button('<i class="glyphicon glyphicon-minus"></i> Từ chối Topics', [
                                     'type' => 'button',
                                     'title' => 'Từ chối feedback',
                                     'class' => 'btn btn-danger',

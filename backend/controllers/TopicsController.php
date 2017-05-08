@@ -2,12 +2,14 @@
 
 namespace backend\controllers;
 
+use common\components\ActionLogTracking;
 use Yii;
 use common\models\Topics;
 use common\models\TopicsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 /**
  * TopicsController implements the CRUD actions for Topics model.
@@ -26,6 +28,18 @@ class TopicsController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            [
+                'class' => ActionLogTracking::className(),
+                'user' => Yii::$app->user,
+                'post_action' => [
+                    ['action' => 'create', 'accept_ajax' => false],
+                    ['action' => 'update', 'accept_ajax' => false],
+                    ['action' => 'delete', 'accept_ajax' => true],
+                    ['action' => 'approve', 'accept_ajax' => true],
+                    ['action' => 'reject', 'accept_ajax' => true],
+                ],
+                'only' => ['create', 'update', 'delete', 'approve', 'reject']
+            ],
         ];
     }
 
@@ -35,6 +49,30 @@ class TopicsController extends Controller
      */
     public function actionIndex()
     {
+        if (isset($_POST['hasEditable'])) {
+            // read your posted model attributes
+            $post = Yii::$app->request->post();
+            if ($post['editableKey']) {
+                // read or convert your posted information
+                $feedback = Topics::findOne($post['editableKey']);
+                $index = $post['editableIndex'];
+                if ($feedback) {
+                    $feedback->load($post['SubscriberFeedback'][$index], '');
+                    if ($feedback->update()) {
+                        echo \yii\helpers\Json::encode(['output' => '', 'message' => '']);
+                    } else {
+                        echo \yii\helpers\Json::encode(['output' => '', 'message' => 'Dữ liệu không hợp lệ']);
+                    }
+                } else {
+                    echo \yii\helpers\Json::encode(['output' => '', 'message' => 'Feedback không tồn tại']);
+                }
+
+            } // else if nothing to do always return an empty JSON encoded output
+            else {
+                echo \yii\helpers\Json::encode(['output' => '', 'message' => '']);
+            }
+            return;
+        }
         $searchModel = new TopicsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -119,6 +157,57 @@ class TopicsController extends Controller
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    public function actionApprove()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $post = Yii::$app->request->post();
+        $cp = Yii::$app->user->id;
+        if (isset($post['ids'])) {
+            $ids = $post['ids'];
+            $feedbacks = Topics::findAll($ids);
+            $feedbacksApprove = 0;
+            foreach ($feedbacks as $feedback) {
+                if ($feedback->approve($cp)) {
+                    $feedbacksApprove++;
+                }
+            }
+            return [
+                'success' => true,
+                'message' => "Duyệt " . $feedbacksApprove . " feedback thành công!"
+            ];
+        } else {
+            return [
+                'success' => false,
+                'message' => 'Không tìm thấy feedback trên hệ thống'
+            ];
+        }
+    }
+
+    public function actionReject()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $post = Yii::$app->request->post();
+        if (isset($post['ids'])) {
+            $ids = $post['ids'];
+            $feedbacks = Topics::findAll($ids);
+            $feedbacksReject = 0;
+            foreach ($feedbacks as $feedback) {
+                if ($feedback->reject()) {
+                    $feedbacksReject++;
+                }
+            }
+            return [
+                'success' => true,
+                'message' => "Từ chối " . $feedbacksReject . " feedback thành công!"
+            ];
+        } else {
+            return [
+                'success' => false,
+                'message' => 'Không tìm thấy feedback trên hệ thống'
+            ];
         }
     }
 }

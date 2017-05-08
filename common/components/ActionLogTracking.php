@@ -32,7 +32,7 @@ class ActionLogTracking extends ActionFilter
 
     public $post_action = [];
 
-    public $model_type_default = UserActivity::ACTION_TARGET_TYPE_OTHER;
+//    public $model_type_default = UserActivity::ACTION_TARGET_TYPE_OTHER;
 
     public $model_types = [];
 

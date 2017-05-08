@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7e768206-24cf-4ceb-98c2-9a2e5fe403f8" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/views/layouts/main.php" afterPath="$PROJECT_DIR$/backend/views/layouts/main.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/controllers/TopicsController.php" afterPath="$PROJECT_DIR$/backend/controllers/TopicsController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/views/topics/index.php" afterPath="$PROJECT_DIR$/backend/views/topics/index.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/common/components/ActionLogTracking.php" afterPath="$PROJECT_DIR$/common/components/ActionLogTracking.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/common/models/Topics.php" afterPath="$PROJECT_DIR$/common/models/Topics.php" />
     </list>
     <ignored path="forum-be.iws" />
@@ -29,32 +31,54 @@
       <file leaf-file-name="index.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/backend/views/topics/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-96.0">
-              <caret line="204" column="26" selection-start-line="204" selection-start-column="26" selection-end-line="204" selection-end-column="26" />
+            <state vertical-scroll-proportion="-3.8076923">
+              <caret line="36" column="5" selection-start-line="36" selection-start-column="5" selection-end-line="36" selection-end-column="5" />
               <folding>
                 <element signature="e#7#32#0#PHP" expanded="true" />
-                <marker date="1494207513548" expanded="true" signature="635:1199" placeholder="{...}" />
-                <marker date="1494207513548" expanded="true" signature="742:844" placeholder="{...}" />
-                <marker date="1494207513548" expanded="true" signature="947:1127" placeholder="{...}" />
-                <marker date="1494207513548" expanded="true" signature="971:1076" placeholder="{...}" />
-                <marker date="1494207513548" expanded="true" signature="1080:1121" placeholder="{...}" />
-                <marker date="1494207513548" expanded="true" signature="1150:1191" placeholder="{...}" />
-                <marker date="1494207513548" expanded="true" signature="1295:1850" placeholder="{...}" />
-                <marker date="1494207513548" expanded="true" signature="1402:1504" placeholder="{...}" />
-                <marker date="1494207513548" expanded="true" signature="1598:1778" placeholder="{...}" />
-                <marker date="1494207513548" expanded="true" signature="1622:1727" placeholder="{...}" />
-                <marker date="1494207513548" expanded="true" signature="1731:1772" placeholder="{...}" />
-                <marker date="1494207513548" expanded="true" signature="1801:1842" placeholder="{...}" />
+                <marker date="1494209065271" expanded="true" signature="615:1179" placeholder="{...}" />
+                <marker date="1494209065271" expanded="true" signature="722:824" placeholder="{...}" />
+                <marker date="1494209065271" expanded="true" signature="927:1107" placeholder="{...}" />
+                <marker date="1494209065271" expanded="true" signature="951:1056" placeholder="{...}" />
+                <marker date="1494209065271" expanded="true" signature="1060:1101" placeholder="{...}" />
+                <marker date="1494209065271" expanded="true" signature="1130:1171" placeholder="{...}" />
+                <marker date="1494209065271" expanded="true" signature="1275:1830" placeholder="{...}" />
+                <marker date="1494209065271" expanded="true" signature="1382:1484" placeholder="{...}" />
+                <marker date="1494209065271" expanded="true" signature="1578:1758" placeholder="{...}" />
+                <marker date="1494209065271" expanded="true" signature="1602:1707" placeholder="{...}" />
+                <marker date="1494209065271" expanded="true" signature="1711:1752" placeholder="{...}" />
+                <marker date="1494209065271" expanded="true" signature="1781:1822" placeholder="{...}" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Topics.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="TopicsController.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/backend/controllers/TopicsController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.45519713">
+              <caret line="173" column="40" selection-start-line="173" selection-start-column="40" selection-end-line="173" selection-end-column="40" />
+              <folding>
+                <element signature="e#39#79#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ActionFilter.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vendor/yiisoft/yii2/base/ActionFilter.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-13.346154">
+              <caret line="118" column="19" selection-start-line="0" selection-start-column="0" selection-end-line="167" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Topics.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/common/models/Topics.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4247312">
-              <caret line="69" column="59" selection-start-line="69" selection-start-column="59" selection-end-line="69" selection-end-column="59" />
+            <state vertical-scroll-proportion="-15.576923">
+              <caret line="159" column="36" selection-start-line="159" selection-start-column="36" selection-end-line="159" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -74,8 +98,10 @@
         <option value="$PROJECT_DIR$/backend/models/LoginForm.php" />
         <option value="$PROJECT_DIR$/backend/controllers/SiteController.php" />
         <option value="$PROJECT_DIR$/backend/views/layouts/main.php" />
+        <option value="$PROJECT_DIR$/common/components/ActionLogTracking.php" />
         <option value="$PROJECT_DIR$/backend/views/topics/index.php" />
         <option value="$PROJECT_DIR$/common/models/Topics.php" />
+        <option value="$PROJECT_DIR$/backend/controllers/TopicsController.php" />
       </list>
     </option>
   </component>
@@ -148,7 +174,25 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="backend" />
+              <option name="myItemId" value="common" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="forum-be" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="forum-be" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="components" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -338,14 +382,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/backend/controllers/TopicsController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/backend/models/LoginForm.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="2.2544804">
@@ -422,33 +458,59 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/yiisoft/yii2/base/ActionFilter.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-13.346154">
+          <caret line="118" column="19" selection-start-line="0" selection-start-column="0" selection-end-line="167" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/components/ActionLogTracking.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5788531">
+          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/backend/views/topics/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-96.0">
-          <caret line="204" column="26" selection-start-line="204" selection-start-column="26" selection-end-line="204" selection-end-column="26" />
+        <state vertical-scroll-proportion="-3.8076923">
+          <caret line="36" column="5" selection-start-line="36" selection-start-column="5" selection-end-line="36" selection-end-column="5" />
           <folding>
             <element signature="e#7#32#0#PHP" expanded="true" />
-            <marker date="1494207513548" expanded="true" signature="635:1199" placeholder="{...}" />
-            <marker date="1494207513548" expanded="true" signature="742:844" placeholder="{...}" />
-            <marker date="1494207513548" expanded="true" signature="947:1127" placeholder="{...}" />
-            <marker date="1494207513548" expanded="true" signature="971:1076" placeholder="{...}" />
-            <marker date="1494207513548" expanded="true" signature="1080:1121" placeholder="{...}" />
-            <marker date="1494207513548" expanded="true" signature="1150:1191" placeholder="{...}" />
-            <marker date="1494207513548" expanded="true" signature="1295:1850" placeholder="{...}" />
-            <marker date="1494207513548" expanded="true" signature="1402:1504" placeholder="{...}" />
-            <marker date="1494207513548" expanded="true" signature="1598:1778" placeholder="{...}" />
-            <marker date="1494207513548" expanded="true" signature="1622:1727" placeholder="{...}" />
-            <marker date="1494207513548" expanded="true" signature="1731:1772" placeholder="{...}" />
-            <marker date="1494207513548" expanded="true" signature="1801:1842" placeholder="{...}" />
+            <marker date="1494209065271" expanded="true" signature="615:1179" placeholder="{...}" />
+            <marker date="1494209065271" expanded="true" signature="722:824" placeholder="{...}" />
+            <marker date="1494209065271" expanded="true" signature="927:1107" placeholder="{...}" />
+            <marker date="1494209065271" expanded="true" signature="951:1056" placeholder="{...}" />
+            <marker date="1494209065271" expanded="true" signature="1060:1101" placeholder="{...}" />
+            <marker date="1494209065271" expanded="true" signature="1130:1171" placeholder="{...}" />
+            <marker date="1494209065271" expanded="true" signature="1275:1830" placeholder="{...}" />
+            <marker date="1494209065271" expanded="true" signature="1382:1484" placeholder="{...}" />
+            <marker date="1494209065271" expanded="true" signature="1578:1758" placeholder="{...}" />
+            <marker date="1494209065271" expanded="true" signature="1602:1707" placeholder="{...}" />
+            <marker date="1494209065271" expanded="true" signature="1711:1752" placeholder="{...}" />
+            <marker date="1494209065271" expanded="true" signature="1781:1822" placeholder="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/common/models/Topics.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4247312">
-          <caret line="69" column="59" selection-start-line="69" selection-start-column="59" selection-end-line="69" selection-end-column="59" />
+        <state vertical-scroll-proportion="-15.576923">
+          <caret line="159" column="36" selection-start-line="159" selection-start-column="36" selection-end-line="159" selection-end-column="36" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/controllers/TopicsController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.45519713">
+          <caret line="173" column="40" selection-start-line="173" selection-start-column="40" selection-end-line="173" selection-end-column="40" />
+          <folding>
+            <element signature="e#39#79#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

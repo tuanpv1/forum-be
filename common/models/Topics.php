@@ -140,4 +140,23 @@ class Topics extends \yii\db\ActiveRecord
             'topic_posts_softdeleted' => 'Topic Posts Softdeleted',
         ];
     }
+
+    public function approve($user = null)
+    {
+        if ($this->status_topics == self::STATUS_ACTIVE) {
+            return true;
+        }
+        $this->status_topics = self::STATUS_ACTIVE;
+
+        return $this->update(false);
+    }
+
+    public function reject()
+    {
+        if ($this->status_topics == self::STATUS_REJECT) {
+            return true;
+        }
+        $this->status_topics = self::STATUS_REJECT;
+        return $this->update(false);
+    }
 }
