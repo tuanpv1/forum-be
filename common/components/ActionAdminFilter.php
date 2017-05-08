@@ -7,7 +7,9 @@
  */
 namespace common\components;;
 
+use common\models\ConstGeneral;
 use common\models\Groups;
+use common\models\UserGroup;
 use Yii;
 use yii\base\ActionFilter;
 use yii\di\Instance;
@@ -40,19 +42,39 @@ class ActionAdminFilter extends ActionFilter
         }
 
         /**
-         * @var \common\models\Users $user
+         * @var \common\models\Users $user_check
          */
-        $user_check = \common\models\Users::findOne($user->user_id);
-        $group_mod = Groups::findOne(['group_name'=>'GLOBAL_MODERATORS']);
-        $group_admin = Groups::findOne(['group_name'=>'ADMINISTRATORS']);
-        if($user_check->group_id == $group_mod->group_id){
-            return parent::beforeAction($action);
-        }elseif($user_check->group_id == $group_admin->group_id){
-            return parent::beforeAction($action);
-        }else{
+        $user_check = Yii::$app->user->identity;
+        $check = self::getPermissionUser($user_check);
+        if(!$check){
+            $this->denyAccess($user);
             return false;
         }
 
+        return parent::beforeAction($action);
+
+    }
+
+    public static function getPermissionUser($user){
+        $sql_mod = 'SELECT * FROM phpbb_user_group
+                INNER JOIN phpbb_groups WHERE phpbb_groups.group_id = phpbb_user_group.group_id
+                AND phpbb_groups.group_name = "'.ConstGeneral::MOD.'" AND phpbb_user_group.user_id = '.$user->id;
+        $connection = Yii::$app->getDb();
+        $command    = $connection->createCommand($sql_mod);
+        $result_mod = $command->queryAll();
+        if(count($result_mod) !=0 ){
+            return true;
+        }
+        $sql_admin = 'SELECT * FROM phpbb_user_group
+                INNER JOIN phpbb_groups WHERE phpbb_groups.group_id = phpbb_user_group.group_id
+                AND phpbb_groups.group_name = "'.ConstGeneral::ADMIN.'" AND phpbb_user_group.user_id = '.$user->id;
+        $connection = Yii::$app->getDb();
+        $command    = $connection->createCommand($sql_admin);
+        $result_admin = $command->queryAll();
+        if(count($result_admin) !=0 ){
+            return true;
+        }
+        return false;
     }
 
     /**

@@ -23,9 +23,9 @@ class TopicsController extends Controller
     public function behaviors()
     {
         return [
-//            [
-//                'class' => ActionAdminFilter::className(),
-//            ],
+            [
+                'class' => ActionAdminFilter::className(),
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

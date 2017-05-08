@@ -2,6 +2,7 @@
 namespace backend\controllers;
 
 use backend\models\LoginForm;
+use common\components\ActionAdminFilter;
 use common\models\Users;
 use Yii;
 use yii\filters\AccessControl;

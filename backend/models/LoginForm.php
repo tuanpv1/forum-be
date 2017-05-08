@@ -1,6 +1,8 @@
 <?php
 namespace backend\models;
 
+use common\components\ActionAdminFilter;
+use common\models\Groups;
 use common\models\Users;
 use Yii;
 use yii\base\Model;
@@ -29,6 +31,7 @@ class LoginForm extends Model
             // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
+            ['username', 'validateUser'],
             ['password', 'validatePassword'],
         ];
     }
@@ -45,8 +48,16 @@ class LoginForm extends Model
         if (!$this->hasErrors()) {
             $user = $this->getUser();
             if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Incorrect username or password.');
+                $this->addError($attribute, 'Tên đăng nhập hoặc mật khẩu không đúng.');
             }
+        }
+    }
+    public function validateUser($attribute, $params)
+    {
+        $user = $this->getUser();
+        $check = ActionAdminFilter::getPermissionUser($user);
+        if(!$check){
+            $this->addError($attribute, 'Tên đăng nhập hoặc mật khẩu không đúng.');
         }
     }
 
