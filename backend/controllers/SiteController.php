@@ -2,6 +2,7 @@
 namespace backend\controllers;
 
 use backend\models\LoginForm;
+use common\models\Users;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -66,8 +67,18 @@ class SiteController extends Controller
         }
 
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+        if ($model->load(Yii::$app->request->post())) {
+            $rs = Users::createAuthKey($model->username);
+            if(!$rs){
+                Yii::$app->getSession()->setFlash('danger', Yii::t('app', 'Lỗi'));
+            }
+            if($model->login()){
+                return $this->goBack();
+            }else{
+                return $this->render('login', [
+                    'model' => $model,
+                ]);
+            }
         } else {
             return $this->render('login', [
                 'model' => $model,

@@ -43,15 +43,21 @@ return [
             ],
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
+            'class' => 'yii\web\User',
+            'identityClass' => 'common\models\Users',
             'enableAutoLogin' => true,
+//            'identityCookie' => [
+//                'name' => '_backendUser', // unique for backend
+//            ]
         ],
-        'authManager' => [
-            'class' => 'yii\rbac\DbManager',
-            'itemTable' => '{{%auth_item}}',
-            'itemChildTable' => '{{%auth_item_child}}',
-            'assignmentTable' => '{{%auth_assignment}}',
-            'ruleTable' => '{{%rule}}',
+        'session' => [
+            'name' => 'PHPBACKSESSID',
+            'savePath' => sys_get_temp_dir(),
+        ],
+        'request' => [
+            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
+            'cookieValidationKey' => '[DIFFERENT UNIQUE KEY]',
+            'csrfParam' => '_backendCSRF',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

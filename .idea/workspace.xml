@@ -2,23 +2,182 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7e768206-24cf-4ceb-98c2-9a2e5fe403f8" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.gitignore" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cp/config/main-local.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cp/config/params-local.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cp/web/index-test.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cp/web/index.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/frontend/web/staticdata/.gitignore" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/frontend/web/staticdata/category_image/.gitignore" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/frontend/web/staticdata/content_images/.gitignore" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/frontend/web/staticdata/voucher_image/.gitignore" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sp/config/main-local.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sp/config/params-local.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sp/web/index-test.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sp/web/index.php" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/controllers/ShoppingCartController.php" afterPath="$PROJECT_DIR$/frontend/controllers/ShoppingCartController.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backend/views/topics/_form.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backend/views/topics/_search.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backend/views/topics/index.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backend/views/topics/update.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/backend/views/topics/view.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/common/models/LoginForm.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/common/models/Migration.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/common/models/Topics.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/common/models/TopicsPosted.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/common/models/TopicsSearch.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/common/models/TopicsTrack.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/common/models/TopicsWatch.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/common/models/Users.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/common/widgets/Badge.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/common/widgets/Toast.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/console/migrations/m170506_142232_add_user_password_yii_column_to_phpbb_users_table.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/db/schema.sql" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/controllers/CategoryController.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/controllers/ContentController.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/controllers/CredentialController.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/controllers/OrderController.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/controllers/ProgramSuppostController.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/controllers/SlideController.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/controllers/SubcriberController.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/controllers/UserController.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/controllers/VoucherController.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/models/AdminNoteForm.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/models/Image.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/models/ReportContentForm.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/models/ReportRevenuesForm.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/models/ReportSubscriberActivityForm.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/models/ReportSubscriberDailyForm.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/models/ReportUserDailyForm.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/models/ServiceProviderForm.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/category/_form.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/category/_search.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/category/create.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/category/index.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/category/update.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/category/view.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/content/_category.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/content/_detail.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/content/_feedback.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/content/_form.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/content/_images.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/content/_search.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/content/create.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/content/index.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/content/update.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/content/view.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/credential/_form.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/credential/_search.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/credential/create.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/credential/index.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/credential/update.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/credential/view.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/order-detail/_form.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/order-detail/_search.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/order-detail/create.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/order-detail/index.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/order-detail/update.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/order-detail/view.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/order/_detail.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/order/_form.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/order/_product.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/order/_search.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/order/index.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/order/update.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/order/view.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/program-suppost/_form.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/program-suppost/_search.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/program-suppost/create.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/program-suppost/index.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/program-suppost/update.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/program-suppost/view.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/slide/_form.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/slide/_search.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/slide/create.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/slide/index.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/slide/update.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/slide/view.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/subcriber/_form.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/subcriber/_search.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/subcriber/create.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/subcriber/index.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/subcriber/update.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/subcriber/view.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/user/_detail.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/user/_form.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/user/_form_change_password.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/user/_form_owner.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/user/_form_owner_change_password.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/user/_search.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/user/_user_role.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/user/_user_role_sp.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/user/create.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/user/index.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/user/info.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/user/update.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/user/view.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/voucher/_form.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/voucher/_search.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/voucher/create.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/voucher/index.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/voucher/update.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/views/voucher/view.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/common/models/AuthAssignment.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/common/models/AuthItemChild.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/common/models/AuthRule.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/common/models/Category.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/common/models/CategorySearch.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/common/models/Content.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/common/models/ContentCategoryAsm.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/common/models/ContentSearch.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/common/models/Languages.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/common/models/Order.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/common/models/OrderDetail.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/common/models/OrderDetailSearch.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/common/models/OrderSearch.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/common/models/ProgramSuppost.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/common/models/ProgramSuppostSearch.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/common/models/SiteApiCredential.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/common/models/SiteApiCredentialSearch.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/common/models/Slide.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/common/models/SlideSearch.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/common/models/Subcriber.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/common/models/SubcriberSearch.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/common/models/User.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/common/models/UserActivity.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/common/models/UserActivitySearch.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/common/models/UserSearch.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/common/models/Voucher.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/common/models/VoucherSearch.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/console/migrations/m161128_142142_create_voucher_table.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/console/migrations/m161128_142947_create_slide_table.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/console/migrations/m161129_020552_create_subcriber_table.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/console/migrations/m161129_071401_alter_table_content.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/console/migrations/m161129_125159_add_is_slide_cloumn_to_content_table.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/console/migrations/m161130_124325_add_image_column_to_voucher.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/console/migrations/m161130_130631_add_column_type_table_category.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/console/migrations/m161202_084802_add_address_column_to_user_table.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/console/migrations/m161202_091518_add_birhtday_column_to_user_table.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/console/migrations/m161203_005529_add_gender_about_column_to_user_table.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/console/migrations/m161206_153103_add_column_category_id.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/console/migrations/m161206_153524_add_column_type.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/console/migrations/m161206_154443_add_column_is_slide_category.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/console/migrations/m161220_131417_add_location_image_column_to_category_table.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/console/migrations/m161230_091931_add_is_news_column_to_category_table.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/console/migrations/m170215_084828_create_program_suppost_table.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/console/migrations/m170216_064923_add_hide_column_to_category_table.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/console/migrations/m170325_044436_add_column_is_feature_content.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/console/migrations/m170326_075411_create_order.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/console/migrations/m170326_075613_create_order_detail_table.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/console/migrations/m170331_075948_rename_column_product_id_order_detail_table.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/console/migrations/m170331_080916_add_code_column_to_order_detail_table.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/db/shop.sql" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/db/tvod2.mwb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/README.md" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/forum-be.iml" afterPath="$PROJECT_DIR$/.idea/forum-be.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/config/main.php" afterPath="$PROJECT_DIR$/backend/config/main.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/controllers/SiteController.php" afterPath="$PROJECT_DIR$/backend/controllers/SiteController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/models/LoginForm.php" afterPath="$PROJECT_DIR$/backend/models/LoginForm.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/views/layouts/main.php" afterPath="$PROJECT_DIR$/backend/views/layouts/main.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/common/config/main.php" afterPath="$PROJECT_DIR$/common/config/main.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/backend/controllers/OrderDetailController.php" afterPath="$PROJECT_DIR$/backend/controllers/TopicsController.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/backend/views/order/create.php" afterPath="$PROJECT_DIR$/backend/views/topics/create.php" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/console/migrations/m150520_040002_init_db_schema.php" afterPath="$PROJECT_DIR$/console/migrations/m130524_201442_init.php" />
     </list>
     <ignored path="forum-be.iws" />
     <ignored path=".idea/workspace.xml" />
+    <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -35,21 +194,21 @@
     <favorites_list name="forum-be" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.047887325">
-              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/common/config/main.php" />
+        <option value="$PROJECT_DIR$/common/config/main-local.php" />
+        <option value="$PROJECT_DIR$/backend/config/main.php" />
+        <option value="$PROJECT_DIR$/backend/models/LoginForm.php" />
+        <option value="$PROJECT_DIR$/backend/controllers/SiteController.php" />
+      </list>
+    </option>
   </component>
   <component name="JsBuildToolGruntFileManager" detection-done="true" />
   <component name="JsBuildToolPackageJson" detection-done="true" />
@@ -92,7 +251,6 @@
     </navigator>
     <panes>
       <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -111,14 +269,56 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="forum-be" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="forum-be" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="widgets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="forum-be" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="forum-be" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../sanitary" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="js-jscs-nodeInterpreter" value="C:\Program Files\nodejs\node.exe" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\xampp\htdocs\forum-be\common\widgets" />
+      <recent name="D:\xampp\htdocs\forum-be\backend\models" />
+      <recent name="D:\xampp\htdocs\forum-be\backend\views\layouts" />
+      <recent name="D:\xampp\htdocs\forum-be\console\migrations" />
+      <recent name="D:\xampp\htdocs\forum-be\db" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
@@ -164,16 +364,16 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
     <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2579425" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26172465" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32952693" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32843137" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33006537" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.7352941" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -202,7 +402,7 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/README.md">
+    <entry file="file://$PROJECT_DIR$/backend/controllers/RbacBackendController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -217,11 +417,149 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
+    <entry file="file://$PROJECT_DIR$/db/schema.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.047887325">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/config/main-local.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3046595">
+          <caret line="10" column="23" selection-start-line="10" selection-start-column="23" selection-end-line="10" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/controllers/RbacBackendController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/config/main.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="7" column="6" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/config/main.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="60" column="10" selection-start-line="60" selection-start-column="10" selection-end-line="60" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/models/Users.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="43.923077">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/console/migrations/m130524_201442_init.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/models/LoginForm.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="2.3458781">
+          <caret line="78" column="0" selection-start-line="78" selection-start-column="0" selection-end-line="78" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/views/topics/view.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3655914">
+          <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/controllers/TopicsController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/models/LoginForm.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="2.2544804">
+          <caret line="74" column="30" selection-start-line="74" selection-start-column="30" selection-end-line="74" selection-end-column="30" />
+          <folding>
+            <element signature="e#33#57#0#PHP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/yiisoft/yii2/base/Object.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.34767026">
+          <caret line="82" column="27" selection-start-line="82" selection-start-column="27" selection-end-line="82" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/yiisoft/yii2/filters/AccessControl.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.1200716">
+          <caret line="56" column="6" selection-start-line="56" selection-start-column="6" selection-end-line="56" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/controllers/SiteController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.230769">
+          <caret line="13" column="35" selection-start-line="13" selection-start-column="35" selection-end-line="13" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/yiisoft/yii2/web/Controller.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="53.346153">
+          <caret line="19" column="6" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/widgets/Badge.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/views/layouts/main.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-58.846153">
+          <caret line="97" column="10" selection-start-line="97" selection-start-column="10" selection-end-line="97" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/widgets/Toast.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1494072406342" expanded="true" signature="1596:1632" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
