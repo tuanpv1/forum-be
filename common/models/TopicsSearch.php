@@ -18,7 +18,7 @@ class TopicsSearch extends Topics
     public function rules()
     {
         return [
-            [['topic_id', 'forum_id', 'icon_id', 'topic_attachment', 'topic_reported', 'topic_poster', 'topic_time', 'topic_time_limit', 'topic_views', 'topic_status', 'topic_type', 'topic_first_post_id', 'topic_last_post_id', 'topic_last_poster_id', 'topic_last_post_time', 'topic_last_view_time', 'topic_moved_id', 'topic_bumped', 'topic_bumper', 'poll_start', 'poll_length', 'poll_max_options', 'poll_last_vote', 'poll_vote_change', 'topic_visibility', 'topic_delete_time', 'topic_delete_user', 'topic_posts_approved', 'topic_posts_unapproved', 'topic_posts_softdeleted','topic_status_display'], 'integer'],
+            [['topic_id', 'forum_id', 'icon_id', 'topic_attachment', 'topic_reported', 'topic_poster', 'topic_time', 'topic_time_limit', 'topic_views', 'topic_status', 'topic_type', 'topic_first_post_id', 'topic_last_post_id', 'topic_last_poster_id', 'topic_last_post_time', 'topic_last_view_time', 'topic_moved_id', 'topic_bumped', 'topic_bumper', 'poll_start', 'poll_length', 'poll_max_options', 'poll_last_vote', 'poll_vote_change', 'topic_visibility', 'topic_delete_time', 'topic_delete_user', 'topic_posts_approved', 'topic_posts_unapproved', 'topic_posts_softdeleted', 'topic_status_display'], 'integer'],
             [['topic_title', 'topic_first_poster_name', 'topic_first_poster_colour', 'topic_last_poster_name', 'topic_last_poster_colour', 'topic_last_post_subject', 'poll_title', 'topic_delete_reason'], 'safe'],
         ];
     }
@@ -41,8 +41,28 @@ class TopicsSearch extends Topics
      */
     public function search($params)
     {
-        $query = Topics::find();
+        $user_id = Yii::$app->user->identity->getId();
+        $forums = AclUsers::find()->select('forum_id')->distinct()->andWhere(['user_id' => $user_id])->all();
 
+        $array_forum_id = [];
+        if ($forums) {
+            foreach ($forums as $item) {
+                /** @var AclUsers $item */
+                if ((int)$item->forum_id) {
+                    array_push($array_forum_id, (int)$item->forum_id);
+                }
+            }
+        }
+        $query = Topics::find();
+//        $roles = AclUsers::findAll(['user_id' => $user_id, 'auth_setting' => AclUsers::AUTH_ROLE_ID]);
+//        $array_role_id = [];
+        if (!in_array(ConstGeneral::ADMIN_ID, ConstGeneral::checkPermissionUserGroup($user_id))) {
+            if (is_array($array_forum_id) && $array_forum_id != null) {
+                $query->andWhere(['IN', 'forum_id', $array_forum_id]);
+            } else {
+                $query->andWhere(['forum_id' => -1]);
+            }
+        }
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
