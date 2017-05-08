@@ -2,10 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7e768206-24cf-4ceb-98c2-9a2e5fe403f8" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/controllers/TopicsController.php" afterPath="$PROJECT_DIR$/backend/controllers/TopicsController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/views/topics/index.php" afterPath="$PROJECT_DIR$/backend/views/topics/index.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/common/components/ActionLogTracking.php" afterPath="$PROJECT_DIR$/common/components/ActionLogTracking.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/common/models/Topics.php" afterPath="$PROJECT_DIR$/common/models/Topics.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/console/migrations/m170508_012935_add_status_topic_column_to_phpbb_topics_table.php" afterPath="$PROJECT_DIR$/console/migrations/m170508_012935_add_status_topic_column_to_phpbb_topics_table.php" />
     </list>
     <ignored path="forum-be.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -27,26 +29,25 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="index.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/backend/views/topics/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.4874552">
-              <caret line="143" column="64" selection-start-line="143" selection-start-column="64" selection-end-line="143" selection-end-column="64" />
+            <state vertical-scroll-proportion="-10.346154">
+              <caret line="110" column="16" selection-start-line="110" selection-start-column="16" selection-end-line="110" selection-end-column="16" />
               <folding>
                 <element signature="e#7#32#0#PHP" expanded="true" />
-                <marker date="1494211140550" expanded="true" signature="635:1199" placeholder="{...}" />
-                <marker date="1494211140550" expanded="true" signature="742:844" placeholder="{...}" />
-                <marker date="1494211140550" expanded="true" signature="947:1127" placeholder="{...}" />
-                <marker date="1494211140550" expanded="true" signature="971:1076" placeholder="{...}" />
-                <marker date="1494211140550" expanded="true" signature="1080:1121" placeholder="{...}" />
-                <marker date="1494211140550" expanded="true" signature="1150:1191" placeholder="{...}" />
-                <marker date="1494211140550" expanded="true" signature="1295:1850" placeholder="{...}" />
-                <marker date="1494211140550" expanded="true" signature="1402:1504" placeholder="{...}" />
-                <marker date="1494211140550" expanded="true" signature="1598:1778" placeholder="{...}" />
-                <marker date="1494211140550" expanded="true" signature="1622:1727" placeholder="{...}" />
-                <marker date="1494211140550" expanded="true" signature="1731:1772" placeholder="{...}" />
-                <marker date="1494211140550" expanded="true" signature="1801:1842" placeholder="{...}" />
+                <marker date="1494211292049" expanded="true" signature="3623:3913" placeholder="..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.61041296">
+              <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -55,7 +56,7 @@
         <entry file="file://$PROJECT_DIR$/common/models/Topics.php">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="17.115385">
-              <caret line="90" column="583" selection-start-line="90" selection-start-column="583" selection-end-line="90" selection-end-column="583" />
+              <caret line="109" column="41" selection-start-line="109" selection-start-column="41" selection-end-line="109" selection-end-column="41" />
               <folding />
             </state>
           </provider>
@@ -64,8 +65,8 @@
       <file leaf-file-name="TopicsController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/backend/controllers/TopicsController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.269231">
-              <caret line="65" column="26" selection-start-line="65" selection-start-column="26" selection-end-line="65" selection-end-column="26" />
+            <state vertical-scroll-proportion="-42.384617">
+              <caret line="103" column="26" selection-start-line="103" selection-start-column="26" selection-end-line="103" selection-end-column="26" />
               <folding />
             </state>
           </provider>
@@ -88,6 +89,7 @@
         <option value="$PROJECT_DIR$/console/migrations/m170508_012935_add_status_topic_column_to_phpbb_topics_table.php" />
         <option value="$PROJECT_DIR$/common/models/Topics.php" />
         <option value="$PROJECT_DIR$/backend/views/topics/index.php" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -146,78 +148,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="forum-be" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="forum-be" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="forum-be" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="backend" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="forum-be" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="forum-be" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="backend" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="topics" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="forum-be" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="forum-be" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="backend" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="forum-be" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="forum-be" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="backend" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="controllers" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -329,18 +259,7 @@
           <caret line="204" column="26" selection-start-line="204" selection-start-column="26" selection-end-line="204" selection-end-column="26" />
           <folding>
             <element signature="e#7#32#0#PHP" expanded="true" />
-            <marker date="1494211140550" expanded="true" signature="635:1199" placeholder="{...}" />
-            <marker date="1494211140550" expanded="true" signature="742:844" placeholder="{...}" />
-            <marker date="1494211140550" expanded="true" signature="947:1127" placeholder="{...}" />
-            <marker date="1494211140550" expanded="true" signature="971:1076" placeholder="{...}" />
-            <marker date="1494211140550" expanded="true" signature="1080:1121" placeholder="{...}" />
-            <marker date="1494211140550" expanded="true" signature="1150:1191" placeholder="{...}" />
-            <marker date="1494211140550" expanded="true" signature="1295:1850" placeholder="{...}" />
-            <marker date="1494211140550" expanded="true" signature="1402:1504" placeholder="{...}" />
-            <marker date="1494211140550" expanded="true" signature="1598:1778" placeholder="{...}" />
-            <marker date="1494211140550" expanded="true" signature="1622:1727" placeholder="{...}" />
-            <marker date="1494211140550" expanded="true" signature="1731:1772" placeholder="{...}" />
-            <marker date="1494211140550" expanded="true" signature="1801:1842" placeholder="{...}" />
+            <marker date="1494211292049" expanded="true" signature="3623:3913" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -508,8 +427,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/backend/controllers/TopicsController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.269231">
-          <caret line="65" column="26" selection-start-line="65" selection-start-column="26" selection-end-line="65" selection-end-column="26" />
+        <state vertical-scroll-proportion="-42.384617">
+          <caret line="103" column="26" selection-start-line="103" selection-start-column="26" selection-end-line="103" selection-end-column="26" />
           <folding />
         </state>
       </provider>
@@ -525,30 +444,27 @@
     <entry file="file://$PROJECT_DIR$/common/models/Topics.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="17.115385">
-          <caret line="90" column="583" selection-start-line="90" selection-start-column="583" selection-end-line="90" selection-end-column="583" />
+          <caret line="109" column="41" selection-start-line="109" selection-start-column="41" selection-end-line="109" selection-end-column="41" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/backend/views/topics/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.4874552">
-          <caret line="143" column="64" selection-start-line="143" selection-start-column="64" selection-end-line="143" selection-end-column="64" />
+        <state vertical-scroll-proportion="-10.346154">
+          <caret line="110" column="16" selection-start-line="110" selection-start-column="16" selection-end-line="110" selection-end-column="16" />
           <folding>
             <element signature="e#7#32#0#PHP" expanded="true" />
-            <marker date="1494211140550" expanded="true" signature="635:1199" placeholder="{...}" />
-            <marker date="1494211140550" expanded="true" signature="742:844" placeholder="{...}" />
-            <marker date="1494211140550" expanded="true" signature="947:1127" placeholder="{...}" />
-            <marker date="1494211140550" expanded="true" signature="971:1076" placeholder="{...}" />
-            <marker date="1494211140550" expanded="true" signature="1080:1121" placeholder="{...}" />
-            <marker date="1494211140550" expanded="true" signature="1150:1191" placeholder="{...}" />
-            <marker date="1494211140550" expanded="true" signature="1295:1850" placeholder="{...}" />
-            <marker date="1494211140550" expanded="true" signature="1402:1504" placeholder="{...}" />
-            <marker date="1494211140550" expanded="true" signature="1598:1778" placeholder="{...}" />
-            <marker date="1494211140550" expanded="true" signature="1622:1727" placeholder="{...}" />
-            <marker date="1494211140550" expanded="true" signature="1731:1772" placeholder="{...}" />
-            <marker date="1494211140550" expanded="true" signature="1801:1842" placeholder="{...}" />
+            <marker date="1494211292049" expanded="true" signature="3623:3913" placeholder="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.61041296">
+          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
