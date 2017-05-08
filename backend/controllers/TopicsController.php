@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\components\ActionAdminFilter;
 use common\components\ActionLogTracking;
 use Yii;
 use common\models\Topics;
@@ -22,6 +23,9 @@ class TopicsController extends Controller
     public function behaviors()
     {
         return [
+            [
+                'class' => ActionAdminFilter::className(),
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
