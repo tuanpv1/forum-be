@@ -141,7 +141,7 @@ $this->registerJs($js, \yii\web\View::POS_END);
                             }
                         ],
                         [
-                            'attribute' => 'topic_status',
+                            'attribute' => 'topic_status_display',
                             'class' => '\kartik\grid\DataColumn',
                             'width'=>'200px',
                             'value' => function ($model, $key, $index, $widget) {

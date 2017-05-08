@@ -12,7 +12,7 @@ class m170508_012935_add_status_topic_column_to_phpbb_topics_table extends Migra
      */
     public function up()
     {
-        $this->addColumn('phpbb_topics', 'status_topics', $this->integer());
+        $this->addColumn('phpbb_topics', 'topic_status_display', "int(11) default 0");
     }
 
     /**
@@ -20,6 +20,6 @@ class m170508_012935_add_status_topic_column_to_phpbb_topics_table extends Migra
      */
     public function down()
     {
-        $this->dropColumn('phpbb_topics', 'status_topics');
+        $this->dropColumn('phpbb_topics', 'topic_status_display');
     }
 }

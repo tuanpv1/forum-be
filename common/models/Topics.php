@@ -39,7 +39,7 @@ use Yii;
  * @property string $poll_last_vote
  * @property integer $poll_vote_change
  * @property integer $topic_visibility
- * @property integer $status_topics
+ * @property integer $topic_status_display
  * @property string $topic_delete_time
  * @property string $topic_delete_reason
  * @property string $topic_delete_user
@@ -49,10 +49,10 @@ use Yii;
  */
 class Topics extends \yii\db\ActiveRecord
 {
-    const STATUS_ACTIVE = 10;
-    const STATUS_PENDING = 9;
-    const STATUS_REJECT = 8;
-    const STATUS_DELETED = 7;
+    const STATUS_NEW_POST = 1;
+    const STATUS_IN_PROCESS = 2;
+    const STATUS_ANSWERED = 3;
+    const STATUS_UNANSWERED = 4;
 
     /**
      * @inheritdoc
@@ -65,10 +65,10 @@ class Topics extends \yii\db\ActiveRecord
     public static function getStatus()
     {
         $ls = [
-            self::STATUS_ACTIVE => Yii::t('app','Hoạt động'),
-            self::STATUS_PENDING => Yii::t('app',"Chờ duyệt"),
-            self::STATUS_REJECT => Yii::t('app',"Từ Chối"),
-            self::STATUS_DELETED => Yii::t('app',"Xóa")
+            self::STATUS_NEW_POST => Yii::t('app','Mới post'),
+            self::STATUS_IN_PROCESS => Yii::t('app',"Đang xử lý"),
+            self::STATUS_ANSWERED => Yii::t('app',"Đang giải quyết"),
+            self::STATUS_UNANSWERED => Yii::t('app',"Chưa trả lời")
         ];
         return $ls;
     }
@@ -76,10 +76,10 @@ class Topics extends \yii\db\ActiveRecord
     public function getStatusName()
     {
         $lst = self::getStatus();
-        if (array_key_exists($this->status_topics, $lst)) {
-            return $lst[$this->status_topics];
+        if (array_key_exists($this->topic_status_display, $lst)) {
+            return $lst[$this->topic_status_display];
         }
-        return $this->status_topics;
+        return $this->topic_status_display;
     }
 
     /**
@@ -88,7 +88,7 @@ class Topics extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['forum_id', 'icon_id', 'topic_attachment', 'topic_reported', 'topic_poster', 'topic_time', 'topic_time_limit', 'topic_views', 'topic_status', 'topic_type', 'topic_first_post_id', 'topic_last_post_id', 'topic_last_poster_id', 'topic_last_post_time', 'topic_last_view_time', 'topic_moved_id', 'topic_bumped', 'topic_bumper', 'poll_start', 'poll_length', 'poll_max_options', 'poll_last_vote', 'poll_vote_change', 'topic_visibility', 'topic_delete_time', 'topic_delete_user', 'topic_posts_approved', 'topic_posts_unapproved', 'topic_posts_softdeleted','status_topics'], 'integer'],
+            [['forum_id', 'icon_id', 'topic_attachment', 'topic_reported', 'topic_poster', 'topic_time', 'topic_time_limit', 'topic_views', 'topic_status', 'topic_type', 'topic_first_post_id', 'topic_last_post_id', 'topic_last_poster_id', 'topic_last_post_time', 'topic_last_view_time', 'topic_moved_id', 'topic_bumped', 'topic_bumper', 'poll_start', 'poll_length', 'poll_max_options', 'poll_last_vote', 'poll_vote_change', 'topic_visibility', 'topic_delete_time', 'topic_delete_user', 'topic_posts_approved', 'topic_posts_unapproved', 'topic_posts_softdeleted','topic_status_display'], 'integer'],
             [['topic_title', 'topic_first_poster_name', 'topic_last_poster_name', 'topic_last_post_subject', 'poll_title', 'topic_delete_reason'], 'string', 'max' => 255],
             [['topic_first_poster_colour', 'topic_last_poster_colour'], 'string', 'max' => 6],
         ];
