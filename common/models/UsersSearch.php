@@ -51,7 +51,7 @@ class UsersSearch extends Users
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort'=> ['defaultOrder' => ['user_type' => SORT_ASC]],
+            'sort'=> ['defaultOrder' => ['user_type' => SORT_DESC]],
         ]);
 
         $this->load($params);
