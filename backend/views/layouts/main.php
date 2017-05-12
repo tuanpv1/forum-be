@@ -1,8 +1,8 @@
 <?php
 use backend\assets\AppAsset;
+use common\models\User;
 use common\widgets\Alert;
-use common\widgets\Nav;
-use common\widgets\NavBar;
+use common\widgets\Nav2;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
@@ -13,7 +13,7 @@ use yii\widgets\Breadcrumbs;
 AppAsset::register($this);
 $this->registerJs("Metronic.init();");
 $this->registerJs("Layout.init();");
-$tilte = Yii::t('app', "CMS Viettel Forum - Trang quản trị");
+$arrlang = array();
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -22,140 +22,166 @@ $tilte = Yii::t('app', "CMS Viettel Forum - Trang quản trị");
     <meta charset="<?= Yii::$app->charset ?>"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
-    <title><?= $tilte ?></title>
+    <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body class="page-header-menu-fixed">
+<body class="page-header-fixed page-quick-sidebar-over-content page-sidebar-closed-hide-logo page-container-bg-solid">
 <?php $this->beginBody() ?>
-<div class="page-header">
-    <?php
-    NavBar::begin([
-        'brandLabel' => '<img src="' . Url::to("@web/img/logo_vettel.png") . '" alt="logo" class="logo-default"  width="115" style="margin-top:4px;"/>',
-        'brandUrl' => Yii::$app->homeUrl,
-        'brandOptions' => [
-            'class' => 'page-logo'
-        ],
-        'renderInnerContainer' => true,
-        'innerContainerOptions' => [
-            'class' => 'container-fluid'
-        ],
-        'options' => [
-            'class' => 'page-header-top',
-        ],
-        'containerOptions' => [
-            'class' => 'top-menu'
-        ],
-    ]);
-    if (Yii::$app->user->isGuest) {
-        $rightItems[] = [
-            'encode' => false,
-            'label' => '<i class="icon-user"></i><span class="username username-hide-on-mobile">' . Yii::t('app', 'Đăng nhập') . '</span>',
-            'url' => Yii::$app->urlManager->createUrl("site/login"),
-            'options' => [
-                'class' => 'dropdown dropdown-user'
-            ],
-            'linkOptions' => [
-                'class' => "dropdown-toggle",
-            ],
-        ];
-    } else {
-        $rightItems[] = [
-            'encode' => false,
-            'label' => '<img alt="" class="img-circle" src="' . Url::to("@web/img/scorn.ico") . '"/>
-					<span class="username username-hide-on-mobile">
-						 ' . Yii::$app->user->identity->username . '
-					</span>',
-            'options' => ['class' => 'dropdown dropdown-user dropdown-dark'],
-            'linkOptions' => [
-                'data-hover' => "dropdown",
-                'data-close-others' => "true"
-            ],
-            'url' => 'javascript:;',
-            'items' => [
-                [
-                    'encode' => false,
-                    'label' => '<i class="icon-user"></i> ' . Yii::t('app', 'Thông tin tài khoàn') . ' </a>',
-                    'url' => ['user/info']
-                ],
-                [
-                    'encode' => false,
-                    'label' => '<i class="icon-key"></i> ' . Yii::t('app', 'Đăng xuất'),
-                    'url' => ['/site/logout'],
-                    'linkOptions' => ['data-method' => 'post'],
-                ],
-            ]
-        ];
-    }
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav pull-right'],
-        'items' => $rightItems,
-        'activateParents' => true
-    ]);
-    NavBar::end();
-    ?>
+<!-- BEGIN HEADER -->
+<div class="page-header navbar navbar-fixed-top">
+    <!-- BEGIN HEADER INNER -->
+    <div class="page-header-inner">
 
-    <?php
-    NavBar::begin([
-        'renderInnerContainer' => true,
-        'innerContainerOptions' => [
-            'class' => 'container-fluid'
-        ],
-        'options' => [
-            'class' => 'page-header-menu',
-            'style' => 'display: block;'
-        ],
-        'containerOptions' => [
-            'class' => 'hor-menu'
-        ],
-        'toggleBtn' => false
-    ]);
-    $menuItems = [
-        [
-            'encode' => false,
-            'label' => Yii::t('app', 'Quản lý Topic'),
-            'url' => ['topics/index'],
-        ],
-        [
-            'label' => Yii::t('app', 'Quản lý Users'),
-            'url' => 'javascript:;',
-            'options' => ['class' => 'menu-dropdown mega-menu-dropdown'],
-            'linkOptions' => ['data-hover' => 'megamenu-dropdown', 'data-close-others' => 'true'],
-            'items' => [
-                [
-                    'encode' => false,
-                    'label' => '<i class="icon-users"></i> ' . Yii::t('app', 'Thành Viên'),
-                    'url' => ['users/index'],
-                ],
-                [
-                    'encode' => false,
-                    'label' => '<i class="icon-users"></i> ' . Yii::t('app', 'Thành Viên BanList'),
-                    'url' => ['users/index'],
-                ],
-            ]
-        ],
-    ];
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav'],
-        'items' => $menuItems,
-        'activateParents' => true
-    ]);
-    NavBar::end();
-    ?>
+        <!-- BEGIN LOGO -->
+        <div class="page-logo">
+            <a href="<?= Yii::$app->homeUrl ?>">
+                <img src="<?= Url::to("@web/img/logo-big.png") ?>" alt="logo" class="logo-default"/>
+            </a>
+
+            <div class="menu-toggler sidebar-toggler hide">
+            </div>
+        </div>
+
+        <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse"
+           data-target=".navbar-collapse">
+        </a>
+
+        <div class="top-menu">
+            <ul class="nav navbar-nav pull-right">
+
+                <!-- BEGIN USER LOGIN DROPDOWN -->
+                <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+
+
+                <li class="dropdown dropdown-user">
+                    <?php
+                    if (Yii::$app->user->isGuest) {
+
+                    } else {
+                    ?>
+                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
+                       data-close-others="true">
+                        <img alt="" class="img-circle" src="<?= Url::to("@web/img/avatar2.jpg") ?>"/>
+					<span class="username username-hide-on-mobile">
+					<?= Yii::$app->user->identity->username ?> </span>
+                        <i class="fa fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-default">
+                        <li>
+                            <a href="<?= Url::to(['user/info']) ?>">
+                                <i class="icon-user"></i> <?= Yii::t("app", "Thông tin tài khoàn") ?> </a>
+                        </li>
+                        <li>
+                            <a href="<?= Url::to(['site/logout']) ?>" data-method='post'>
+                                <i class="icon-logout"></i> <?= Yii::t("app", "Đăng xuất") ?> </a>
+                        </li>
+                    </ul>
+                </li>
+                <?php
+                }
+                ?>
+
+                <!-- END USER LOGIN DROPDOWN -->
+                <!-- BEGIN QUICK SIDEBAR TOGGLER -->
+                <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+                <li class="dropdown dropdown-quick-sidebar-toggler">
+                    <a href="<?= Url::to(['site/logout']) ?>" class="dropdown-toggle" data-method='post'>
+                        <i class="icon-logout"></i>
+                    </a>
+                </li>
+                <!-- END QUICK SIDEBAR TOGGLER -->
+            </ul>
+        </div>
+    </div>
+    <!-- END HEADER INNER -->
+</div>
+<!-- END HEADER -->
+<div class="clearfix">
 </div>
 <!-- BEGIN CONTAINER -->
 <div class="page-container">
-    <div class="page-content">
-        <div class="container-fluid">
+    <!-- BEGIN SIDEBAR -->
+    <div class="page-sidebar-wrapper">
+        <div class="page-sidebar navbar-collapse collapse">
+            <?php
+
+
+            $rightItems = [
+                [
+                    'encode' => false,
+                    'label' => '<i class="glyphicon glyphicon-menu-hamburger"></i> ' . Yii::t('app', 'Quản lý Topic'),
+                    'url' => ['topics/index'],
+                ],
+                [
+                    'label' => '<i class="glyphicon glyphicon-menu-hamburger"></i> ' . Yii::t('app', 'Quản lý Users'),
+                    'url' => 'javascript:;',
+                    'encode' => false,
+                    'options' => ['class' => 'menu-dropdown mega-menu-dropdown'],
+                    'linkOptions' => ['data-hover' => 'megamenu-dropdown', 'data-close-others' => 'true'],
+                    'items' => [
+                        [
+                            'encode' => false,
+                            'label' => '<i class="icon-users"></i> ' . Yii::t('app', 'Thành Viên'),
+                            'url' => ['users/index'],
+                        ],
+                        [
+                            'encode' => false,
+                            'label' => '<i class="icon-users"></i> ' . Yii::t('app', 'Thành Viên BanList'),
+                            'url' => ['users/index'],
+                        ],
+                    ]
+                ],
+            ];
+
+
+            echo Nav2::widget([
+                'options' => ['class' => "page-sidebar-menu  page-sidebar-fixed", 'data-keep-expanded' => "false", 'data-auto-scroll' => "true", 'data-slide-speed' => "200"],
+                'items' => $rightItems,
+                'activateParents' => true,
+                'validateAdminCallback' => function ($user) {
+                    /**
+                     * @var \yii\web\User $user
+                     */
+                    if ($user && isset($user->identity->username)) {
+                        /**
+                         * @var $sp_user User
+                         */
+                        $sp_user = $user->identity;
+                        return false;
+                    } else {
+                        return false;
+                    }
+                }
+            ]);
+
+            ?>
+        </div>
+    </div>
+    <!-- END SIDEBAR -->
+
+
+    <!-- BEGIN CONTAINER -->
+    <div class="page-content-wrapper">
+        <!--    <div class="page-head">-->
+        <!--        <div class="container-fluid">-->
+        <!--            <div class="page-title">-->
+        <!--                <h1>--><?php //echo $this->title ?><!--</h1>-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <!--    </div>-->
+        <div class="page-content">
+
             <?= Breadcrumbs::widget([
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
                 'options' => [
                     'class' => 'page-breadcrumb breadcrumb'
                 ],
-                'itemTemplate' => "<li>{link}<i class=\"fa fa-circle\"></i></li>\n",
+//                'itemTemplate' => "<li>{link}<i class=\"fa fa-circle\"></i></li>\n",
                 'activeItemTemplate' => "<li class=\"active\">{link}</li>\n"
             ]) ?>
             <?= Alert::widget() ?>
             <?= $content ?>
+
         </div>
     </div>
 </div>
@@ -164,7 +190,10 @@ $tilte = Yii::t('app', "CMS Viettel Forum - Trang quản trị");
 <!-- BEGIN FOOTER -->
 <div class="page-footer footer">
     <div class="container-fluid">
-        <p><b>&copy;Copyright <?php echo date('Y'); ?> </b>. All Rights Reserved. <b> forum-backend </b></p>
+        <p>
+            <b>&copy;<?= Yii::t("app", "Copyright") ?>  <?php echo date('Y'); ?> </b><?= Yii::t("app", ". All Rights Reserved.") ?>
+            <b><?= Yii::t("app", "CMS Multi Streamming Platform") ?></b>.
+            <?= Yii::t("app", "Design By VIVAS Co.,Ltd.") ?></p>
     </div>
 </div>
 <div class="scroll-to-top">
@@ -176,4 +205,3 @@ $tilte = Yii::t('app', "CMS Viettel Forum - Trang quản trị");
 </body>
 </html>
 <?php $this->endPage() ?>
-

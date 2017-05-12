@@ -23,8 +23,8 @@ class BaseBEController extends Controller
     {
         return [
             'auth' => [
-                'class' => Yii2Auth::className(),
-                'autoAllow' => false,
+//                'class' => Yii2Auth::className(),
+//                'autoAllow' => false,
 //                'authManager' => 'authManager',
             ],
         ];

@@ -26,6 +26,7 @@ class AppAsset extends AssetBundle
     public $depends = [
         'yii\web\YiiAsset',
         #'yii\bootstrap\BootstrapAsset',
-        'common\assets\MetronicAdminAsset',
+//        'common\assets\MetronicAdminAsset',
+        'common\assets\MetronicAdmin2Asset',
     ];
 }
