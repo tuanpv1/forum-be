@@ -162,6 +162,15 @@ class CommonUtils
 //       return number_format($number, 2, '.', ',');
         return $formatter->asInteger($number);
     }
+    public static function parse_message()
+    {
+        // Init BBCode UID
+        $bbcode_uid = substr(base_convert(CommonUtils::unique_id(), 16, 36), 0, 8);
+        return $bbcode_uid;
+    }
 
-
+    public function unique_id()
+    {
+        return bin2hex(random_bytes(8));
+    }
 }

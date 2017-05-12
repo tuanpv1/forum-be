@@ -66,6 +66,8 @@ class Forums extends \yii\db\ActiveRecord
     {
         return 'phpbb_forums';
     }
+    private static $catTree  = array();
+
 
     /**
      * @inheritdoc
@@ -138,5 +140,65 @@ class Forums extends \yii\db\ActiveRecord
             'prune_shadow_freq' => 'Prune Shadow Freq',
             'prune_shadow_next' => 'Prune Shadow Next',
         ];
+    }
+
+    public static function getMenuTree($type)
+    {
+        if (empty(self::$catTree[$type])) {
+            $query = Forums::find();
+            $query->andWhere(['phpbb_forums.parent_id' => 0]);
+            $query->orderBy(['phpbb_forums.forum_id' => SORT_ASC]);
+            $rows = $query->all();
+
+            if (count($rows) > 0) {
+                foreach ($rows as $item) {
+                    /** @var $item Forums */
+                    self::$catTree[$type][] = self::getMenuItems($item);
+                }
+            } else {
+                self::$catTree[$type] = [];
+            }
+            Yii::info(self::$catTree[$type]);
+        }
+        return self::$catTree[$type];
+
+    }
+
+    private static function getMenuItems($modelRow)
+    {
+
+        if (!$modelRow) {
+            return;
+        }
+
+        if (isset($modelRow->categories)) {
+            /** @var  $modelRow Forums   */
+            $childCategories = $modelRow->getCategories();
+
+            $chump = self::getMenuItems($childCategories);
+            if ($chump != null) {
+                $res = array('id' => $modelRow->forum_id, 'label' => $modelRow->forum_name, 'items' => $chump);
+            } else {
+                $res = array('id' => $modelRow->forum_id, 'label' => $modelRow->forum_name, 'items' => array());
+            }
+            return $res;
+        } else {
+            if (is_array($modelRow)) {
+                $arr = array();
+                foreach ($modelRow as $leaves) {
+                    $arr[] = self::getMenuItems($leaves);
+                }
+                return $arr;
+            } else {
+                return array('id' => $modelRow->forum_id, 'label' => ($modelRow->forum_name));
+            }
+        }
+    }
+
+    public function getCategories()
+    {
+        return $this->hasMany(Forums::className(), ['parent_id' => 'forum_id'])
+            ->orderBy(['forum_id' => SORT_DESC])->all();
+
     }
 }

@@ -9,6 +9,7 @@ namespace common\widgets;
 
 use common\assets\JstreeAsset;
 use common\models\Category;
+use common\models\Forums;
 use common\models\KodiCategory;
 use yii\helpers\Html;
 
@@ -26,9 +27,6 @@ class Jstree extends \yii\bootstrap\Widget
     public $options = [];
     public $data = [];
     public $type = 1;
-    public $type_kodi = 0;
-    public $sp_id = null;
-    public $cp_id = null;
     private $catTree = [];
     public static $counter = 0;
     public static $autoIdPrefix = 'jstree';
@@ -38,13 +36,8 @@ class Jstree extends \yii\bootstrap\Widget
     public function init()
     {
         parent::init();
-        if ($this->type == 100) {
-            $this->catTree = KodiCategory::getMenuTree($this->type, $this->sp_id);
-        } else if ($this->type_kodi) {
-                $this->catTree = KodiCategory::getMenuTreeCate($this->type, $this->sp_id);
-            } else {
-                $this->catTree = Category::getMenuTree($this->type, $this->sp_id, $this->cp_id);
-            }
+
+        $this->catTree = Forums::getMenuTree($this->type);
 
         if (!isset($this->options['id'])) {
             $this->options['id'] = $this->getId();

@@ -1,5 +1,6 @@
 <?php
 use backend\assets\AppAsset;
+use common\models\AuthItem;
 use common\models\User;
 use common\widgets\Alert;
 use common\widgets\Nav2;
@@ -109,11 +110,11 @@ $arrlang = array();
             $rightItems = [
                 [
                     'encode' => false,
-                    'label' => '<i class="glyphicon glyphicon-menu-hamburger"></i> ' . Yii::t('app', 'Quản lý Topic'),
+                    'label' => '<i class="glyphicon glyphicon-menu-hamburger"></i> '.Yii::t('app', 'Quản lý Topic'),
                     'url' => ['topics/index'],
                 ],
                 [
-                    'label' => '<i class="glyphicon glyphicon-menu-hamburger"></i> ' . Yii::t('app', 'Quản lý Users'),
+                    'label' => '<i class="glyphicon glyphicon-menu-hamburger"></i> '.Yii::t('app', 'Quản lý Users'),
                     'url' => 'javascript:;',
                     'encode' => false,
                     'options' => ['class' => 'menu-dropdown mega-menu-dropdown'],
@@ -138,17 +139,17 @@ $arrlang = array();
                 'options' => ['class' => "page-sidebar-menu  page-sidebar-fixed", 'data-keep-expanded' => "false", 'data-auto-scroll' => "true", 'data-slide-speed' => "200"],
                 'items' => $rightItems,
                 'activateParents' => true,
-                'validateAdminCallback' => function ($user) {
+                'validateAdminCallback' => function($user){
                     /**
                      * @var \yii\web\User $user
                      */
-                    if ($user && isset($user->identity->username)) {
+                    if($user && isset($user->identity->username)){
                         /**
                          * @var $sp_user User
                          */
                         $sp_user = $user->identity;
-                        return false;
-                    } else {
+                            return false;
+                    }else{
                         return false;
                     }
                 }

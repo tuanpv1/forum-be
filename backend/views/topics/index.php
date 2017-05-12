@@ -10,8 +10,8 @@ use kartik\grid\GridView;
 /* @var $searchModel common\models\TopicsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Topics';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Chủ đề';
+$this->params['breadcrumbs'][] = '/ '.$this->title;
 
 \common\assets\ToastAsset::register($this);
 \common\assets\ToastAsset::config($this, [
@@ -28,7 +28,7 @@ $js = <<<JS
     function approveTopics(status){
     feedbacks = $("#topic-index-grid").yiiGridView("getSelectedRows");
     if(feedbacks.length <= 0){
-    alert("Chưa chọn Topics! Xin vui lòng chọn ít nhất một Topics để duyệt.");
+    alert("Chưa chọn chủ đề! Xin vui lòng chọn ít nhất một chủ đề để duyệt.");
     return;
     }
 
@@ -71,6 +71,9 @@ $this->registerJs($js, \yii\web\View::POS_END);
                 </div>
             </div>
             <div class="portlet-body">
+                <p>
+                    <?php  echo Html::a("Tạo chủ đề ", Yii::$app->urlManager->createUrl(['/topics/create']), ['class' => 'btn btn-primary']) ?>
+                </p>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
@@ -79,7 +82,7 @@ $this->registerJs($js, \yii\web\View::POS_END);
                     'pjax' => true,
                     'panel' => [
                         'type' => GridView::TYPE_PRIMARY,
-                        'heading' => 'Danh sách Topics'
+                        'heading' => 'Danh sách chủ đề'
                     ],
                     'toolbar' => [
                         [
@@ -165,7 +168,7 @@ $this->registerJs($js, \yii\web\View::POS_END);
                             }
                         ],
                         ['class' => 'kartik\grid\ActionColumn',
-                            'template'=>'{view}',
+                            'template'=>'{view}{update}',
                         ],
                         [
                             'class' => 'kartik\grid\CheckboxColumn',

@@ -5,7 +5,6 @@ namespace common\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Topics;
 
 /**
  * TopicsSearch represents the model behind the search form about `common\models\Topics`.
@@ -13,15 +12,16 @@ use common\models\Topics;
 class TopicsSearch extends Topics
 {
     public $forum_name;
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['topic_id', 'forum_id','icon_id', 'topic_attachment', 'topic_reported', 'topic_poster', 'topic_time', 'topic_time_limit', 'topic_views', 'topic_status', 'topic_type', 'topic_first_post_id', 'topic_last_post_id', 'topic_last_poster_id', 'topic_last_post_time', 'topic_last_view_time', 'topic_moved_id', 'topic_bumped', 'topic_bumper', 'poll_start', 'poll_length', 'poll_max_options', 'poll_last_vote', 'poll_vote_change', 'topic_visibility', 'topic_delete_time', 'topic_delete_user', 'topic_posts_approved', 'topic_posts_unapproved', 'topic_posts_softdeleted', 'topic_status_display'], 'integer'],
+            [['topic_id', 'forum_id', 'icon_id', 'topic_attachment', 'topic_reported', 'topic_poster', 'topic_time', 'topic_time_limit', 'topic_views', 'topic_status', 'topic_type', 'topic_first_post_id', 'topic_last_post_id', 'topic_last_poster_id', 'topic_last_post_time', 'topic_last_view_time', 'topic_moved_id', 'topic_bumped', 'topic_bumper', 'poll_start', 'poll_length', 'poll_max_options', 'poll_last_vote', 'poll_vote_change', 'topic_visibility', 'topic_delete_time', 'topic_delete_user', 'topic_posts_approved', 'topic_posts_unapproved', 'topic_posts_softdeleted', 'topic_status_display'], 'integer'],
             [['topic_title', 'topic_first_poster_name', 'topic_first_poster_colour', 'topic_last_poster_name', 'topic_last_poster_colour', 'topic_last_post_subject', 'poll_title', 'topic_delete_reason'], 'safe'],
-            ['forum_name','safe'],
+            ['forum_name', 'safe'],
         ];
     }
 
@@ -122,10 +122,11 @@ class TopicsSearch extends Topics
             ->andFilterWhere(['like', 'topic_last_post_subject', $this->topic_last_post_subject])
             ->andFilterWhere(['like', 'poll_title', $this->poll_title])
             ->andFilterWhere(['like', 'topic_delete_reason', $this->topic_delete_reason]);
-        if($this->forum_name){
-            $query->innerJoin('phpbb_forums','phpbb_forums.forum_id = phpbb_topics.forum_id')
-                ->andWhere(['like',"LOWER(forum_name)",strtolower($this->forum_name)]);
+        if ($this->forum_name) {
+            $query->innerJoin('phpbb_forums', 'phpbb_forums.forum_id = phpbb_topics.forum_id')
+                ->andWhere(['like', "LOWER(forum_name)", strtolower($this->forum_name)]);
         }
+        $query->orderBy(['topic_id' => SORT_DESC]);
         return $dataProvider;
     }
 }

@@ -1,9 +1,7 @@
 <?php
 
-namespace common\models;
+namespace app\common\models;
 
-use common\helpers\CommonUtils;
-use common\helpers\CUtils;
 use Yii;
 
 /**
@@ -39,7 +37,7 @@ use Yii;
  * @property string $post_delete_reason
  * @property string $post_delete_user
  */
-class Posts extends \yii\db\ActiveRecord
+class PhpbbPosts extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
@@ -101,46 +99,5 @@ class Posts extends \yii\db\ActiveRecord
             'post_delete_reason' => 'Post Delete Reason',
             'post_delete_user' => 'Post Delete User',
         ];
-    }
-
-    public function createNewPost($modelTopics)
-    {
-        /** @var  $modelTopics Topics */
-        $model = new Posts();
-        $model->topic_id = $modelTopics->topic_id;
-        $model->forum_id = $modelTopics->forum_id;
-        $model->poster_id = Yii::$app->user->id;
-        $model->icon_id = 0;
-        $model->poster_ip = CUtils::clientIP();
-        $model->post_time = time();
-        $model->post_reported = 0;
-        $model->enable_bbcode = 0;
-        $model->enable_smilies = 1;
-        $model->enable_magic_url = 1;
-        $model->enable_sig = 1;
-        $model->post_username = '';
-        $model->post_subject = $modelTopics->topic_title;
-        $model->post_text = $modelTopics->post_text;
-        $model->post_attachment = 0;
-        $model->post_checksum = md5($modelTopics->post_text);
-        $model->bbcode_bitfield = '';
-        $model->bbcode_uid = CommonUtils::parse_message();
-        $model->post_edit_time = 0;
-        $model->post_edit_reason = '';
-        $model->post_edit_user = 0;
-        $model->post_edit_count = 0;
-        $model->post_edit_locked = 0;
-        $model->post_visibility = 1;
-        $model->post_delete_time = 0;
-        $model->post_delete_reason = '';
-        $model->post_delete_user = 0;
-        if (!$model->save()) {
-            Yii::info($model->getErrors());
-            return false;
-        }
-        $modelTopics->topic_first_post_id = $model->post_id;
-        $modelTopics->topic_last_post_id = $model->post_id;
-        $modelTopics->save();
-        return $model;
     }
 }

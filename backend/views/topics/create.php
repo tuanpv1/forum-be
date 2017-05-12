@@ -6,16 +6,24 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\Topics */
 
-$this->title = 'Create Topics';
-$this->params['breadcrumbs'][] = ['label' => 'Topics', 'url' => ['index']];
+$this->title = Yii::t('app','Tạo chủ đề');
+$this->params['breadcrumbs'][] = ['label' => '/ Chủ đề /', 'url' => Yii::$app->urlManager->createUrl(['/topics/index'])];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="topics-create">
+<div class="row">
+    <div class="col-md-12">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
-
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i><?= $this->title ?>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <?= $this->render('_form', [
+                    'model' => $model,
+                ]) ?>
+            </div>
+        </div>
+    </div>
 </div>

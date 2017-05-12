@@ -46,6 +46,9 @@ use Yii;
  * @property string $topic_posts_approved
  * @property string $topic_posts_unapproved
  * @property string $topic_posts_softdeleted
+ *
+ *
+ * @property Forums $forum
  */
 class Topics extends \yii\db\ActiveRecord
 {
@@ -54,6 +57,11 @@ class Topics extends \yii\db\ActiveRecord
     const STATUS_IN_PROCESS = 2;
     const STATUS_ANSWERED = 3;
     const STATUS_UNANSWERED = 4;
+
+    const STATUS_BLOCK = 5;
+
+    public $post_text;
+    public $list_cat_id;
 
     /**
      * @inheritdoc
@@ -66,11 +74,13 @@ class Topics extends \yii\db\ActiveRecord
     public static function getStatus()
     {
         $ls = [
-            self::STATUS_INACTIVE => Yii::t('app','Chưa duyệt'),
-            self::STATUS_NEW_POST => Yii::t('app','Mới post'),
-            self::STATUS_IN_PROCESS => Yii::t('app',"Đang xử lý"),
-            self::STATUS_ANSWERED => Yii::t('app',"Đang giải quyết"),
-            self::STATUS_UNANSWERED => Yii::t('app',"Chưa trả lời")
+            self::STATUS_INACTIVE => Yii::t('app', 'Chưa duyệt'),
+            self::STATUS_NEW_POST => Yii::t('app', 'Mới post'),
+            self::STATUS_IN_PROCESS => Yii::t('app', "Đang xử lý"),
+            self::STATUS_ANSWERED => Yii::t('app', "Đang giải quyết"),
+            self::STATUS_UNANSWERED => Yii::t('app', "Chưa trả lời"),
+            self::STATUS_BLOCK => Yii::t('app', "Khóa")
+
         ];
         return $ls;
     }
@@ -84,13 +94,43 @@ class Topics extends \yii\db\ActiveRecord
         return $this->topic_status_display;
     }
 
+    public static function getListStatus($type = 'all')
+    {
+        return ['all' => [
+            self::STATUS_INACTIVE => Yii::t('app', 'Chưa duyệt'),
+            self::STATUS_NEW_POST => Yii::t('app', 'Mới post'),
+            self::STATUS_IN_PROCESS => Yii::t('app', "Đang xử lý"),
+            self::STATUS_ANSWERED => Yii::t('app', "Đang giải quyết"),
+            self::STATUS_UNANSWERED => Yii::t('app', "Chưa trả lời"),
+            self::STATUS_BLOCK => Yii::t('app', "Khóa")
+        ],
+            'filter' => [
+                self::STATUS_INACTIVE => Yii::t('app', 'Chưa duyệt'),
+                self::STATUS_NEW_POST => Yii::t('app', 'Mới post'),
+                self::STATUS_IN_PROCESS => Yii::t('app', "Đang xử lý"),
+                self::STATUS_ANSWERED => Yii::t('app', "Đang giải quyết"),
+                self::STATUS_UNANSWERED => Yii::t('app', "Chưa trả lời"),
+                self::STATUS_BLOCK => Yii::t('app', "Khóa")
+            ],
+        ][$type];
+    }
+
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['forum_id', 'icon_id', 'topic_attachment', 'topic_reported', 'topic_poster', 'topic_time', 'topic_time_limit', 'topic_views', 'topic_status', 'topic_type', 'topic_first_post_id', 'topic_last_post_id', 'topic_last_poster_id', 'topic_last_post_time', 'topic_last_view_time', 'topic_moved_id', 'topic_bumped', 'topic_bumper', 'poll_start', 'poll_length', 'poll_max_options', 'poll_last_vote', 'poll_vote_change', 'topic_visibility', 'topic_delete_time', 'topic_delete_user', 'topic_posts_approved', 'topic_posts_unapproved', 'topic_posts_softdeleted','topic_status_display'], 'integer'],
+            [['forum_id', 'topic_title', 'post_text', 'topic_status_display', 'list_cat_id'], 'required', 'on' => 'adminModify', 'message' => '{attribute} không được để trống'],
+            [['forum_id', 'icon_id', 'topic_attachment', 'topic_reported',
+                'topic_poster', 'topic_time', 'topic_time_limit', 'topic_views',
+                'topic_status', 'topic_type', 'topic_first_post_id', 'topic_last_post_id',
+                'topic_last_poster_id', 'topic_last_post_time', 'topic_last_view_time',
+                'topic_moved_id', 'topic_bumped', 'topic_bumper', 'poll_start', 'poll_length',
+                'poll_max_options', 'poll_last_vote', 'poll_vote_change', 'topic_visibility',
+                'topic_delete_time', 'topic_delete_user', 'topic_posts_approved', 'topic_posts_unapproved',
+                'topic_posts_softdeleted', 'topic_status_display'], 'integer'],
             [['topic_title', 'topic_first_poster_name', 'topic_last_poster_name', 'topic_last_post_subject', 'poll_title', 'topic_delete_reason'], 'string', 'max' => 255],
             [['topic_first_poster_colour', 'topic_last_poster_colour'], 'string', 'max' => 6],
         ];
@@ -107,7 +147,7 @@ class Topics extends \yii\db\ActiveRecord
             'icon_id' => 'Icon ID',
             'topic_attachment' => 'Topic Attachment',
             'topic_reported' => 'Topic Reported',
-            'topic_title' => 'Tên bài viết',
+            'topic_title' => 'Tên chủ đề',
             'topic_poster' => 'Topic Poster',
             'topic_time' => 'Ngày tạo',
             'topic_time_limit' => 'Topic Time Limit',
@@ -141,13 +181,29 @@ class Topics extends \yii\db\ActiveRecord
             'topic_posts_unapproved' => 'Topic Posts Unapproved',
             'topic_posts_softdeleted' => 'Topic Posts Softdeleted',
             'topic_status_display' => 'Trạng thái',
+            'post_text' => 'Nội dung',
+            'list_cat_id' => 'Forum'
         ];
     }
 
-    public function approve($status,$user = null)
+    public function approve($status, $user = null)
     {
         $this->topic_status_display = $status;
 
         return $this->update(false);
+    }
+
+    public function getListCatIds()
+    {
+        $listCat = $this->forum;
+        $listCatId = [];
+        $listCatId[] = $listCat->forum_id;
+
+        return $listCatId;
+    }
+
+    public function getForum()
+    {
+        return $this->hasOne(Forums::className(), ['forum_id' => 'forum_id']);
     }
 }
