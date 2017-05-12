@@ -45,6 +45,7 @@ class UsersSearch extends Users
         $query = Users::find();
         $query->andWhere('group_id <> :group_other',['group_other'=>Users::BOTS]);
         $query->andWhere('group_id <> :group_GUESTS',['group_GUESTS'=>Users::GUESTS]);
+        $query->andWhere('username <> :name_s',['name_s'=>'admin']);
 
         // add conditions that should always apply here
 

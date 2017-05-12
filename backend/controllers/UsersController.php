@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use common\helpers\Message;
 use common\models\UserGroup;
+use common\models\UserNotifications;
 use Yii;
 use common\models\Users;
 use common\models\UsersSearch;
@@ -71,6 +72,8 @@ class UsersController extends Controller
         $model = new Users();
 
         if ($model->load(Yii::$app->request->post())) {
+            $model->setPassword($model->user_password);
+            $model->generateAuthKey();
             $model->username_clean = trim(strtolower($model->username));
             $model->user_reminded_time = time();
             $model->user_passchg = time();
@@ -80,13 +83,21 @@ class UsersController extends Controller
             $model->user_full_folder = Users::PRIVMSGS_NO_BOX;
             $model->user_notify_type = Users::NOTIFY_EMAIL;
             $model->user_allow_pm = Users::NOTIFY_EMAIL;
+            $model->user_permissions = '';
             if($model->user_type == Users::USER_TYPE_INACTIVE){
                 $model->user_inactive_reason = Users::USER_TYPE_INACTIVE;
+                $model->user_inactive_time = time();
+                $model->user_actkey = Users::gen_rand_string(mt_rand(6,10));
+            }elseif($model->user_type == Users::USER_TYPE_ACTIVE){
+                $model->user_actkey = '';
+                $model->user_inactive_reason = Users::USER_TYPE_ACTIVE;
+                $model->user_inactive_time = 0;
             }
             $model->user_style = Users::STYLE_DEFAULT;
             $model->user_email_hash = Users::emailHash($model->user_email);
             $model->user_options = Users::USER_OPTIONS;
-            if(!$model->save()){
+            $model->user_new = Users::USER_NEW;
+            if(!$model->save(false)){
                 Yii::$app->session->setFlash('error', Message::MSG_ADD_ERROR);
                 Yii::info($model->getErrors());
                 return $this->render('create', [
@@ -97,6 +108,16 @@ class UsersController extends Controller
                 if($creatUserGroupAsm){
                     Yii::$app->session->setFlash('success', Message::MSG_ADD_SUCCESS);
                     return $this->redirect(['view', 'id' => $model->user_id]);
+                }
+                if($model->user_type == Users::USER_TYPE_INACTIVE){
+                    $notifyUserTopic = UserNotifications::createNewRecord($model->user_id,'notification.method.email','notification.type.topic');
+                    $notifyUserPost = UserNotifications::createNewRecord($model->user_id,'notification.method.email','notification.type.post');
+                    if(!$notifyUserPost || !$notifyUserTopic){
+                        Yii::$app->session->setFlash('error', Message::MSG_ADD_ERROR);
+                        return $this->render('create', [
+                            'model' => $model,
+                        ]);
+                    }
                 }
             }
         } else {
@@ -116,9 +137,52 @@ class UsersController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->user_id]);
+        $old_type = $model->user_type;
+        if ($model->load(Yii::$app->request->post())) {
+            if($old_type != Users::USER_TYPE_INACTIVE && $model->user_type == Users::USER_TYPE_INACTIVE){
+                Yii::$app->session->setFlash('error', Message::MSG_ADD_ERROR_INACTIVE_TO);
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            }
+            $model->setPassword($model->user_password);
+            $model->generateAuthKey();
+            $model->username_clean = trim(strtolower($model->username));
+            $model->user_reminded_time = time();
+            $model->user_passchg = time();
+            $model->user_timezone = 'Asia/Ho_Chi_Minh';
+            $model->user_dateformat = 'D M d, Y g:i a';
+            $model->user_style = Users::STYLE_DEFAULT;
+            $model->user_full_folder = Users::PRIVMSGS_NO_BOX;
+            $model->user_notify_type = Users::NOTIFY_EMAIL;
+            $model->user_allow_pm = Users::NOTIFY_EMAIL;
+            $model->user_permissions = '';
+            if($model->user_type == Users::USER_TYPE_INACTIVE){
+                $model->user_inactive_reason = Users::USER_TYPE_INACTIVE;
+                $model->user_inactive_time = time();
+                $model->user_actkey = Users::gen_rand_string(mt_rand(6,10));
+            }elseif($model->user_type == Users::USER_TYPE_ACTIVE){
+                $model->user_actkey = '';
+                $model->user_inactive_reason = Users::USER_TYPE_ACTIVE;
+                $model->user_inactive_time = 0;
+            }
+            $model->user_style = Users::STYLE_DEFAULT;
+            $model->user_email_hash = Users::emailHash($model->user_email);
+            $model->user_options = Users::USER_OPTIONS;
+            $model->user_new = Users::USER_NEW;
+            if(!$model->save(false)){
+                Yii::$app->session->setFlash('error', Message::MSG_ADD_ERROR);
+                Yii::info($model->getErrors());
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            }else{
+                $creatUserGroupAsm = UserGroup::createNew($model->group_id,$model->user_id);
+                if($creatUserGroupAsm){
+                    Yii::$app->session->setFlash('success', Message::MSG_ADD_SUCCESS);
+                    return $this->redirect(['view', 'id' => $model->user_id]);
+                }
+            }
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -162,6 +226,12 @@ class UsersController extends Controller
         if (isset($post['ids'])) {
             $ids = $post['ids'];
             $status = $post['status'];
+            if($status != Users::USER_TYPE_INACTIVE){
+                return [
+                    'success' => false,
+                    'message' => 'Không được xóa user đang hoạt động, Vui lòng cho vào Banlist'
+                ];
+            }
             $users = Users::findAll($ids);
             $userApprove = 0;
             foreach ($users as $user) {

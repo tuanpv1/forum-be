@@ -96,6 +96,7 @@ class Users extends ActiveRecord implements IdentityInterface
     const USER_OPTIONS = 230271;
     const PRIVMSGS_NO_BOX = -3;
     const NOTIFY_EMAIL = 0;
+    const USER_NEW = 1;
 
     /**
      * @inheritdoc
@@ -267,23 +268,35 @@ class Users extends ActiveRecord implements IdentityInterface
         return Yii::$app->security->validatePassword($password, $this->user_password);
     }
 
-    public function approve($status,$user = null)
+    public function approve($status)
     {
         if($status != self::USER_TYPE_DELETED){
+            $check_activity_users_topics = TopicsPosted::findOne(['user_id'=>$this->user_id]);
+            if(!empty($check_activity_users_topics)){
+                return false;
+            }
+            $check_activity_users_post = Posts::findOne(['post_username'=>$this->username]);
+            if(!empty($check_activity_users_post)){
+                return false;
+            }
             $this->user_type = $status;
             return $this->update(false);
         }else{
             if($this->user_inactive_reason == 1){
                 $userGroup = UserGroup::findAll(['user_id'=>$this->user_id]);
+                Yii::info($userGroup);
                 if(!empty($userGroup)){
                     Yii::info($userGroup);
                     foreach($userGroup as $item){
-                        $connection = Yii::$app->getDb();
-                        $connection->createCommand()->delete('phpbb_user_group', 'user_id ='.$item->user_id)->execute();
+                        if(!$item->delete()){
+                            Yii::info($item->getErrors());
+                            return false;
+                        }
                     }
                 }
                 if(!$this->delete()){
                     Yii::info($this->getErrors());
+                    return false;
                 }
                 return true;
             }else{
@@ -315,5 +328,25 @@ class Users extends ActiveRecord implements IdentityInterface
     public static function emailHash($email)
     {
         return sprintf('%u', crc32(strtolower($email))) . strlen($email);
+    }
+
+    public static function unique_id()
+    {
+        return bin2hex(random_bytes(8));
+    }
+
+    public static function gen_rand_string($num_chars = 8)
+    {
+        return substr(strtoupper(base_convert(self::unique_id(), 16, 36)), 0, $num_chars);
+    }
+
+    public function setPassword($password)
+    {
+        $this->user_password = Yii::$app->security->generatePasswordHash($password);
+    }
+
+    public function generateAuthKey()
+    {
+        $this->auth_key = Yii::$app->security->generateRandomString();
     }
 }
