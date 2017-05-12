@@ -226,7 +226,7 @@ class UsersController extends Controller
         if (isset($post['ids'])) {
             $ids = $post['ids'];
             $status = $post['status'];
-            if($status != Users::USER_TYPE_INACTIVE){
+            if($status != Users::USER_TYPE_INACTIVE && $status == Users::USER_TYPE_DELETED ){
                 return [
                     'success' => false,
                     'message' => 'Không được xóa user đang hoạt động, Vui lòng cho vào Banlist'
