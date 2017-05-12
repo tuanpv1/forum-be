@@ -2,6 +2,8 @@
 
 namespace backend\controllers;
 
+use common\helpers\Message;
+use common\models\UserGroup;
 use Yii;
 use common\models\Users;
 use common\models\UsersSearch;
@@ -55,6 +57,7 @@ class UsersController extends Controller
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'active'=>1
         ]);
     }
 
@@ -67,14 +70,42 @@ class UsersController extends Controller
     {
         $model = new Users();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->user_id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->username_clean = trim(strtolower($model->username));
+            $model->user_reminded_time = time();
+            $model->user_passchg = time();
+            $model->user_timezone = 'Asia/Ho_Chi_Minh';
+            $model->user_dateformat = 'D M d, Y g:i a';
+            $model->user_style = Users::STYLE_DEFAULT;
+            $model->user_full_folder = Users::PRIVMSGS_NO_BOX;
+            $model->user_notify_type = Users::NOTIFY_EMAIL;
+            $model->user_allow_pm = Users::NOTIFY_EMAIL;
+            if($model->user_type == Users::USER_TYPE_INACTIVE){
+                $model->user_inactive_reason = Users::USER_TYPE_INACTIVE;
+            }
+            $model->user_style = Users::STYLE_DEFAULT;
+            $model->user_email_hash = Users::emailHash($model->user_email);
+            $model->user_options = Users::USER_OPTIONS;
+            if(!$model->save()){
+                Yii::$app->session->setFlash('error', Message::MSG_ADD_ERROR);
+                Yii::info($model->getErrors());
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            }else{
+                $creatUserGroupAsm = UserGroup::createNew($model->group_id,$model->user_id);
+                if($creatUserGroupAsm){
+                    Yii::$app->session->setFlash('success', Message::MSG_ADD_SUCCESS);
+                    return $this->redirect(['view', 'id' => $model->user_id]);
+                }
+            }
         } else {
             return $this->render('create', [
                 'model' => $model,
             ]);
         }
     }
+
 
     /**
      * Updates an existing Users model.

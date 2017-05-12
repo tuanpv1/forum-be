@@ -84,8 +84,19 @@ class Users extends ActiveRecord implements IdentityInterface
     const USER_TYPE_ACTIVE = 0;
     const USER_TYPE_INACTIVE = 1;
     const USER_TYPE_DELETED = 2;
+    const USER_TYPE_ADMIN = 3;
 
+    const GUESTS = 1;
     const BOTS = 6;
+
+    const STYLE_DEFAULT = 1;
+    const ALOW_PM = 1;
+    const ALOW_VIEW_ONLINE = 1;
+    const ALOW_VIEƯ_EMAIL = 1;
+    const USER_OPTIONS = 230271;
+    const PRIVMSGS_NO_BOX = -3;
+    const NOTIFY_EMAIL = 0;
+
     /**
      * @inheritdoc
      */
@@ -130,6 +141,13 @@ class Users extends ActiveRecord implements IdentityInterface
         return $this->auth_key;
     }
 
+    public static function getLang(){
+        return [
+            'vi'=>'Việt Nam',
+            'en' =>' English'
+        ];
+    }
+
     public function validateAuthKey($authKey)
     {
         return $this->getAuthKey() === $authKey;
@@ -161,6 +179,11 @@ class Users extends ActiveRecord implements IdentityInterface
             [['user_sig_bbcode_uid'], 'string', 'max' => 8],
             [['user_actkey', 'user_form_salt'], 'string', 'max' => 32],
             [['username_clean'], 'unique'],
+            [['user_email'], 'unique'],
+            [['username'], 'required','message'=>Yii::t('app','Tên đăng nhập không được để trống!')],
+            [['user_password'], 'required','message'=>Yii::t('app','Mật khẩu không được để trống!')],
+            [['user_email'], 'required','message'=>Yii::t('app','Địa chỉ Email không được để trống!')],
+            ['user_email', 'email','message'=>Yii::t('app','Địa chỉ Email không hợp lệ!')],
         ];
     }
 
@@ -171,37 +194,37 @@ class Users extends ActiveRecord implements IdentityInterface
     {
         return [
             'user_id' => 'User ID',
-            'user_type' => 'User Type',
-            'group_id' => 'Group ID',
-            'user_permissions' => 'User Permissions',
+            'user_type' => 'Trạng thái',
+            'group_id' => 'Thuộc nhóm',
+            'user_permissions' => 'Quyền người dùng',
             'user_perm_from' => 'User Perm From',
-            'user_ip' => 'User Ip',
-            'user_regdate' => 'User Regdate',
-            'username' => 'Username',
-            'username_clean' => 'Username Clean',
-            'user_password' => 'User Password',
-            'user_passchg' => 'User Passchg',
-            'user_email' => 'User Email',
+            'user_ip' => 'Địa chỉ IP người dùng',
+            'user_regdate' => 'Ngày đăng kí',
+            'username' => 'Tên đăng nhập',
+            'username_clean' => 'Tên đăng nhập clean',
+            'user_password' => 'Mật khẩu',
+            'user_passchg' => 'Thay đổi mật khẩu',
+            'user_email' => 'Địa chỉ Email',
             'user_email_hash' => 'User Email Hash',
-            'user_birthday' => 'User Birthday',
-            'user_lastvisit' => 'User Lastvisit',
+            'user_birthday' => 'Ngày sinh',
+            'user_lastvisit' => 'Lần cuối đăng nhập',
             'user_lastmark' => 'User Lastmark',
-            'user_lastpost_time' => 'User Lastpost Time',
-            'user_lastpage' => 'User Lastpage',
+            'user_lastpost_time' => 'Bài viết cuối',
+            'user_lastpage' => 'Trang truy cập cuối',
             'user_last_confirm_key' => 'User Last Confirm Key',
             'user_last_search' => 'User Last Search',
-            'user_warnings' => 'User Warnings',
-            'user_last_warning' => 'User Last Warning',
+            'user_warnings' => 'Cảnh báo',
+            'user_last_warning' => 'Lần cảnh báo gần nhất',
             'user_login_attempts' => 'User Login Attempts',
-            'user_inactive_reason' => 'User Inactive Reason',
-            'user_inactive_time' => 'User Inactive Time',
-            'user_posts' => 'User Posts',
-            'user_lang' => 'User Lang',
-            'user_timezone' => 'User Timezone',
-            'user_dateformat' => 'User Dateformat',
-            'user_style' => 'User Style',
+            'user_inactive_reason' => 'Trạng thái đăng kí mới',
+            'user_inactive_time' => 'Thời điểm đăng kí',
+            'user_posts' => 'Số bài viết',
+            'user_lang' => 'Ngôn ngữ',
+            'user_timezone' => 'Timezone',
+            'user_dateformat' => 'Định dạnh ngày',
+            'user_style' => 'Sử dụng giao diện',
             'user_rank' => 'User Rank',
-            'user_colour' => 'User Colour',
+            'user_colour' => 'Sử dụng màu sắc',
             'user_new_privmsg' => 'User New Privmsg',
             'user_unread_privmsg' => 'User Unread Privmsg',
             'user_last_privmsg' => 'User Last Privmsg',
@@ -214,26 +237,26 @@ class Users extends ActiveRecord implements IdentityInterface
             'user_post_show_days' => 'User Post Show Days',
             'user_post_sortby_type' => 'User Post Sortby Type',
             'user_post_sortby_dir' => 'User Post Sortby Dir',
-            'user_notify' => 'User Notify',
-            'user_notify_pm' => 'User Notify Pm',
-            'user_notify_type' => 'User Notify Type',
-            'user_allow_pm' => 'User Allow Pm',
-            'user_allow_viewonline' => 'User Allow Viewonline',
-            'user_allow_viewemail' => 'User Allow Viewemail',
-            'user_allow_massemail' => 'User Allow Massemail',
+            'user_notify' => 'Notify',
+            'user_notify_pm' => 'Notify Pm',
+            'user_notify_type' => 'Notify Type',
+            'user_allow_pm' => 'Cho phép nhận tin',
+            'user_allow_viewonline' => 'Cho phép thấy online',
+            'user_allow_viewemail' => 'Cho phép thấy email',
+            'user_allow_massemail' => 'Cho phép gửi email',
             'user_options' => 'User Options',
-            'user_avatar' => 'User Avatar',
-            'user_avatar_type' => 'User Avatar Type',
-            'user_avatar_width' => 'User Avatar Width',
-            'user_avatar_height' => 'User Avatar Height',
+            'user_avatar' => 'Ảnh đại diện',
+            'user_avatar_type' => 'Loại ảnh đại diện',
+            'user_avatar_width' => 'Chiều rộng ảnh đại diện',
+            'user_avatar_height' => 'Chiều ngang ảnh đại diện',
             'user_sig' => 'User Sig',
             'user_sig_bbcode_uid' => 'User Sig Bbcode Uid',
             'user_sig_bbcode_bitfield' => 'User Sig Bbcode Bitfield',
             'user_jabber' => 'User Jabber',
             'user_actkey' => 'User Actkey',
-            'user_newpasswd' => 'User Newpasswd',
+            'user_newpasswd' => 'Mật khẩu mới',
             'user_form_salt' => 'User Form Salt',
-            'user_new' => 'User New',
+            'user_new' => 'NGười dùng mới',
             'user_reminded' => 'User Reminded',
             'user_reminded_time' => 'User Reminded Time',
         ];
@@ -250,13 +273,22 @@ class Users extends ActiveRecord implements IdentityInterface
             $this->user_type = $status;
             return $this->update(false);
         }else{
-            $userGroup = UserGroup::findAll(['user_id'=>$this->user_id]);
-            if(!empty($userGroup)){
-                foreach($userGroup as $item){
-                    $item->delete();
+            if($this->user_inactive_reason == 1){
+                $userGroup = UserGroup::findAll(['user_id'=>$this->user_id]);
+                if(!empty($userGroup)){
+                    Yii::info($userGroup);
+                    foreach($userGroup as $item){
+                        $connection = Yii::$app->getDb();
+                        $connection->createCommand()->delete('phpbb_user_group', 'user_id ='.$item->user_id)->execute();
+                    }
                 }
+                if(!$this->delete()){
+                    Yii::info($this->getErrors());
+                }
+                return true;
+            }else{
+                return false;
             }
-            return $this->delete();
         }
 
     }
@@ -266,6 +298,7 @@ class Users extends ActiveRecord implements IdentityInterface
         $ls = [
             self::USER_TYPE_ACTIVE => Yii::t('app','Đã Duyệt'),
             self::USER_TYPE_INACTIVE => Yii::t('app','Chưa Duyệt'),
+            self::USER_TYPE_ADMIN => Yii::t('app','Người sáng lập'),
         ];
         return $ls;
     }
@@ -277,5 +310,10 @@ class Users extends ActiveRecord implements IdentityInterface
             return $lst[$this->user_type];
         }
         return $this->user_type;
+    }
+
+    public static function emailHash($email)
+    {
+        return sprintf('%u', crc32(strtolower($email))) . strlen($email);
     }
 }

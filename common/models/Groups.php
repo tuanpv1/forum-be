@@ -31,6 +31,12 @@ use Yii;
  */
 class Groups extends \yii\db\ActiveRecord
 {
+    const GROUP_GUESTS = 1;
+    const GROUP_REGISTERED = 2;
+    const GROUP_REGISTERED_COPPA = 3;
+    const GROUP_GLOBAL_MODERATORS = 4;
+    const GROUP_ADMINISTRATORS = 5;
+    const GROUP_NEWLY_REGISTERED = 6;
     /**
      * @inheritdoc
      */
@@ -82,5 +88,14 @@ class Groups extends \yii\db\ActiveRecord
             'group_legend' => 'Group Legend',
             'group_max_recipients' => 'Group Max Recipients',
         ];
+    }
+
+    public static function getGroups(){
+        $ls = [
+            self::GROUP_REGISTERED => Yii::t('app','REGISTERED'),
+            self::GROUP_ADMINISTRATORS => Yii::t('app','ADMINISTRATORS'),
+            self::GROUP_GLOBAL_MODERATORS => Yii::t('app','MODERATORS'),
+        ];
+        return $ls;
     }
 }

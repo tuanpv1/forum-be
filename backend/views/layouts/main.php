@@ -13,7 +13,7 @@ use yii\widgets\Breadcrumbs;
 AppAsset::register($this);
 $this->registerJs("Metronic.init();");
 $this->registerJs("Layout.init();");
-$tilte = Yii::t('app',"Shop - Trang quản trị");
+$tilte = Yii::t('app', "CMS Viettel Forum - Trang quản trị");
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -49,7 +49,7 @@ $tilte = Yii::t('app',"Shop - Trang quản trị");
     if (Yii::$app->user->isGuest) {
         $rightItems[] = [
             'encode' => false,
-            'label' => '<i class="icon-user"></i><span class="username username-hide-on-mobile">'.Yii::t('app','Đăng nhập').'</span>',
+            'label' => '<i class="icon-user"></i><span class="username username-hide-on-mobile">' . Yii::t('app', 'Đăng nhập') . '</span>',
             'url' => Yii::$app->urlManager->createUrl("site/login"),
             'options' => [
                 'class' => 'dropdown dropdown-user'
@@ -74,12 +74,12 @@ $tilte = Yii::t('app',"Shop - Trang quản trị");
             'items' => [
                 [
                     'encode' => false,
-                    'label' => '<i class="icon-user"></i> '.Yii::t('app','Thông tin tài khoàn').' </a>',
+                    'label' => '<i class="icon-user"></i> ' . Yii::t('app', 'Thông tin tài khoàn') . ' </a>',
                     'url' => ['user/info']
                 ],
                 [
                     'encode' => false,
-                    'label' => '<i class="icon-key"></i> '.Yii::t('app','Đăng xuất'),
+                    'label' => '<i class="icon-key"></i> ' . Yii::t('app', 'Đăng xuất'),
                     'url' => ['/site/logout'],
                     'linkOptions' => ['data-method' => 'post'],
                 ],
@@ -112,13 +112,26 @@ $tilte = Yii::t('app',"Shop - Trang quản trị");
     $menuItems = [
         [
             'encode' => false,
-            'label' => Yii::t('app','Quản lý Topic'),
+            'label' => Yii::t('app', 'Quản lý Topic'),
             'url' => ['topics/index'],
         ],
         [
-            'encode' => false,
-            'label' => Yii::t('app','Quản lý User'),
-            'url' => ['users/index'],
+            'label' => Yii::t('app', 'Quản lý Users'),
+            'url' => 'javascript:;',
+            'options' => ['class' => 'menu-dropdown mega-menu-dropdown'],
+            'linkOptions' => ['data-hover' => 'megamenu-dropdown', 'data-close-others' => 'true'],
+            'items' => [
+                [
+                    'encode' => false,
+                    'label' => '<i class="icon-users"></i> ' . Yii::t('app', 'Thành Viên'),
+                    'url' => ['users/index'],
+                ],
+                [
+                    'encode' => false,
+                    'label' => '<i class="icon-users"></i> ' . Yii::t('app', 'Thành Viên BanList'),
+                    'url' => ['users/index'],
+                ],
+            ]
         ],
     ];
     echo Nav::widget([
@@ -131,13 +144,6 @@ $tilte = Yii::t('app',"Shop - Trang quản trị");
 </div>
 <!-- BEGIN CONTAINER -->
 <div class="page-container">
-    <!--    <div class="page-head">-->
-    <!--        <div class="container-fluid">-->
-    <!--            <div class="page-title">-->
-    <!--                <h1>--><?php //echo $this->title ?><!--</h1>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </div>-->
     <div class="page-content">
         <div class="container-fluid">
             <?= Breadcrumbs::widget([
@@ -158,7 +164,7 @@ $tilte = Yii::t('app',"Shop - Trang quản trị");
 <!-- BEGIN FOOTER -->
 <div class="page-footer footer">
     <div class="container-fluid">
-        <p><b>&copy;Copyright  <?php echo date('Y'); ?> </b>. All Rights Reserved. <b> forum-backend </b></p>
+        <p><b>&copy;Copyright <?php echo date('Y'); ?> </b>. All Rights Reserved. <b> forum-backend </b></p>
     </div>
 </div>
 <div class="scroll-to-top">

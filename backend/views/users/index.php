@@ -10,9 +10,9 @@ use kartik\grid\GridView;
 /* @var $searchModel common\models\UsersSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Users';
+$this->title = 'Quản lý Users';
 $this->params['breadcrumbs'][] = $this->title;
-
+$status_delete = Users::USER_TYPE_DELETED;
 \common\assets\ToastAsset::register($this);
 \common\assets\ToastAsset::config($this, [
     'positionClass' => \common\assets\ToastAsset::POSITION_TOP_RIGHT
@@ -30,6 +30,12 @@ $js = <<<JS
     if(feedbacks.length <= 0){
     alert("Chưa chọn Topics! Xin vui lòng chọn ít nhất một User để duyệt.");
     return;
+    }
+
+    if(status == '{$status_delete}'){
+    if(!confirm("Thao tác không thể phục hồi, bạn vẫn muốn xóa.")){
+        return;
+    }
     }
 
     jQuery.post(
@@ -71,6 +77,9 @@ $this->registerJs($js, \yii\web\View::POS_END);
                 </div>
             </div>
             <div class="portlet-body">
+                <p>
+                    <?= Html::a(Yii::t('app', 'Thêm mới'), ['create'], ['class' => 'btn btn-success']) ?>
+                </p>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
@@ -88,27 +97,27 @@ $this->registerJs($js, \yii\web\View::POS_END);
                                     'type' => 'button',
                                     'title' => 'Duyệt User',
                                     'class' => 'btn btn-success',
-                                    'onclick' => 'approveUsers('.Users::USER_TYPE_ACTIVE.');'
+                                    'onclick' => 'approveUsers(' . Users::USER_TYPE_ACTIVE . ');'
                                 ])
 
                         ],
                         [
                             'content' =>
-                                Html::button('<i class="glyphicon glyphicon-minus"></i>Chờ Duyệt', [
+                                Html::button('<i class="glyphicon glyphicon-pause"></i>Chờ Duyệt', [
                                     'type' => 'button',
                                     'title' => 'Chờ Duyệt',
                                     'class' => 'btn btn-info',
-                                    'onclick' => 'approveUsers('.Users::USER_TYPE_INACTIVE.');'
+                                    'onclick' => 'approveUsers(' . Users::USER_TYPE_INACTIVE . ');'
                                 ])
 
                         ],
                         [
                             'content' =>
-                                Html::button('<i class="glyphicon glyphicon-minus"></i>Xóa User chờ Duyệt', [
+                                Html::button('<i class="glyphicon glyphicon-trash"></i>Xóa User', [
                                     'type' => 'button',
-                                    'title' => 'Xóa User chờ Duyệt',
+                                    'title' => 'Xóa User',
                                     'class' => 'btn btn-danger',
-                                    'onclick' => 'approveUsers('.Users::USER_TYPE_DELETED.');'
+                                    'onclick' => 'approveUsers(' . Users::USER_TYPE_DELETED . ');'
                                 ])
 
                         ],
@@ -117,16 +126,36 @@ $this->registerJs($js, \yii\web\View::POS_END);
                     'columns' => [
                         ['class' => 'yii\grid\SerialColumn'],
                         [
-                            'class' => '\kartik\grid\DataColumn',
-                            'attribute'=>'group_id',
+                            'attribute' => 'username',
+                            'format' => 'raw',
                             'value' => function ($model, $key, $index, $widget) {
-                                return Groups::findOne(['group_id'=>$model->group_id])->group_name;
-                            }
+                                /**
+                                 * @var $model \common\models\Users
+                                 */
+                                $action = "users/view";
+                                $res = Html::a('<kbd>' . $model->username . '</kbd>', [$action, 'id' => $model->id]);
+                                return $res;
+                            },
+                        ],
+                        [
+                            'class' => '\kartik\grid\DataColumn',
+                            'width' => '200px',
+                            'attribute' => 'group_id',
+                            'value' => function ($model, $key, $index, $widget) {
+                                return Groups::findOne(['group_id' => $model->group_id])->group_name;
+                            },
+                            'filterType' => GridView::FILTER_SELECT2,
+                            'filter' => Groups::getGroups(),
+                            'filterWidgetOptions' => [
+                                'pluginOptions' => ['allowClear' => true],
+                            ],
+                            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Tất cả')],
+
                         ],
                         [
                             'attribute' => 'user_type',
                             'class' => '\kartik\grid\DataColumn',
-                            'width'=>'200px',
+                            'width' => '200px',
                             'value' => function ($model, $key, $index, $widget) {
                                 /**
                                  * @var $model Users
@@ -134,24 +163,23 @@ $this->registerJs($js, \yii\web\View::POS_END);
                                 return $model->getStatusName();
                             },
                             'filterType' => GridView::FILTER_SELECT2,
-                            'filter' => Topics::getStatus(),
+                            'filter' => Users::getStatus(),
                             'filterWidgetOptions' => [
                                 'pluginOptions' => ['allowClear' => true],
                             ],
                             'filterInputOptions' => ['placeholder' => Yii::t('app', 'Tất cả')],
                         ],
-                         'username',
-                         'user_email:email',
-                         'user_lang',
+                        'user_email:email',
+                        'user_lang',
                         [
                             'class' => '\kartik\grid\DataColumn',
-                            'attribute'=>'user_regdate',
+                            'attribute' => 'user_regdate',
                             'value' => function ($model, $key, $index, $widget) {
                                 return date('d/m/Y H:i:s', $model->user_regdate);
                             }
                         ],
                         ['class' => 'kartik\grid\ActionColumn',
-                            'template'=>'{view}',
+                            'template' => '{view}',
                         ],
                         [
                             'class' => 'kartik\grid\CheckboxColumn',

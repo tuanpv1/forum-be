@@ -94,7 +94,7 @@ $this->registerJs($js, \yii\web\View::POS_END);
                         ],
                         [
                             'content' =>
-                                Html::button('<i class="glyphicon glyphicon-minus"></i>Đang xử lý', [
+                                Html::button('<i class="glyphicon glyphicon-refresh"></i>Đang xử lý', [
                                     'type' => 'button',
                                     'title' => 'Đang xử lý',
                                     'class' => 'btn btn-info',
@@ -104,7 +104,7 @@ $this->registerJs($js, \yii\web\View::POS_END);
                         ],
                         [
                             'content' =>
-                                Html::button('<i class="glyphicon glyphicon-minus"></i> Đang giải quyết', [
+                                Html::button('<i class="glyphicon glyphicon-transfer"></i> Đang giải quyết', [
                                     'type' => 'button',
                                     'title' => 'Đang giải quyết',
                                     'class' => 'btn btn-primary',
@@ -114,7 +114,7 @@ $this->registerJs($js, \yii\web\View::POS_END);
                         ],
                         [
                             'content' =>
-                                Html::button('<i class="glyphicon glyphicon-minus"></i> Chưa trả lời', [
+                                Html::button('<i class="glyphicon glyphicon-exclamation-sign"></i> Chưa trả lời', [
                                     'type' => 'button',
                                     'title' => 'Chưa trả lời',
                                     'class' => 'btn btn-danger',

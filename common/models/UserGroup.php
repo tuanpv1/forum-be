@@ -14,12 +14,26 @@ use Yii;
  */
 class UserGroup extends \yii\db\ActiveRecord
 {
+    const NOT_PENDDING = 0;
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
         return 'phpbb_user_group';
+    }
+
+    public static function createNew($group_id,$user_id)
+    {
+        $model = new UserGroup();
+        $model->group_id = $group_id;
+        $model->user_id = $user_id;
+        $model->user_pending = self::NOT_PENDDING;
+        if(!$model->save()){
+            Yii::info($model->getErrors());
+            return false;
+        }
+        return true;
     }
 
     /**
