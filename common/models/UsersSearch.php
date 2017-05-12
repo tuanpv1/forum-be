@@ -45,12 +45,13 @@ class UsersSearch extends Users
         $query = Users::find();
         $query->andWhere('group_id <> :group_other',['group_other'=>Users::BOTS]);
         $query->andWhere('group_id <> :group_GUESTS',['group_GUESTS'=>Users::GUESTS]);
+        $query->andWhere('username <> :name_s',['name_s'=>'admin']);
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort'=> ['defaultOrder' => ['user_type' => SORT_ASC]],
+            'sort'=> ['defaultOrder' => ['user_type' => SORT_DESC]],
         ]);
 
         $this->load($params);

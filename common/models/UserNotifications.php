@@ -24,6 +24,21 @@ class UserNotifications extends \yii\db\ActiveRecord
         return 'phpbb_user_notifications';
     }
 
+    public static function createNewRecord($user_id, $method, $type)
+    {
+        $model = new UserNotifications();
+        $model->user_id = $user_id;
+        $model->method = $method;
+        $model->item_id = 0;
+        $model->notify = 1;
+        $model->item_type = $type;
+        if(!$model->save()){
+            Yii::info($model->getErrors());
+            return false;
+        }
+        return true;
+    }
+
     /**
      * @inheritdoc
      */
