@@ -93,7 +93,6 @@ class Groups extends \yii\db\ActiveRecord
     public static function getGroups(){
         $ls = [
             self::GROUP_REGISTERED => Yii::t('app','REGISTERED'),
-            self::GROUP_ADMINISTRATORS => Yii::t('app','ADMINISTRATORS'),
             self::GROUP_GLOBAL_MODERATORS => Yii::t('app','MODERATORS'),
         ];
         return $ls;

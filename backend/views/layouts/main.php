@@ -1,6 +1,7 @@
 <?php
 use backend\assets\AppAsset;
 use common\models\AuthItem;
+use common\models\Banlist;
 use common\models\User;
 use common\widgets\Alert;
 use common\widgets\Nav2;
@@ -110,7 +111,7 @@ $arrlang = array();
             $rightItems = [
                 [
                     'encode' => false,
-                    'label' => '<i class="glyphicon glyphicon-menu-hamburger"></i> '.Yii::t('app', 'Quản lý Topic'),
+                    'label' => '<i class="glyphicon glyphicon-pencil"></i> '.Yii::t('app', 'Quản lý Topic'),
                     'url' => ['topics/index'],
                 ],
                 [
@@ -127,8 +128,24 @@ $arrlang = array();
                         ],
                         [
                             'encode' => false,
-                            'label' => '<i class="icon-users"></i> ' . Yii::t('app', 'Thành Viên BanList'),
-                            'url' => ['users/index'],
+                            'label' => '<i class="glyphicon glyphicon-warning-sign"></i> ' . Yii::t('app', 'Thành Viên BanList'),
+                            'items' => [
+                                [
+                                    'encode' => false,
+                                    'label' => '<i class="icon-users"></i> ' . Yii::t('app', 'Ban User'),
+                                    'url' => ['banlist/index','type'=>Banlist::TYPE_USER],
+                                ],
+                                [
+                                    'encode' => false,
+                                    'label' => '<i class="glyphicon glyphicon-envelope"></i> ' . Yii::t('app', 'Ban Email'),
+                                    'url' => ['banlist/index','type'=>Banlist::TYPE_EMAIL],
+                                ],
+                                [
+                                    'encode' => false,
+                                    'label' => '<i class="icon-reload"></i> ' . Yii::t('app', 'Ban IP'),
+                                    'url' => ['banlist/index','type'=>Banlist::TYPE_IP],
+                                ],
+                            ]
                         ],
                     ]
                 ],

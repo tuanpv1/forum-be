@@ -62,7 +62,7 @@ class ActionAdminFilter extends ActionFilter
         $connection = Yii::$app->getDb();
         $command    = $connection->createCommand($sql_mod);
         $result_mod = $command->queryAll();
-        if(count($result_mod) !=0 ){
+        if(!empty($result_mod) && count($result_mod) !=0 ){
             return true;
         }
         $sql_admin = 'SELECT * FROM phpbb_user_group
@@ -71,7 +71,7 @@ class ActionAdminFilter extends ActionFilter
         $connection = Yii::$app->getDb();
         $command    = $connection->createCommand($sql_admin);
         $result_admin = $command->queryAll();
-        if(count($result_admin) !=0 ){
+        if(!empty($result_admin) && count($result_admin) !=0 ){
             return true;
         }
         return false;

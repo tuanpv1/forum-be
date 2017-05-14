@@ -2,7 +2,9 @@
 
 namespace backend\controllers;
 
+use common\components\ActionAdmin;
 use common\helpers\Message;
+use common\models\Groups;
 use common\models\UserGroup;
 use common\models\UserNotifications;
 use Yii;
@@ -25,6 +27,9 @@ class UsersController extends Controller
     public function behaviors()
     {
         return [
+            [
+                'class' => ActionAdmin::className(),
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -138,6 +143,8 @@ class UsersController extends Controller
     {
         $model = $this->findModel($id);
         $old_type = $model->user_type;
+        $old_group = $model->group_id;
+        $old_pass = $model->user_password;
         if ($model->load(Yii::$app->request->post())) {
             if($old_type != Users::USER_TYPE_INACTIVE && $model->user_type == Users::USER_TYPE_INACTIVE){
                 Yii::$app->session->setFlash('error', Message::MSG_ADD_ERROR_INACTIVE_TO);
@@ -145,8 +152,12 @@ class UsersController extends Controller
                     'model' => $model,
                 ]);
             }
-            $model->setPassword($model->user_password);
-            $model->generateAuthKey();
+            if(isset($model->user_password) && $model->user_password != $old_pass){
+                $model->setPassword($model->user_password);
+                $model->generateAuthKey();
+            }else{
+                $model->user_password = $old_pass;
+            }
             $model->username_clean = trim(strtolower($model->username));
             $model->user_reminded_time = time();
             $model->user_passchg = time();
@@ -177,9 +188,16 @@ class UsersController extends Controller
                     'model' => $model,
                 ]);
             }else{
+                if($old_group == Groups::GROUP_GLOBAL_MODERATORS && $model->group_id != Groups::GROUP_GLOBAL_MODERATORS){
+                    $removeUserGroup = UserGroup::removeGroupUser($old_group,$model->user_id);
+                    if(!$removeUserGroup){
+                        Yii::$app->session->setFlash('error', Message::MSG_ADD_ERROR);
+                        return $this->render('create', ['model' => $model]);
+                    }
+                }
                 $creatUserGroupAsm = UserGroup::createNew($model->group_id,$model->user_id);
                 if($creatUserGroupAsm){
-                    Yii::$app->session->setFlash('success', Message::MSG_ADD_SUCCESS);
+                    Yii::$app->session->setFlash('success', Message::MSG_UPDATE_SUCCESS);
                     return $this->redirect(['view', 'id' => $model->user_id]);
                 }
             }

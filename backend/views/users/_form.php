@@ -22,15 +22,13 @@ use kartik\widgets\ActiveForm;
             'labelSpan' => 2,
             'deviceSize' => ActiveForm::SIZE_SMALL,
         ],
-//        'enableAjaxValidation' => true,
-//        'enableClientValidation' => false,
     ]); ?>
 
     <?= $form->field($model, 'user_type')->dropDownList(Users::getStatus()) ?>
 
     <?= $form->field($model, 'group_id')->dropDownList(Groups::getGroups()) ?>
 
-    <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'username')->textInput(['maxlength' => true,$model->isNewRecord?'':'readonly'=>true]) ?>
 
     <?= $form->field($model, 'user_password')->textInput(['maxlength' => true]) ?>
 
