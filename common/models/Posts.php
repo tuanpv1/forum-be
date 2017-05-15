@@ -135,6 +135,14 @@ class Posts extends \yii\db\ActiveRecord
         $model->post_delete_reason = '';
         $model->post_delete_user = 0;
         if (!$model->save()) {
+            $forum = Forums::findOne(['forum_id' => $modelTopics->forum_id]);
+            /** @var $forum Forums */
+            $forum->forum_last_post_id = $model->post_id;
+            $forum->forum_last_poster_id = Yii::$app->user->id;
+            $forum->forum_last_post_subject = $model->post_subject;
+            $forum->forum_last_post_time = time();
+            $forum->forum_last_poster_name = Yii::$app->user->getIdentity()->username;
+            $forum->save();
             Yii::info($model->getErrors());
             return false;
         }

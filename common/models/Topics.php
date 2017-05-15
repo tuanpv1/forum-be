@@ -59,6 +59,7 @@ class Topics extends \yii\db\ActiveRecord
     const STATUS_UNANSWERED = 4;
 
     const STATUS_BLOCK = 5;
+    public $viewAttr = [];
 
     public $post_text;
     public $list_cat_id;
@@ -205,5 +206,25 @@ class Topics extends \yii\db\ActiveRecord
     public function getForum()
     {
         return $this->hasOne(Forums::className(), ['forum_id' => 'forum_id']);
+    }
+
+    public function getCssStatus()
+    {
+        switch ($this->status) {
+            case self::STATUS_NEW_POST:
+                return 'label label-primary';
+            case self::STATUS_INACTIVE:
+                return 'label label-warning';
+            case self::STATUS_BLOCK:
+                return 'label label-danger';
+            case self::STATUS_UNANSWERED:
+                return 'label label-info';
+            case self::STATUS_ANSWERED:
+                return 'label label-info';
+            case self::STATUS_IN_PROCESS:
+                return 'label label-info';
+            default:
+                return 'label label-primary';
+        }
     }
 }

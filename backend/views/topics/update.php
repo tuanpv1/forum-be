@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $model common\models\Topics */
 
 $this->title = Yii::t('app','Cập nhật chủ đề: ' ). ' ' . $model->topic_title;
-$this->params['breadcrumbs'][] = ['label' => 'Chủ đề', 'url' => Yii::$app->urlManager->createUrl(['topics/index'])];
+$this->params['breadcrumbs'][] = ['label' => '/ Chủ đề / ', 'url' => Yii::$app->urlManager->createUrl(['topics/index'])];
 
 $this->params['breadcrumbs'][] = ['label' => $model->topic_title, 'url' => ['view', 'id' => $model->topic_id]];
 $this->params['breadcrumbs'][] = 'Cập nhật';

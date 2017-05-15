@@ -5,68 +5,45 @@ use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Topics */
+/* @var $cat_selected array */
+/* @var $imageProvider \yii\data\ArrayDataProvider */
 
-$this->title = $model->topic_id;
-$this->params['breadcrumbs'][] = ['label' => 'Topics', 'url' => ['index']];
+$this->title = $model->topic_title;
+$this->params['breadcrumbs'][] = ['label' => 'Chủ đề', 'url' => Yii::$app->urlManager->createUrl(['topics/index'])];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="topics-view">
+<p>
+    <?= Html::a('Cập nhật', ['update', 'id' => $model->topic_id], ['class' => 'btn btn-primary']) ?>
+    <?= Html::a('Thêm mới',  Yii::$app->urlManager->createUrl(['topics/create']), ['class' => 'btn btn-primary']) ?>
 
-    <h1><?= Html::encode($this->title) ?></h1>
+</p>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-cogs font-green-sharp"></i>
+                    <span class="caption-subject font-green-sharp bold uppercase">Thông tin nội dung</span>
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
 
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->topic_id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->topic_id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+                <div class="tabbable-custom nav-justified">
+                    <ul class="nav nav-tabs nav-justified">
+                                <div class="tab-pane" id="tab_info">
+                                    <?= $this->render('_detail', [
+                                        'model' => $model,
+                                    ]) ?>
+                                </div>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'topic_id',
-            'forum_id',
-            'icon_id',
-            'topic_attachment',
-            'topic_reported',
-            'topic_title',
-            'topic_poster',
-            'topic_time',
-            'topic_time_limit',
-            'topic_views',
-            'topic_status',
-            'topic_type',
-            'topic_first_post_id',
-            'topic_first_poster_name',
-            'topic_first_poster_colour',
-            'topic_last_post_id',
-            'topic_last_poster_id',
-            'topic_last_poster_name',
-            'topic_last_poster_colour',
-            'topic_last_post_subject',
-            'topic_last_post_time',
-            'topic_last_view_time',
-            'topic_moved_id',
-            'topic_bumped',
-            'topic_bumper',
-            'poll_title',
-            'poll_start',
-            'poll_length',
-            'poll_max_options',
-            'poll_last_vote',
-            'poll_vote_change',
-            'topic_visibility',
-            'topic_delete_time',
-            'topic_delete_reason',
-            'topic_delete_user',
-            'topic_posts_approved',
-            'topic_posts_unapproved',
-            'topic_posts_softdeleted',
-        ],
-    ]) ?>
+                    </ul>
+                </div>
+            </div>
 
+        </div>
+    </div>
 </div>

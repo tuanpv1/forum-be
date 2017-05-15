@@ -9,7 +9,11 @@
 namespace common\helpers;
 
 
-class FileUtils {
-
+class FileUtils
+{
+    public static function appendToFile($filePath, $txt)
+    {
+        return file_put_contents($filePath, $txt . PHP_EOL, FILE_APPEND | LOCK_EX);
+    }
 
 } 

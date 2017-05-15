@@ -149,6 +149,7 @@ class TopicsController extends Controller
             $model->topic_time = time();
             $model->topic_time_limit = 0;
             $model->topic_views = 1;
+            $model->topic_last_poster_id = Yii::$app->user->id;
             $model->topic_status = 0;
             $model->topic_first_poster_name = Yii::$app->user->getIdentity()->username;
             $model->topic_last_poster_name = Yii::$app->user->getIdentity()->username;
@@ -251,6 +252,15 @@ class TopicsController extends Controller
             $modelPost->poster_ip = CUtils::clientIP();
             $modelPost->save();
             if ($model->save()) {
+                $forum = Forums::findOne(['forum_id' => $modelPost->forum_id]);
+                /** @var $forum Forums */
+                $forum->forum_last_post_id = $modelPost->post_id;
+                $forum->forum_last_poster_id = Yii::$app->user->id;
+                $forum->forum_last_post_subject = $modelPost->post_subject;
+                $forum->forum_last_post_time = time();
+                $forum->forum_last_poster_name = Yii::$app->user->getIdentity()->username;
+                $forum->save(false);
+                Yii::info($model->getErrors());
                 return $this->redirect(['view', 'id' => $model->topic_id]);
             }
         }
