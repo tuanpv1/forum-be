@@ -37,8 +37,10 @@ class KpiController extends Controller
         }
         foreach ($listForum as $forum) {
             /** @var  $forum Forums */
-            $countTopics = Topics::find()->andWhere(['forum_id' => $forum->forum_id])
-                ->andWhere(['topic_status_display' => Topics::STATUS_INACTIVE])->count();
+            $countTopics = Topics::find()
+                ->andWhere(['forum_id' => $forum->forum_id])
+                ->andWhere(['topic_status_display' => Topics::STATUS_INACTIVE])
+                ->count();
             if ($countTopics >= 30) {
                 $kpi_sum = KpiSum::findOne([
                     'forum_id' => $forum->forum_id,
@@ -75,7 +77,7 @@ class KpiController extends Controller
                 }
             }
         }
-        $this->errorLog(date('Y-m-d h:i:s').' SUCCESS! KPI');
+        $this->errorLog(date('Y-m-d h:i:s').' SUCCESS! KPI MAX TOPIC');
         echo(date('Y-m-d h:i:s')." SUCCESS!  KPI\n");
 
     }
@@ -164,7 +166,7 @@ class KpiController extends Controller
             }
         }
         $this->errorLog(date('Y-m-d h:i:s').' SUCCESS! KPI');
-        echo(date('Y-m-d h:i:s')." SUCCESS!  KPI\n");
+        echo(date('Y-m-d h:i:s')." SUCCESS!  KPI NO ANSWER AND SLOW ANSWER \n");
     }
 
     public static function errorLog($txt)
