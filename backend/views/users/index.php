@@ -171,13 +171,6 @@ $this->registerJs($js, \yii\web\View::POS_END);
                         ],
                         'user_email:email',
                         'user_lang',
-                        [
-                            'class' => '\kartik\grid\DataColumn',
-                            'attribute' => 'user_regdate',
-                            'value' => function ($model, $key, $index, $widget) {
-                                return date('d/m/Y H:i:s', $model->user_regdate);
-                            }
-                        ],
                         ['class' => 'kartik\grid\ActionColumn',
                             'template' => '{view}',
                         ],
