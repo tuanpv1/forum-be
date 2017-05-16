@@ -34,6 +34,7 @@ use Yii;
  * @property string $post_edit_user
  * @property integer $post_edit_count
  * @property integer $post_edit_locked
+ * @property integer $post_status_display
  * @property integer $post_visibility
  * @property string $post_delete_time
  * @property string $post_delete_reason
@@ -49,13 +50,60 @@ class Posts extends \yii\db\ActiveRecord
         return 'phpbb_posts';
     }
 
+    const STATUS_POST_VISIBILITY = 1;
+    const STATUS_POST_INVISIBILITY = 0;
+
+    const STATUS_ANSWER_WRONG = 1;
+    const STATUS_ANSWER_RIGHT = 2;
+    const STATUS_ANSWER_APPROVE = 0;
+
+
+    public static function getStatus()
+    {
+        $ls = [
+            self::STATUS_POST_VISIBILITY => Yii::t('app', 'Hiển thị'),
+            self::STATUS_POST_INVISIBILITY => Yii::t('app', 'Ẩn'),
+
+        ];
+        return $ls;
+    }
+
+    public function getStatusName()
+    {
+        $lst = self::getStatus();
+        if (array_key_exists($this->post_visibility, $lst)) {
+            return $lst[$this->post_visibility];
+        }
+        return $this->post_visibility;
+    }
+
+    public static function getStatusAnswer()
+    {
+        $ls = [
+            self::STATUS_ANSWER_RIGHT => Yii::t('app', 'Trả lời đúng'),
+            self::STATUS_ANSWER_WRONG => Yii::t('app', 'Trả lời sai'),
+            self::STATUS_ANSWER_APPROVE => Yii::t('app', 'Chưa duyệt'),
+
+        ];
+        return $ls;
+    }
+
+    public function getStatusAnswerName()
+    {
+        $lst = self::getStatusAnswer();
+        if (array_key_exists($this->post_status_display, $lst)) {
+            return $lst[$this->post_status_display];
+        }
+        return $this->post_status_display;
+    }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['topic_id', 'forum_id', 'poster_id', 'icon_id', 'post_time', 'post_reported', 'enable_bbcode', 'enable_smilies', 'enable_magic_url', 'enable_sig', 'post_attachment', 'post_postcount', 'post_edit_time', 'post_edit_user', 'post_edit_count', 'post_edit_locked', 'post_visibility', 'post_delete_time', 'post_delete_user'], 'integer'],
+            [['topic_id', 'forum_id', 'poster_id', 'icon_id', 'post_time', 'post_reported', 'enable_bbcode', 'enable_smilies', 'enable_magic_url', 'enable_sig', 'post_attachment', 'post_postcount', 'post_edit_time', 'post_edit_user', 'post_edit_count', 'post_edit_locked', 'post_visibility', 'post_delete_time', 'post_delete_user','post_status_display'], 'integer'],
             [['post_text'], 'required'],
             [['post_text'], 'string'],
             [['poster_ip'], 'string', 'max' => 40],
@@ -74,18 +122,18 @@ class Posts extends \yii\db\ActiveRecord
             'post_id' => 'Post ID',
             'topic_id' => 'Topic ID',
             'forum_id' => 'Forum ID',
-            'poster_id' => 'Poster ID',
+            'poster_id' => 'Người bình luận',
             'icon_id' => 'Icon ID',
             'poster_ip' => 'Poster Ip',
-            'post_time' => 'Post Time',
+            'post_time' => 'Thời gian bình luận',
             'post_reported' => 'Post Reported',
             'enable_bbcode' => 'Enable Bbcode',
             'enable_smilies' => 'Enable Smilies',
             'enable_magic_url' => 'Enable Magic Url',
             'enable_sig' => 'Enable Sig',
             'post_username' => 'Post Username',
-            'post_subject' => 'Post Subject',
-            'post_text' => 'Post Text',
+            'post_subject' => 'Chủ đề bình luận',
+            'post_text' => 'Nội dung bình luận',
             'post_checksum' => 'Post Checksum',
             'post_attachment' => 'Post Attachment',
             'bbcode_bitfield' => 'Bbcode Bitfield',
@@ -96,10 +144,11 @@ class Posts extends \yii\db\ActiveRecord
             'post_edit_user' => 'Post Edit User',
             'post_edit_count' => 'Post Edit Count',
             'post_edit_locked' => 'Post Edit Locked',
-            'post_visibility' => 'Post Visibility',
+            'post_visibility' => 'Trạng thái hiển thị',
             'post_delete_time' => 'Post Delete Time',
             'post_delete_reason' => 'Post Delete Reason',
             'post_delete_user' => 'Post Delete User',
+            'post_status_display' => 'Đánh giá',
         ];
     }
 
@@ -150,5 +199,12 @@ class Posts extends \yii\db\ActiveRecord
         $modelTopics->topic_last_post_id = $model->post_id;
         $modelTopics->save();
         return $model;
+    }
+
+    public function approve($status)
+    {
+        $this->post_status_display = $status;
+
+        return $this->update(false);
     }
 }

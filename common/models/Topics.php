@@ -187,7 +187,7 @@ class Topics extends \yii\db\ActiveRecord
         ];
     }
 
-    public function approve($status, $user = null)
+    public function approve($status)
     {
         $this->topic_status_display = $status;
 

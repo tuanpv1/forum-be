@@ -64,16 +64,6 @@ class TopicsController extends Controller
                 // read or convert your posted information
                 $feedback = Topics::findOne($post['editableKey']);
                 $index = $post['editableIndex'];
-                if ($feedback) {
-                    $feedback->load($post['SubscriberFeedback'][$index], '');
-                    if ($feedback->update()) {
-                        echo \yii\helpers\Json::encode(['output' => '', 'message' => '']);
-                    } else {
-                        echo \yii\helpers\Json::encode(['output' => '', 'message' => 'Dữ liệu không hợp lệ']);
-                    }
-                } else {
-                    echo \yii\helpers\Json::encode(['output' => '', 'message' => 'Feedback không tồn tại']);
-                }
 
             } // else if nothing to do always return an empty JSON encoded output
             else {

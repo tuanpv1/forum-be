@@ -77,6 +77,7 @@ class KpiController extends Controller
                     $kpi_sum = new KpiSum();
                     $kpi_sum->forum_id = $topic->forum_id;
                     $kpi_sum->topic_id = $topic->topic_id;
+                    $kpi_sum->user_id = $topic->topic_poster;
                     $kpi_sum->type = KpiSum::TYPE_ANSWER_SLOW;
                     $kpi_sum->status = KpiSum::STATUS_ACTIVE;
                     $kpi_sum->created_at = time();
@@ -98,6 +99,7 @@ class KpiController extends Controller
                     $kpi_sum = new KpiSum();
                     $kpi_sum->forum_id = $topic->forum_id;
                     $kpi_sum->topic_id = $topic->topic_id;
+                    $kpi_sum->user_id = $topic->topic_poster;
                     $kpi_sum->type = KpiSum::TYPE_NO_ANSWER;
                     $kpi_sum->status = KpiSum::STATUS_ACTIVE;
                     $kpi_sum->created_at = time();
@@ -114,6 +116,8 @@ class KpiController extends Controller
             }
         }
     }
+
+
 
     public static function errorLog($txt)
     {

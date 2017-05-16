@@ -15,6 +15,7 @@ use Yii;
  * @property integer $created_at
  * @property integer $updated_at
  * @property integer $post_id
+ * @property integer $user_id
  * @property integer $rate
  */
 class KpiSum extends \yii\db\ActiveRecord
@@ -43,7 +44,7 @@ class KpiSum extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['forum_id', 'topic_id', 'type', 'status', 'created_at', 'updated_at', 'post_id', 'rate'], 'integer'],
+            [['forum_id', 'topic_id', 'type', 'status', 'created_at', 'updated_at','user_id', 'post_id', 'rate'], 'integer'],
             [['type', 'status'], 'required'],
         ];
     }
