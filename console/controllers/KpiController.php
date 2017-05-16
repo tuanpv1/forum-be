@@ -31,13 +31,22 @@ class KpiController extends Controller
     {
 
         $listForum = Forums::find()->andWhere('parent_id <> 0 ')->andWhere(['forum_status' => 0])->all();
-
+        if(empty($listForum)){
+            $this->errorLog(date('Y-m-d h:i:s').' SUCCESS! NOT HAVE FORUMS');
+            echo(date('Y-m-d h:i:s')." SUCCESS! NOT HAVE FORUMS\n");
+        }
         foreach ($listForum as $forum) {
             /** @var  $forum Forums */
-            $countTopics = Topics::find()->andWhere(['forum_id' => $forum->forum_id])
-                ->andWhere(['topic_status_display' => Topics::STATUS_INACTIVE])->count();
+            $countTopics = Topics::find()
+                ->andWhere(['forum_id' => $forum->forum_id])
+                ->andWhere(['topic_status_display' => Topics::STATUS_INACTIVE])
+                ->count();
             if ($countTopics >= 30) {
-                $kpi_sum = KpiSum::findOne(['forum_id' => $forum->forum_id, 'type' => KpiSum::TYPE_MAX_TOPIC, 'status' => KpiSum::STATUS_ACTIVE]);
+                $kpi_sum = KpiSum::findOne([
+                    'forum_id' => $forum->forum_id,
+                    'type' => KpiSum::TYPE_MAX_TOPIC,
+                    'status' => KpiSum::STATUS_ACTIVE
+                ]);
                 if (!$kpi_sum) {
                     $kpi_sum = new KpiSum();
                     $kpi_sum->forum_id = $forum->forum_id;
@@ -45,34 +54,61 @@ class KpiController extends Controller
                     $kpi_sum->updated_at = time();
                     $kpi_sum->type = KpiSum::TYPE_MAX_TOPIC;
                     $kpi_sum->status = KpiSum::STATUS_ACTIVE;
-                    $kpi_sum->save(false);
+                    if(!$kpi_sum->save(false)){
+                        $kpi_sum->getErrors();
+                        $this->errorLog(date('Y-m-d h:i:s').'ERROR! CANNOT SAVE PLEASE CHECK LOG');
+                        echo(date('Y-m-d h:i:s')." ERROR! CANNOT SAVE PLEASE CHECK LOG\n");
+                    }
                 }
             } else {
-                $kpi_sum = KpiSum::findOne(['forum_id' => $forum->forum_id, 'type' => KpiSum::TYPE_MAX_TOPIC, 'status' => KpiSum::STATUS_ACTIVE]);
+                $kpi_sum = KpiSum::findOne([
+                    'forum_id' => $forum->forum_id,
+                    'type' => KpiSum::TYPE_MAX_TOPIC,
+                    'status' => KpiSum::STATUS_ACTIVE
+                ]);
                 if ($kpi_sum) {
                     $kpi_sum->status = KpiSum::STATUS_INACTIVE;
                     $kpi_sum->updated_at = time();
-                    $kpi_sum->save(false);
+                    if(!$kpi_sum->save(false)){
+                        $kpi_sum->getErrors();
+                        $this->errorLog(date('Y-m-d h:i:s').'ERROR! CANNOT SAVE PLEASE CHECK LOG');
+                        echo(date('Y-m-d h:i:s')." ERROR! CANNOT SAVE PLEASE CHECK LOG\n");
+                    }
                 }
             }
         }
+        $this->errorLog(date('Y-m-d h:i:s').' SUCCESS! KPI MAX TOPIC');
+        echo(date('Y-m-d h:i:s')." SUCCESS!  KPI\n");
 
     }
 
     public function kpiAnswerSlowOrNoAnswer()
     {
-        $listTopics = Topics::find()->andWhere('topic_status_display <> :status', [':status' => Topics::STATUS_INACTIVE])
+        $listTopics = Topics::find()
+            ->andWhere('topic_status_display <> :status', [':status' => Topics::STATUS_INACTIVE])
             ->andWhere('topic_status_display <> :status_', [':status_' => Topics::STATUS_BLOCK])
             ->all();
+        if(empty($listTopics)){
+            $this->errorLog(date('Y-m-d h:i:s').' SUCCESS! NOT HAVE FORUMS');
+            echo(date('Y-m-d h:i:s')." SUCCESS! NOT HAVE FORUMS\n");
+        }
         foreach ($listTopics as $topic) {
             /** @var $topic Topics */
 
-            $posted = Posts::find()->andWhere(['topic_id' => $topic->topic_id])->andWhere('post_id <> :post_id', ['post_id' => $topic->topic_id])
-                ->orderBy(['post_id' => SORT_ASC])->one();
+            $posted = Posts::find()
+                ->andWhere(['topic_id' => $topic->topic_id])
+                ->andWhere('post_id <> :post_id', ['post_id' => $topic->topic_id])
+                ->orderBy(['post_id' => SORT_ASC])
+                ->one();
             /** @var $posted Posts */
 
             if (($topic->topic_time == $topic->topic_last_post_time && time() - $topic->topic_time > 30 * 60) || !$posted && time() - $topic->topic_time > 30 * 60 || $posted && $posted->post_time - $topic->topic_time > 30 * 60) {
-                $kpi_sum = KpiSum::findOne(['forum_id' => $topic->forum_id, 'topic_id' => $topic->topic_id, 'type' => KpiSum::TYPE_ANSWER_SLOW, 'status' => KpiSum::STATUS_ACTIVE]);
+                $kpi_sum = KpiSum::findOne([
+                    'forum_id' => $topic->forum_id,
+                    'topic_id' => $topic->topic_id,
+                    'type' => KpiSum::TYPE_ANSWER_SLOW,
+                    'status' => KpiSum::STATUS_ACTIVE
+                ]);
                 if (!$kpi_sum) {
                     $kpi_sum = new KpiSum();
                     $kpi_sum->forum_id = $topic->forum_id;
@@ -82,14 +118,22 @@ class KpiController extends Controller
                     $kpi_sum->status = KpiSum::STATUS_ACTIVE;
                     $kpi_sum->created_at = time();
                     $kpi_sum->updated_at = time();
-                    $kpi_sum->save(false);
+                    if(!$kpi_sum->save(false)){
+                        $kpi_sum->getErrors();
+                        $this->errorLog(date('Y-m-d h:i:s').'ERROR! CANNOT SAVE PLEASE CHECK LOG');
+                        echo(date('Y-m-d h:i:s')." ERROR! CANNOT SAVE PLEASE CHECK LOG\n");
+                    }
                 }
             } else {
                 $kpi_sum = KpiSum::findOne(['forum_id' => $topic->forum_id, 'topic_id' => $topic->topic_id, 'type' => KpiSum::TYPE_ANSWER_SLOW]);
                 if ($kpi_sum) {
                     $kpi_sum->status = KpiSum::STATUS_INACTIVE;
                     $kpi_sum->updated_at = time();
-                    $kpi_sum->save(false);
+                    if(!$kpi_sum->save(false)){
+                        $kpi_sum->getErrors();
+                        $this->errorLog(date('Y-m-d h:i:s').'ERROR! CANNOT SAVE PLEASE CHECK LOG');
+                        echo(date('Y-m-d h:i:s')." ERROR! CANNOT SAVE PLEASE CHECK LOG\n");
+                    }
                 }
             }
 
@@ -104,17 +148,27 @@ class KpiController extends Controller
                     $kpi_sum->status = KpiSum::STATUS_ACTIVE;
                     $kpi_sum->created_at = time();
                     $kpi_sum->updated_at = time();
-                    $kpi_sum->save(false);
+                    if(!$kpi_sum->save(false)){
+                        $kpi_sum->getErrors();
+                        $this->errorLog(date('Y-m-d h:i:s').' ERROR! CANNOT SAVE PLEASE CHECK LOG');
+                        echo(date('Y-m-d h:i:s')." ERROR! CANNOT SAVE PLEASE CHECK LOG\n");
+                    }
                 }
             } else {
                 $kpi_sum = KpiSum::findOne(['forum_id' => $topic->forum_id, 'topic_id' => $topic->topic_id, 'type' => KpiSum::TYPE_NO_ANSWER]);
                 if ($kpi_sum) {
                     $kpi_sum->status = KpiSum::STATUS_INACTIVE;
                     $kpi_sum->updated_at = time();
-                    $kpi_sum->save(false);
+                    if(!$kpi_sum->save(false)){
+                        $kpi_sum->getErrors();
+                        $this->errorLog(date('Y-m-d h:i:s').' ERROR! CANNOT SAVE PLEASE CHECK LOG');
+                        echo(date('Y-m-d h:i:s')." ERROR! CANNOT SAVE PLEASE CHECK LOG\n");
+                    }
                 }
             }
         }
+        $this->errorLog(date('Y-m-d h:i:s').' SUCCESS! KPI');
+        echo(date('Y-m-d h:i:s')." SUCCESS!  KPI NO ANSWER AND SLOW ANSWER \n");
     }
 
 
