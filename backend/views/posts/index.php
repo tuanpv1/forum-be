@@ -102,6 +102,16 @@ $this->registerJs($js, \yii\web\View::POS_END);
                                 ])
 
                         ],
+                        [
+                            'content' =>
+                                Html::button('<i class="glyphicon glyphicon-ok"></i> Nội dung tiêu cực', [
+                                    'type' => 'button',
+                                    'title' => 'Nội dung tiêu cực',
+                                    'class' => 'btn btn-danger',
+                                    'onclick' => 'approveTopics(' . Posts::STATUS_ANSWER_NEGATIVE . ');'
+                                ])
+
+                        ],
 
                     ],
                     'columns' => [
@@ -123,7 +133,7 @@ $this->registerJs($js, \yii\web\View::POS_END);
                         ],
                         [
                             'class' => '\kartik\grid\DataColumn',
-                            'attribute' => 'post_username',
+                            'attribute' => 'poster_id',
                             'format' => 'html',
                             'value' => function ($model, $key, $index, $widget) {
                                 return \common\models\Users::findOne(['user_id'=>$model->poster_id])->username;

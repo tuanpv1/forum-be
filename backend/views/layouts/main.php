@@ -1,6 +1,5 @@
 <?php
 use backend\assets\AppAsset;
-use common\models\AuthItem;
 use common\models\Banlist;
 use common\models\User;
 use common\widgets\Alert;
@@ -111,11 +110,24 @@ $arrlang = array();
             $rightItems = [
                 [
                     'encode' => false,
-                    'label' => '<i class="glyphicon glyphicon-pencil"></i> '.Yii::t('app', 'Quản lý Topic'),
-                    'url' => ['topics/index'],
+                    'label' => '<i class="glyphicon glyphicon-pencil"></i> ' . Yii::t('app', 'Quản lý chủ đề'),
+                    'linkOptions' => ['data-hover' => 'megamenu-dropdown', 'data-close-others' => 'true'],
+                    'options' => ['class' => 'menu-dropdown mega-menu-dropdown'],
+                    'items' => [
+                        [
+                            'encode' => false,
+                            'label' => '<i class="glyphicon glyphicon-subtitles"></i> ' . Yii::t('app', 'Chủ đề'),
+                            'url' => ['topics/index'],
+                        ],
+                        [
+                            'encode' => false,
+                            'label' => '<i class="glyphicon glyphicon-comment"></i> ' . Yii::t('app', 'Bình luận'),
+                            'url' => ['posts/index']
+                        ],
+                    ]
                 ],
                 [
-                    'label' => '<i class="glyphicon glyphicon-menu-hamburger"></i> '.Yii::t('app', 'Quản lý Users'),
+                    'label' => '<i class="glyphicon glyphicon-menu-hamburger"></i> ' . Yii::t('app', 'Quản lý Users'),
                     'url' => 'javascript:;',
                     'encode' => false,
                     'options' => ['class' => 'menu-dropdown mega-menu-dropdown'],
@@ -133,17 +145,17 @@ $arrlang = array();
                                 [
                                     'encode' => false,
                                     'label' => '<i class="icon-users"></i> ' . Yii::t('app', 'Ban User'),
-                                    'url' => ['banlist/index','type'=>Banlist::TYPE_USER],
+                                    'url' => ['banlist/index', 'type' => Banlist::TYPE_USER],
                                 ],
                                 [
                                     'encode' => false,
                                     'label' => '<i class="glyphicon glyphicon-envelope"></i> ' . Yii::t('app', 'Ban Email'),
-                                    'url' => ['banlist/index','type'=>Banlist::TYPE_EMAIL],
+                                    'url' => ['banlist/index', 'type' => Banlist::TYPE_EMAIL],
                                 ],
                                 [
                                     'encode' => false,
                                     'label' => '<i class="icon-reload"></i> ' . Yii::t('app', 'Ban IP'),
-                                    'url' => ['banlist/index','type'=>Banlist::TYPE_IP],
+                                    'url' => ['banlist/index', 'type' => Banlist::TYPE_IP],
                                 ],
                             ]
                         ],
@@ -156,17 +168,17 @@ $arrlang = array();
                 'options' => ['class' => "page-sidebar-menu  page-sidebar-fixed", 'data-keep-expanded' => "false", 'data-auto-scroll' => "true", 'data-slide-speed' => "200"],
                 'items' => $rightItems,
                 'activateParents' => true,
-                'validateAdminCallback' => function($user){
+                'validateAdminCallback' => function ($user) {
                     /**
                      * @var \yii\web\User $user
                      */
-                    if($user && isset($user->identity->username)){
+                    if ($user && isset($user->identity->username)) {
                         /**
                          * @var $sp_user User
                          */
                         $sp_user = $user->identity;
-                            return false;
-                    }else{
+                        return false;
+                    } else {
                         return false;
                     }
                 }

@@ -31,9 +31,9 @@ class KpiController extends Controller
     {
 
         $listForum = Forums::find()->andWhere('parent_id <> 0 ')->andWhere(['forum_status' => 0])->all();
-        if(empty($listForum)){
-            $this->errorLog(date('Y-m-d h:i:s').' SUCCESS! NOT HAVE FORUMS');
-            echo(date('Y-m-d h:i:s')." SUCCESS! NOT HAVE FORUMS\n");
+        if (empty($listForum)) {
+            $this->errorLog(date('Y-m-d h:i:s') . ' SUCCESS! NOT HAVE FORUMS');
+            echo(date('Y-m-d h:i:s') . " SUCCESS! NOT HAVE FORUMS\n");
         }
         foreach ($listForum as $forum) {
             /** @var  $forum Forums */
@@ -54,10 +54,10 @@ class KpiController extends Controller
                     $kpi_sum->updated_at = time();
                     $kpi_sum->type = KpiSum::TYPE_MAX_TOPIC;
                     $kpi_sum->status = KpiSum::STATUS_ACTIVE;
-                    if(!$kpi_sum->save(false)){
+                    if (!$kpi_sum->save(false)) {
                         $kpi_sum->getErrors();
-                        $this->errorLog(date('Y-m-d h:i:s').'ERROR! CANNOT SAVE PLEASE CHECK LOG');
-                        echo(date('Y-m-d h:i:s')." ERROR! CANNOT SAVE PLEASE CHECK LOG\n");
+                        $this->errorLog(date('Y-m-d h:i:s') . 'ERROR! CANNOT SAVE PLEASE CHECK LOG');
+                        echo(date('Y-m-d h:i:s') . " ERROR! CANNOT SAVE PLEASE CHECK LOG\n");
                     }
                 }
             } else {
@@ -69,16 +69,16 @@ class KpiController extends Controller
                 if ($kpi_sum) {
                     $kpi_sum->status = KpiSum::STATUS_INACTIVE;
                     $kpi_sum->updated_at = time();
-                    if(!$kpi_sum->save(false)){
+                    if (!$kpi_sum->save(false)) {
                         $kpi_sum->getErrors();
-                        $this->errorLog(date('Y-m-d h:i:s').'ERROR! CANNOT SAVE PLEASE CHECK LOG');
-                        echo(date('Y-m-d h:i:s')." ERROR! CANNOT SAVE PLEASE CHECK LOG\n");
+                        $this->errorLog(date('Y-m-d h:i:s') . 'ERROR! CANNOT SAVE PLEASE CHECK LOG');
+                        echo(date('Y-m-d h:i:s') . " ERROR! CANNOT SAVE PLEASE CHECK LOG\n");
                     }
                 }
             }
         }
-        $this->errorLog(date('Y-m-d h:i:s').' SUCCESS! KPI MAX TOPIC');
-        echo(date('Y-m-d h:i:s')." SUCCESS!  KPI\n");
+        $this->errorLog(date('Y-m-d h:i:s') . ' SUCCESS! KPI MAX TOPIC');
+        echo(date('Y-m-d h:i:s') . " SUCCESS!  KPI\n");
 
     }
 
@@ -88,9 +88,9 @@ class KpiController extends Controller
             ->andWhere('topic_status_display <> :status', [':status' => Topics::STATUS_INACTIVE])
             ->andWhere('topic_status_display <> :status_', [':status_' => Topics::STATUS_BLOCK])
             ->all();
-        if(empty($listTopics)){
-            $this->errorLog(date('Y-m-d h:i:s').' SUCCESS! NOT HAVE FORUMS');
-            echo(date('Y-m-d h:i:s')." SUCCESS! NOT HAVE FORUMS\n");
+        if (empty($listTopics)) {
+            $this->errorLog(date('Y-m-d h:i:s') . ' SUCCESS! NOT HAVE FORUMS');
+            echo(date('Y-m-d h:i:s') . " SUCCESS! NOT HAVE FORUMS\n");
         }
         foreach ($listTopics as $topic) {
             /** @var $topic Topics */
@@ -118,10 +118,10 @@ class KpiController extends Controller
                     $kpi_sum->status = KpiSum::STATUS_ACTIVE;
                     $kpi_sum->created_at = time();
                     $kpi_sum->updated_at = time();
-                    if(!$kpi_sum->save(false)){
+                    if (!$kpi_sum->save(false)) {
                         $kpi_sum->getErrors();
-                        $this->errorLog(date('Y-m-d h:i:s').'ERROR! CANNOT SAVE PLEASE CHECK LOG');
-                        echo(date('Y-m-d h:i:s')." ERROR! CANNOT SAVE PLEASE CHECK LOG\n");
+                        $this->errorLog(date('Y-m-d h:i:s') . 'ERROR! CANNOT SAVE PLEASE CHECK LOG');
+                        echo(date('Y-m-d h:i:s') . " ERROR! CANNOT SAVE PLEASE CHECK LOG\n");
                     }
                 }
             } else {
@@ -129,10 +129,10 @@ class KpiController extends Controller
                 if ($kpi_sum) {
                     $kpi_sum->status = KpiSum::STATUS_INACTIVE;
                     $kpi_sum->updated_at = time();
-                    if(!$kpi_sum->save(false)){
+                    if (!$kpi_sum->save(false)) {
                         $kpi_sum->getErrors();
-                        $this->errorLog(date('Y-m-d h:i:s').'ERROR! CANNOT SAVE PLEASE CHECK LOG');
-                        echo(date('Y-m-d h:i:s')." ERROR! CANNOT SAVE PLEASE CHECK LOG\n");
+                        $this->errorLog(date('Y-m-d h:i:s') . 'ERROR! CANNOT SAVE PLEASE CHECK LOG');
+                        echo(date('Y-m-d h:i:s') . " ERROR! CANNOT SAVE PLEASE CHECK LOG\n");
                     }
                 }
             }
@@ -148,10 +148,10 @@ class KpiController extends Controller
                     $kpi_sum->status = KpiSum::STATUS_ACTIVE;
                     $kpi_sum->created_at = time();
                     $kpi_sum->updated_at = time();
-                    if(!$kpi_sum->save(false)){
+                    if (!$kpi_sum->save(false)) {
                         $kpi_sum->getErrors();
-                        $this->errorLog(date('Y-m-d h:i:s').' ERROR! CANNOT SAVE PLEASE CHECK LOG');
-                        echo(date('Y-m-d h:i:s')." ERROR! CANNOT SAVE PLEASE CHECK LOG\n");
+                        $this->errorLog(date('Y-m-d h:i:s') . ' ERROR! CANNOT SAVE PLEASE CHECK LOG');
+                        echo(date('Y-m-d h:i:s') . " ERROR! CANNOT SAVE PLEASE CHECK LOG\n");
                     }
                 }
             } else {
@@ -159,18 +159,27 @@ class KpiController extends Controller
                 if ($kpi_sum) {
                     $kpi_sum->status = KpiSum::STATUS_INACTIVE;
                     $kpi_sum->updated_at = time();
-                    if(!$kpi_sum->save(false)){
+                    if (!$kpi_sum->save(false)) {
                         $kpi_sum->getErrors();
-                        $this->errorLog(date('Y-m-d h:i:s').' ERROR! CANNOT SAVE PLEASE CHECK LOG');
-                        echo(date('Y-m-d h:i:s')." ERROR! CANNOT SAVE PLEASE CHECK LOG\n");
+                        $this->errorLog(date('Y-m-d h:i:s') . ' ERROR! CANNOT SAVE PLEASE CHECK LOG');
+                        echo(date('Y-m-d h:i:s') . " ERROR! CANNOT SAVE PLEASE CHECK LOG\n");
                     }
                 }
             }
         }
-        $this->errorLog(date('Y-m-d h:i:s').' SUCCESS! KPI');
-        echo(date('Y-m-d h:i:s')." SUCCESS!  KPI NO ANSWER AND SLOW ANSWER \n");
+        $this->errorLog(date('Y-m-d h:i:s') . ' SUCCESS! KPI');
+        echo(date('Y-m-d h:i:s') . " SUCCESS!  KPI NO ANSWER AND SLOW ANSWER \n");
     }
 
+    public function kpiAnswerWrong()
+    {
+        $listPost = Posts::find()
+            ->innerJoin('phpbb_topics','phpbb_topics.topic_id = phpbb_posts.topic_id')
+            ->andWhere('phpbb_topics.topic_first_post_id <> phpbb_posts.post_id')
+            ->andWhere(['phpbb_posts.post_status_display' => Posts::STATUS_ANSWER_WRONG])
+            ->orderBy(['phpbb_posts.post_time'=>SORT_DESC]);
+
+    }
 
 
     public static function errorLog($txt)

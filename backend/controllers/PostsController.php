@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\models\KpiSum;
 use common\models\Posts;
 use common\models\PostsSearch;
 use Yii;
@@ -146,6 +147,23 @@ class PostsController extends Controller
             $feedbacksApprove = 0;
             foreach ($feedbacks as $feedback) {
                 if ($feedback->approve($status)) {
+                    if ($status == Posts::STATUS_ANSWER_WRONG) {
+                        $kpi_sum = new KpiSum();
+                        $kpi_sum->forum_id = $feedback->forum_id;
+                        $kpi_sum->topic_id = $feedback->topic_id;
+                        $kpi_sum->user_id = $feedback->poster_id;
+                        $kpi_sum->type = KpiSum::TYPE_ANSWER_WRONG;
+                        $kpi_sum->status = KpiSum::STATUS_ACTIVE;
+                        $kpi_sum->created_at = time();
+                        $kpi_sum->updated_at = time();
+                        $kpi_sum->post_id = $feedback->post_id;
+                        $kpi_sum->save(false);
+                    } elseif ($status == Posts::STATUS_ANSWER_RIGHT) {
+                        $kpi_sum = KpiSum::find()->andWhere(['forum_id' => $feedback->forum_id, 'topic_id' => $feedback->topic_id, 'post_id' => $feedback->post_id, 'type' => KpiSum::TYPE_ANSWER_WRONG])->one();
+                        if ($kpi_sum) {
+                            $kpi_sum->delete();
+                        }
+                    }
                     $feedbacksApprove++;
                 }
             }

@@ -55,6 +55,7 @@ class Posts extends \yii\db\ActiveRecord
 
     const STATUS_ANSWER_WRONG = 1;
     const STATUS_ANSWER_RIGHT = 2;
+    const STATUS_ANSWER_NEGATIVE = 3;
     const STATUS_ANSWER_APPROVE = 0;
 
 
@@ -83,6 +84,7 @@ class Posts extends \yii\db\ActiveRecord
             self::STATUS_ANSWER_RIGHT => Yii::t('app', 'Trả lời đúng'),
             self::STATUS_ANSWER_WRONG => Yii::t('app', 'Trả lời sai'),
             self::STATUS_ANSWER_APPROVE => Yii::t('app', 'Chưa duyệt'),
+            self::STATUS_ANSWER_NEGATIVE => Yii::t('app', 'Nội dung tiêu cực'),
 
         ];
         return $ls;
