@@ -12,7 +12,7 @@
                             <div class="row col-50-50 rebrandColumns">
                                 <div class="col col-50-50-c0 first rebrandColumn1" style="padding: 0px; min-height:418px; ">
                                     <div class="col-wrapper" style="padding: 0px; margin-right: 28px; min-height:418px;" >
-                                        <div style="padding: 0px; margin-left: 30px; margin-top: 30px;" >
+                                        <div style="padding: 50px; margin-left: 30px; margin-top: 30px;" >
                                             <form id="Login" name="Login" method="post" class="form" action="http://localhost/php-bb/ucp.php?mode=login" style="margin: 0px;">
                                                 <div class="row rebrandErrMsgContainerDiv">
 
@@ -60,55 +60,7 @@
                                                         <a id="forgotten_pw" href="https://id.telstra.com.au/forgottenPassword?gotoURL=https%3A%2F%2Fsignon.telstra.com%2Flogin%3Fgoto%3Dhttps%253A%252F%252Fsignon.telstra.com%252Ffederation%252Fsaml2%253FSPID%253Dhttp%253A%252F%252Fcrowd%252F%2526RelayState%253Dhttps%25253A%25252F%25252Fcrowdsupport.telstra.com.au%25252F">password</a>?
                                                     </p>
                                                 </div>
-                                                <hr style="margin-bottom: 23px; margin-top: 23px; padding: 0px; border: 1px solid #dddddd;">
                                             </form>
-
-                                            <div id="facebook">
-                                                <div>
-                                                    <a href="https://signon.telstra.com/federationManagement?fdp=FB&amp;fdm=CSUP&goto=https%3A%2F%2Fsignon.telstra.com%2Ffederation%2Fsaml2%3FSPID%3Dhttp%3A%2F%2Fcrowd%2F%26RelayState%3Dhttps%253A%252F%252Fcrowdsupport.telstra.com.au%252F"
-                                                       class="facebook-btn-new" title="Log in with Facebook"></a>
-
-                                                    <div class="facebook-privacy-disclaimer"  style="padding-left: 30px; margin-top: 10px;">
-                                                        Private and secure. No Telstra account details are shared with Facebook.
-                                                        <a href="http://crowdsupport.telstra.com.au/t5/Announcements/Log-in-to-My-Account-with-Facebook-is-here/ba-p/168598"
-                                                           target="_blank"
-                                                           class="link-underline bold-link login">See
-                                                            the benefits of logging in with Facebook</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col col-50-50-c1 last rebrandColumn2">
-                                    <div class="col-wrapper" style="padding: 0px; margin-left: 28px;">
-                                        <div class="parbase textimage imageModule section" style="height: 100%; width: 100%; margin: 0px; ">
-                                            <div class="standard row content transparent col-100" style="height: 100%; width: 100%;margin: 0px;">
-                                                <div class="col col-100-c0 first last">
-                                                    <div class="padding-bottom-grey-box small-top-margin-grey-box grid_7 right omega cf">
-                                                        <div style="min-height: 312px; border: 1px solid #ffffff">
-                                                            <h2 class="text-left colour sub-heading rebrandHeadingFont rebrandregisterheading">Reasons To Register Online</h2>
-                                                            <ul class="icons-register cf rebrandTextFont" style="padding-left: 0px;">
-                                                                <img src="https://www.telstra.com.au/content/dam/tcom/external/why-register/icon-check-usage.png"
-                                                                     style="width:35px;height:35px; margin-bottom: 10px;">&nbsp;Monitor your calls and data usage<br>
-                                                                <img src="https://www.telstra.com.au/content/dam/tcom/external/why-register/icon-billing.png"
-                                                                     style="width:35px;height:35px; margin-bottom: 10px;">&nbsp;View and pay your bills<br>
-                                                                <img src="https://www.telstra.com.au/content/dam/tcom/external/why-register/icon-recharge.png"
-                                                                     style="width:35px;height:35px; margin-bottom: 10px;">&nbsp;Manage your Telstra services<br>
-                                                                <img src="https://www.telstra.com.au/content/dam/tcom/external/why-register/icon-direct-debit.png"
-                                                                     style="width:35px;height:35px; margin-bottom: 10px;">&nbsp;Order product and services online<br>
-                                                                <img src="https://www.telstra.com.au/content/dam/tcom/external/why-register/icon-star.png"
-                                                                     style="width:35px;height:35px; margin-bottom: 10px;">&nbsp;Telstra Thanks&reg;<br>
-                                                            </ul>
-                                                        </div>
-                                                        <a href="https://id.telstra.com.au/register/crowdsupport?gotoURL=https%3A%2F%2Fsignon.telstra.com%2Flogin%3Fgoto%3Dhttps%253A%252F%252Fsignon.telstra.com%252Ffederation%252Fsaml2%253FSPID%253Dhttp%253A%252F%252Fcrowd%252F%2526furl%253Dhttps%25253A%25252F%25252Fcrowdsupport.telstra.com.au%25252F" class="btn secondary" title="Register now" track-des="MyAcctV2-LP-RegisterNow">Register now</a>
-                                                        </span>
-                                                    </div>
-                                                    <div>
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
