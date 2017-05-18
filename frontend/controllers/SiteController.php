@@ -100,7 +100,7 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        $this->layout='main-home';
+        $this->layout='main';
         return $this->render('index');
     }
 
