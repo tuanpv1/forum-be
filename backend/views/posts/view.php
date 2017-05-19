@@ -5,59 +5,45 @@ use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Posts */
+/* @var $cat_selected array */
+/* @var $imageProvider \yii\data\ArrayDataProvider */
 
-$this->title = $model->post_id;
-$this->params['breadcrumbs'][] = ['label' => 'Posts', 'url' => ['index']];
+$this->title = $model->post_subject;
+$this->params['breadcrumbs'][] = ['label' => 'Tag', 'url' => Yii::$app->urlManager->createUrl(['posts/index'])];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="posts-view">
+<p>
+    <?= Html::a('Cập nhật', ['update', 'id' => $model->post_id], ['class' => 'btn btn-primary']) ?>
+    <?= Html::a('Thêm mới',  Yii::$app->urlManager->createUrl(['posts/create']), ['class' => 'btn btn-primary']) ?>
 
-    <h1><?= Html::encode($this->title) ?></h1>
+</p>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-cogs font-green-sharp"></i>
+                    <span class="caption-subject font-green-sharp bold uppercase">Thông tin nội dung</span>
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
 
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->post_id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->post_id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+                <div class="tabbable-custom nav-justified">
+                    <ul class="nav nav-tabs nav-justified">
+                        <div class="tab-pane" id="tab_info">
+                            <?= $this->render('_detail', [
+                                'model' => $model,
+                            ]) ?>
+                        </div>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'post_id',
-            'topic_id',
-            'forum_id',
-            'poster_id',
-            'icon_id',
-            'poster_ip',
-            'post_time',
-            'post_reported',
-            'enable_bbcode',
-            'enable_smilies',
-            'enable_magic_url:url',
-            'enable_sig',
-            'post_username',
-            'post_subject',
-            'post_text:ntext',
-            'post_checksum',
-            'post_attachment',
-            'bbcode_bitfield',
-            'bbcode_uid',
-            'post_postcount',
-            'post_edit_time',
-            'post_edit_reason',
-            'post_edit_user',
-            'post_edit_count',
-            'post_edit_locked',
-            'post_visibility',
-            'post_delete_time',
-            'post_delete_reason',
-            'post_delete_user',
-        ],
-    ]) ?>
+                    </ul>
+                </div>
+            </div>
 
+        </div>
+    </div>
 </div>
