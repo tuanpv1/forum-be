@@ -6,7 +6,7 @@
  * https://blueimp.net
  *
  * Licensed under the MIT license:
- * https://opensource.org/licenses/MIT
+ * http://www.opensource.org/licenses/MIT
  */
 
 /* jshint nomen:false */
@@ -201,8 +201,8 @@
         // The FileUploadController initializes the fileupload widget and
         // provides scope methods to control the File Upload functionality:
         .controller('FileUploadController', [
-            '$scope', '$element', '$attrs', '$window', 'fileUpload','$q',
-            function ($scope, $element, $attrs, $window, fileUpload, $q) {
+            '$scope', '$element', '$attrs', '$window', 'fileUpload',
+            function ($scope, $element, $attrs, $window, fileUpload) {
                 var uploadMethods = {
                     progress: function () {
                         return $element.fileupload('progress');
@@ -264,21 +264,19 @@
                 $scope.applyOnQueue = function (method) {
                     var list = this.queue.slice(0),
                         i,
-                        file,
-                        promises = [];
+                        file;
                     for (i = 0; i < list.length; i += 1) {
                         file = list[i];
                         if (file[method]) {
-                            promises.push(file[method]());
+                            file[method]();
                         }
                     }
-                    return $q.all(promises);
                 };
                 $scope.submit = function () {
-                    return this.applyOnQueue('$submit');
+                    this.applyOnQueue('$submit');
                 };
                 $scope.cancel = function () {
-                    return this.applyOnQueue('$cancel');
+                    this.applyOnQueue('$cancel');
                 };
                 // Add upload methods to the scope:
                 angular.extend($scope, uploadMethods);

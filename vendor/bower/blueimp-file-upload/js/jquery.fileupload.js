@@ -6,7 +6,7 @@
  * https://blueimp.net
  *
  * Licensed under the MIT license:
- * https://opensource.org/licenses/MIT
+ * http://www.opensource.org/licenses/MIT
  */
 
 /* jshint nomen:false */
@@ -18,7 +18,7 @@
         // Register as an anonymous AMD module:
         define([
             'jquery',
-            'jquery-ui/ui/widget'
+            'jquery-ui/widget'
         ], factory);
     } else if (typeof exports === 'object') {
         // Node/CommonJS:

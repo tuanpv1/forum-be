@@ -11,62 +11,59 @@ class SizeValidatorTest extends \PHPUnit_Framework_TestCase
 	protected $validator;
 	protected $file;
 
-    protected function setUp()
-    {
-        $this->directory = __DIR__ . '/../../fixtures/';
+	protected function setUp()
+	{
+		$this->directory = dirname(dirname(dirname(__DIR__))) . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR;
 
-        $_FILES['file'] = array(
-            "name" => "real-image.jpg",
-            "tmp_name" => $this->directory . 'real-image.jpg',
-            "size" => 12,
-            "error" => 0
-        );
-    }
+		$_FILES['file'] = array(
+			"name" => "real-image.jpg",
+			"tmp_name" => $this->directory . 'real-image.jpg',
+			"size" => 11.3,
+			"error" => 0
+		);
 
+		$this->file = new File();
+	}
 
-    public function testNumericMaxSize()
+	public function testNumericMaxSize()
 	{
 		$this->validator = new SizeValidator(pow(1024, 3));
 
-        $file = new File($_FILES['file']['tmp_name']);
+		$this->file->size = 3499.4;
 
-        $this->assertTrue($this->validator->validate($file, $_FILES['file']['size']));
+		$this->assertTrue($this->validator->validate($this->file, $_FILES['file']['size']));
 	}
 
 	public function testBetweenMinAndMaxSize()
 	{
 
-		$this->validator = new SizeValidator("40K", "10K");
+		$this->validator = new SizeValidator("40KB", "10KB");
+		$this->file->size = 30.3;
 
-        $file = new File($_FILES['file']['tmp_name']);
-
-        $this->assertTrue($this->validator->validate($file, $_FILES['file']['size']));
+		$this->assertTrue($this->validator->validate($this->file, $_FILES['file']['size']));
 	}
 
 
 	public function testFileSizeTooLarge()
 	{
-		$this->validator = new SizeValidator("20K", 10);
+		$this->validator = new SizeValidator("20KB", 10);
+		$this->file->size = 30.3;
 
-        $file = new File($_FILES['file']['tmp_name']);
-
-        $this->assertFalse($this->validator->validate($file, $_FILES['file']['size']));
+		$this->assertFalse($this->validator->validate($this->file), $_FILES['file']['size']);
 	}
 
 	public function testFileSizeTooSmall()
 	{
-		$this->validator = new SizeValidator("1M", "50k");
+		$this->validator = new SizeValidator("1M", "40KB");
+		$this->file->size = 30.3;
 
-        $file = new File($_FILES['file']['tmp_name']);
-
-        $this->assertFalse($this->validator->validate($file, $_FILES['file']['size']));
+		$this->assertFalse($this->validator->validate($this->file), $_FILES['file']['size']);
 	}
 
 	public function testSetMaximumErrorMessages()
 	{
-		$this->validator = new SizeValidator("29K", "10K");
-
-        $file = new File($_FILES['file']['tmp_name']);
+		$this->validator = new SizeValidator("40KB", "10KB");
+		$this->file->size = 50;
 
 		$fileTooLarge = "Too Large";
 
@@ -74,16 +71,15 @@ class SizeValidatorTest extends \PHPUnit_Framework_TestCase
 			0 => $fileTooLarge
 		));
 
-		$this->assertFalse($this->validator->validate($file, $_FILES['file']['size']));
+		$this->validator->validate($this->file, $_FILES['file']['size']);
 
-		$this->assertEquals($fileTooLarge, $file->error);
+		$this->assertEquals($fileTooLarge, $this->file->error);
 	}
 
 	public function testSetMinimumErrorMessages()
 	{
-		$this->validator = new SizeValidator("40K", "35K");
-
-        $file = new File($_FILES['file']['tmp_name']);
+		$this->validator = new SizeValidator("40KB", "35KB");
+		$this->file->size = $_FILES['file']['size'];
 
 		$fileTooSmall = "Too Small";
 
@@ -91,9 +87,10 @@ class SizeValidatorTest extends \PHPUnit_Framework_TestCase
 			1 => $fileTooSmall
 		));
 
-		$this->assertFalse($this->validator->validate($file, $_FILES['file']['size']));
 
-		$this->assertEquals($fileTooSmall, $file->error);
+		$this->validator->validate($this->file, $_FILES['file']['size']);
+
+		$this->assertEquals($fileTooSmall, $this->file->error);
 	}
 
 	/**
@@ -103,6 +100,10 @@ class SizeValidatorTest extends \PHPUnit_Framework_TestCase
 	public function testInvalidMaximumFileSize()
 	{
 		$this->validator = new SizeValidator("40A", 3);
+
+		$this->file->size = $_FILES['file']['size'];
+
+		$this->validator->validate($this->file, $_FILES['file']['size']);
 	}
 
 	/**
@@ -111,7 +112,11 @@ class SizeValidatorTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testInvalidMinimumFilesSize()
 	{
-		$this->validator = new SizeValidator("40K", "-3");
+		$this->validator = new SizeValidator("40KB", "-3");
+
+		$this->file->size = $_FILES['file']['size'];
+
+		$this->validator->validate($this->file, $_FILES['file']['size']);
 	}
 
 }

@@ -49,10 +49,9 @@ use yii\authclient\ClientInterface;
  * ```
  *
  * This widget supports following keys for [[ClientInterface::getViewOptions()]] result:
- *
- *  - popupWidth: int, width of the popup window in pixels.
- *  - popupHeight: int, height of the popup window in pixels.
- *  - widget: array, configuration for the widget, which should be used to render a client link;
+ *  - popupWidth - integer width of the popup window in pixels.
+ *  - popupHeight - integer height of the popup window in pixels.
+ *  - widget - configuration for the widget, which should be used to render a client link;
  *    such widget should be a subclass of [[AuthChoiceItem]].
  *
  * @see \yii\authclient\AuthAction
@@ -85,11 +84,11 @@ class AuthChoice extends Widget
      */
     public $clientOptions = [];
     /**
-     * @var bool indicates if popup window should be used instead of direct links.
+     * @var boolean indicates if popup window should be used instead of direct links.
      */
     public $popupMode = true;
     /**
-     * @var bool indicates if widget content, should be rendered automatically.
+     * @var boolean indicates if widget content, should be rendered automatically.
      * Note: this value automatically set to 'false' at the first call of [[createClientUrl()]]
      */
     public $autoRender = true;
@@ -262,7 +261,7 @@ class AuthChoice extends Widget
             } else {
                 $options = Json::htmlEncode($this->clientOptions);
             }
-            $view->registerJs("jQuery('#" . $this->getId() . "').authchoice({$options});");
+            $view->registerJs("\$('#" . $this->getId() . "').authchoice({$options});");
         } else {
             AuthChoiceStyleAsset::register($view);
         }

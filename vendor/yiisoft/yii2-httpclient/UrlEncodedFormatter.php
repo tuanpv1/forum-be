@@ -19,7 +19,7 @@ use yii\base\Object;
 class UrlEncodedFormatter extends Object implements FormatterInterface
 {
     /**
-     * @var int URL encoding type.
+     * @var integer URL encoding type.
      * Possible values are:
      *  - PHP_QUERY_RFC1738 - encoding is performed per 'RFC 1738' and the 'application/x-www-form-urlencoded' media type,
      *    which implies that spaces are encoded as plus (+) signs. This is most common encoding type used by most web
@@ -45,11 +45,10 @@ class UrlEncodedFormatter extends Object implements FormatterInterface
 
         if (strcasecmp('get', $request->getMethod()) === 0) {
             if (!empty($content)) {
-                $request->setFullUrl(null);
-                $url = $request->getFullUrl();
+                $url = $request->getUrl();
                 $url .= (strpos($url, '?') === false) ? '?' : '&';
                 $url .= $content;
-                $request->setFullUrl($url);
+                $request->setUrl($url);
             }
             return $request;
         }

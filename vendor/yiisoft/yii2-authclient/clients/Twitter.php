@@ -35,7 +35,8 @@ use yii\authclient\OAuth1;
  * ]
  * ```
  *
- * @see https://apps.twitter.com/
+ * @see https://dev.twitter.com/apps/new
+ * @see https://dev.twitter.com/docs/api
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0

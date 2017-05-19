@@ -12,11 +12,11 @@ use yii\base\Object;
 /**
  * Token represents OAuth token.
  *
- * @property int $expireDuration Token expiration duration. Note that the type of this property differs in
+ * @property integer $expireDuration Token expiration duration. Note that the type of this property differs in
  * getter and setter. See [[getExpireDuration()]] and [[setExpireDuration()]] for details.
  * @property string $expireDurationParamKey Expire duration param key.
- * @property bool $isExpired Is token expired. This property is read-only.
- * @property bool $isValid Is token valid. This property is read-only.
+ * @property boolean $isExpired Is token expired. This property is read-only.
+ * @property boolean $isValid Is token valid. This property is read-only.
  * @property array $params This property is read-only.
  * @property string $token Token value.
  * @property string $tokenSecret Token secret value.
@@ -35,7 +35,7 @@ class OAuthToken extends Object
      */
     public $tokenSecretParamKey = 'oauth_token_secret';
     /**
-     * @var int object creation timestamp.
+     * @var integer object creation timestamp.
      */
     public $createTimestamp;
 
@@ -164,7 +164,7 @@ class OAuthToken extends Object
 
     /**
      * Returns the token expiration duration.
-     * @return int token expiration duration.
+     * @return integer token expiration duration.
      */
     public function getExpireDuration()
     {
@@ -190,7 +190,7 @@ class OAuthToken extends Object
 
     /**
      * Checks if token has expired.
-     * @return bool is token expired.
+     * @return boolean is token expired.
      */
     public function getIsExpired()
     {
@@ -204,7 +204,7 @@ class OAuthToken extends Object
 
     /**
      * Checks if token is valid.
-     * @return bool is token valid.
+     * @return boolean is token valid.
      */
     public function getIsValid()
     {
