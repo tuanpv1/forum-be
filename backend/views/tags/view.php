@@ -5,35 +5,45 @@ use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Tags */
+/* @var $cat_selected array */
+/* @var $imageProvider \yii\data\ArrayDataProvider */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Tags', 'url' => ['index']];
+$this->title = $model->tag;
+$this->params['breadcrumbs'][] = ['label' => 'Tag', 'url' => Yii::$app->urlManager->createUrl(['tags/index'])];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="tags-view">
+<p>
+    <?= Html::a('Cập nhật', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+    <?= Html::a('Thêm mới',  Yii::$app->urlManager->createUrl(['tags/create']), ['class' => 'btn btn-primary']) ?>
 
-    <h1><?= Html::encode($this->title) ?></h1>
+</p>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-cogs font-green-sharp"></i>
+                    <span class="caption-subject font-green-sharp bold uppercase">Thông tin nội dung</span>
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
 
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+                <div class="tabbable-custom nav-justified">
+                    <ul class="nav nav-tabs nav-justified">
+                        <div class="tab-pane" id="tab_info">
+                            <?= $this->render('_detail', [
+                                'model' => $model,
+                            ]) ?>
+                        </div>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'tag',
-            'count',
-            'tag_lowercase',
-            'tag_status',
-        ],
-    ]) ?>
+                    </ul>
+                </div>
+            </div>
 
+        </div>
+    </div>
 </div>

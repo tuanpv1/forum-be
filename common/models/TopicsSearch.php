@@ -68,8 +68,13 @@ class TopicsSearch extends Topics
         }
         // add conditions that should always apply here
 
+        $orderDefault = [];
+        $orderDefault['topic_id'] = SORT_DESC;
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => $orderDefault,
+            ],
         ]);
 
         $this->load($params);
@@ -126,7 +131,7 @@ class TopicsSearch extends Topics
             $query->innerJoin('phpbb_forums', 'phpbb_forums.forum_id = phpbb_topics.forum_id')
                 ->andWhere(['like', "LOWER(forum_name)", strtolower($this->forum_name)]);
         }
-        $query->orderBy(['topic_id' => SORT_DESC]);
+//        $query->orderBy(['topic_id' => SORT_DESC]);
         return $dataProvider;
     }
 }

@@ -45,8 +45,13 @@ class TagsSearch extends Tags
 
         // add conditions that should always apply here
 
+        $orderDefault = [];
+        $orderDefault['id'] = SORT_DESC;
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => $orderDefault,
+            ],
         ]);
 
         $this->load($params);

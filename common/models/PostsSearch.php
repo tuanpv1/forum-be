@@ -5,7 +5,6 @@ namespace common\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Posts;
 
 /**
  * PostsSearch represents the model behind the search form about `common\models\Posts`.
@@ -18,7 +17,7 @@ class PostsSearch extends Posts
     public function rules()
     {
         return [
-            [['post_id', 'topic_id', 'forum_id', 'poster_id', 'icon_id', 'post_time', 'post_reported', 'enable_bbcode', 'enable_smilies', 'enable_magic_url', 'enable_sig', 'post_attachment', 'post_postcount', 'post_edit_time', 'post_edit_user', 'post_edit_count', 'post_edit_locked', 'post_visibility', 'post_delete_time', 'post_delete_user','post_status_display'], 'integer'],
+            [['post_id', 'topic_id', 'forum_id', 'poster_id', 'icon_id', 'post_time', 'post_reported', 'enable_bbcode', 'enable_smilies', 'enable_magic_url', 'enable_sig', 'post_attachment', 'post_postcount', 'post_edit_time', 'post_edit_user', 'post_edit_count', 'post_edit_locked', 'post_visibility', 'post_delete_time', 'post_delete_user', 'post_status_display'], 'integer'],
             [['poster_ip', 'post_username', 'post_subject', 'post_text', 'post_checksum', 'bbcode_bitfield', 'bbcode_uid', 'post_edit_reason', 'post_delete_reason'], 'safe'],
         ];
     }
@@ -53,8 +52,8 @@ class PostsSearch extends Posts
             }
         }
 
-        $query = Posts::find()->innerJoin('phpbb_topics','phpbb_topics.topic_id = phpbb_posts.topic_id')
-        ->andWhere('phpbb_topics.topic_first_post_id <> phpbb_posts.post_id');
+        $query = Posts::find()->innerJoin('phpbb_topics', 'phpbb_topics.topic_id = phpbb_posts.topic_id')
+            ->andWhere('phpbb_topics.topic_first_post_id <> phpbb_posts.post_id');
 
         if (!in_array(ConstGeneral::ADMIN_ID, ConstGeneral::checkPermissionUserGroup($user_id))) {
             if (is_array($array_forum_id) && $array_forum_id != null) {
@@ -65,9 +64,13 @@ class PostsSearch extends Posts
         }
 
         // add conditions that should always apply here
-
+        $orderDefault = [];
+        $orderDefault['topic_id'] = SORT_DESC;
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => $orderDefault,
+            ],
         ]);
 
         $this->load($params);
@@ -95,7 +98,7 @@ class PostsSearch extends Posts
         $query->andFilterWhere(['like', 'post_username', $this->post_username])
             ->andFilterWhere(['like', 'post_subject', $this->post_subject])
             ->andFilterWhere(['like', 'post_text', $this->post_text]);
-        $query->orderBy(['topic_id'=>SORT_DESC]);
+//        $query->orderBy(['topic_id'=>SORT_DESC]);
         return $dataProvider;
     }
 }

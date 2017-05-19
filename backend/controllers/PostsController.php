@@ -37,18 +37,6 @@ class PostsController extends Controller
      */
     public function actionIndex()
     {
-        if (isset($_POST['hasEditable'])) {
-            // read your posted model attributes
-            $post = Yii::$app->request->post();
-            if ($post['editableKey']) {
-                // read or convert your posted information
-
-            } // else if nothing to do always return an empty JSON encoded output
-            else {
-                echo \yii\helpers\Json::encode(['output' => '', 'message' => '']);
-            }
-            return;
-        }
         $searchModel = new PostsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 

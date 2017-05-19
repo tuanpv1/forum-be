@@ -2,12 +2,13 @@
 
 namespace backend\controllers;
 
-use Yii;
 use common\models\Tags;
 use common\models\TagsSearch;
+use kartik\form\ActiveForm;
+use Yii;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 use yii\web\Response;
 
 /**
@@ -66,14 +67,27 @@ class TagsController extends Controller
     public function actionCreate()
     {
         $model = new Tags();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        $model->loadDefaultValues();
+        $model->setScenario('adminModify');
+        $post = Yii::$app->request->post();
+        if (Yii::$app->request->isAjax && isset($post['ajax']) && $model->load($post)) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
         }
+        if ($model->load(Yii::$app->request->post())) {
+            $model->tag = preg_replace('/\s+/', '-', $model->tag);
+            $model->tag_lowercase = strtolower(preg_replace('/\s+/', '-', $model->tag));
+            if ($model->save()) {
+                \Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Thêm mới tags thành công'));
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                Yii::info($model->getErrors());
+                \Yii::$app->getSession()->setFlash('error', Yii::t('app', 'Thêm mới tag thất bại'));
+            }
+        }
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**
