@@ -138,7 +138,7 @@ class Posts extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['topic_id', 'forum_id', 'poster_id', 'icon_id', 'post_time', 'post_reported', 'enable_bbcode', 'enable_smilies', 'enable_magic_url', 'enable_sig', 'post_attachment', 'post_postcount', 'post_edit_time', 'post_edit_user', 'post_edit_count', 'post_edit_locked', 'post_visibility', 'post_delete_time', 'post_delete_user', 'post_status_display'], 'integer'],
+            [['topic_id', 'post_id', 'forum_id', 'poster_id', 'icon_id', 'post_time', 'post_reported', 'enable_bbcode', 'enable_smilies', 'enable_magic_url', 'enable_sig', 'post_attachment', 'post_postcount', 'post_edit_time', 'post_edit_user', 'post_edit_count', 'post_edit_locked', 'post_visibility', 'post_delete_time', 'post_delete_user', 'post_status_display'], 'integer'],
             [['post_text'], 'required'],
             [['post_text'], 'string'],
             [['poster_ip'], 'string', 'max' => 40],
