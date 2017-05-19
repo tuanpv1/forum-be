@@ -77,7 +77,7 @@ class Topics extends \yii\db\ActiveRecord
         $ls = [
             self::STATUS_INACTIVE => Yii::t('app', 'Chưa duyệt'),
             self::STATUS_NEW_POST => Yii::t('app', 'Mới post'),
-            self::STATUS_IN_PROCESS => Yii::t('app', "Đang xử lý"),
+            self::STATUS_IN_PROCESS => Yii::t('app', "Đã xử lý"),
             self::STATUS_ANSWERED => Yii::t('app', "Đang giải quyết"),
             self::STATUS_UNANSWERED => Yii::t('app', "Chưa trả lời"),
             self::STATUS_BLOCK => Yii::t('app', "Khóa")

@@ -57,20 +57,7 @@ class TopicsController extends Controller
      */
     public function actionIndex()
     {
-        if (isset($_POST['hasEditable'])) {
-            // read your posted model attributes
-            $post = Yii::$app->request->post();
-            if ($post['editableKey']) {
-                // read or convert your posted information
-                $feedback = Topics::findOne($post['editableKey']);
-                $index = $post['editableIndex'];
 
-            } // else if nothing to do always return an empty JSON encoded output
-            else {
-                echo \yii\helpers\Json::encode(['output' => '', 'message' => '']);
-            }
-            return;
-        }
         $searchModel = new TopicsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -291,28 +278,28 @@ class TopicsController extends Controller
     }
 
     public function actionApprove()
-    {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        $post = Yii::$app->request->post();
-        if (isset($post['ids'])) {
-            $ids = $post['ids'];
-            $status = $post['status'];
-            $feedbacks = Topics::findAll($ids);
-            $feedbacksApprove = 0;
-            foreach ($feedbacks as $feedback) {
-                if ($feedback->approve($status)) {
-                    $feedbacksApprove++;
-                }
+{
+    Yii::$app->response->format = Response::FORMAT_JSON;
+    $post = Yii::$app->request->post();
+    if (isset($post['ids'])) {
+        $ids = $post['ids'];
+        $status = $post['status'];
+        $feedbacks = Topics::findAll($ids);
+        $feedbacksApprove = 0;
+        foreach ($feedbacks as $feedback) {
+            if ($feedback->approve($status)) {
+                $feedbacksApprove++;
             }
-            return [
-                'success' => true,
-                'message' => "Duyệt " . $feedbacksApprove . " Chủ đề thành công!"
-            ];
-        } else {
-            return [
-                'success' => false,
-                'message' => 'Không tìm thấy Chủ đề trên hệ thống'
-            ];
         }
+        return [
+            'success' => true,
+            'message' => "Duyệt " . $feedbacksApprove . " Chủ đề thành công!"
+        ];
+    } else {
+        return [
+            'success' => false,
+            'message' => 'Không tìm thấy Chủ đề trên hệ thống'
+        ];
     }
+}
 }

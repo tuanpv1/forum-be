@@ -1,8 +1,7 @@
 <?php
 
 use common\helpers\CUtils;
-use common\models\Forums;
-use common\models\Topics;
+use common\models\Tags;
 use yii\helpers\Html;
 use kartik\grid\GridView;
 
@@ -10,7 +9,7 @@ use kartik\grid\GridView;
 /* @var $searchModel common\models\TopicsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Chủ đề';
+$this->title = 'Tags';
 $this->params['breadcrumbs'][] = '/ '.$this->title;
 
 \common\assets\ToastAsset::register($this);
@@ -21,14 +20,14 @@ $this->params['breadcrumbs'][] = '/ '.$this->title;
 
 
 <?php
-$approveUrl = \yii\helpers\Url::to(['topics/approve']);
+$approveUrl = \yii\helpers\Url::to(['tags/approve']);
 
 
 $js = <<<JS
-    function approveTopics(status){
-    feedbacks = $("#topic-index-grid").yiiGridView("getSelectedRows");
+    function approveTags(status){
+    feedbacks = $("#tags-index-grid").yiiGridView("getSelectedRows");
     if(feedbacks.length <= 0){
-    alert("Chưa chọn chủ đề! Xin vui lòng chọn ít nhất một chủ đề để duyệt.");
+    alert("Chưa chọn tag! Xin vui lòng chọn ít nhất một tag để duyệt.");
     return;
     }
 
@@ -42,7 +41,7 @@ $js = <<<JS
     .done(function(result) {
     if(result.success){
     toastr.success(result.message);
-    jQuery.pjax.reload({container:'#topic-index-grid'});
+    jQuery.pjax.reload({container:'#tags-index-grid'});
     }else{
     toastr.error(result.message);
     }
@@ -72,100 +71,72 @@ $this->registerJs($js, \yii\web\View::POS_END);
             </div>
             <div class="portlet-body">
                 <p>
-                    <?php  echo Html::a("Tạo chủ đề ", Yii::$app->urlManager->createUrl(['/topics/create']), ['class' => 'btn btn-primary']) ?>
+                    <?php  echo Html::a("Tạo tag mới ", Yii::$app->urlManager->createUrl(['/tags/create']), ['class' => 'btn btn-primary']) ?>
                 </p>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
-                    'id' => 'topic-index-grid',
+                    'id' => 'tags-index-grid',
                     'responsive' => true,
                     'pjax' => true,
                     'panel' => [
                         'type' => GridView::TYPE_PRIMARY,
-                        'heading' => 'Danh sách chủ đề'
+                        'heading' => 'Danh sách tags'
                     ],
                     'toolbar' => [
                         [
                             'content' =>
-                                Html::button('<i class="glyphicon glyphicon-ok"></i> Mới Post', [
+                                Html::button('<i class="glyphicon glyphicon-ok"></i> Hiển thị', [
                                     'type' => 'button',
                                     'title' => 'Mới Post',
                                     'class' => 'btn btn-success',
-                                    'onclick' => 'approveTopics('.Topics::STATUS_NEW_POST.');'
+                                    'onclick' => 'approveTags('.Tags::STATUS_ACTIVE.');'
                                 ])
 
                         ],
                         [
                             'content' =>
-                                Html::button('<i class="glyphicon glyphicon-refresh"></i>Đã xử lý', [
+                                Html::button('<i class="glyphicon glyphicon-transfer"></i>Khóa', [
                                     'type' => 'button',
-                                    'title' => 'Đã xử lý',
-                                    'class' => 'btn btn-info',
-                                    'onclick' => 'approveTopics('.Topics::STATUS_IN_PROCESS.');'
-                                ])
-
-                        ],
-                        [
-                            'content' =>
-                                Html::button('<i class="glyphicon glyphicon-transfer"></i> Đang giải quyết', [
-                                    'type' => 'button',
-                                    'title' => 'Đang giải quyết',
-                                    'class' => 'btn btn-primary',
-                                    'onclick' => 'approveTopics('.Topics::STATUS_ANSWERED.');'
-                                ])
-
-                        ],
-                        [
-                            'content' =>
-                                Html::button('<i class="glyphicon glyphicon-exclamation-sign"></i> Chưa trả lời', [
-                                    'type' => 'button',
-                                    'title' => 'Chưa trả lời',
+                                    'title' => 'Đang xử lý',
                                     'class' => 'btn btn-danger',
-                                    'onclick' => 'approveTopics('.Topics::STATUS_UNANSWERED.');'
+                                    'onclick' => 'approveTags('.Tags::STATUS_BLOCK.');'
                                 ])
 
                         ],
-
                     ],
                     'columns' => [
                         ['class' => 'yii\grid\SerialColumn'],
                         [
                             'class' => '\kartik\grid\DataColumn',
-                            'attribute'=>'topic_title',
+                            'attribute'=>'tag',
                             'value' => function ($model, $key, $index, $widget) {
-                                return CUtils::substr($model->topic_title, 50);
+                                return CUtils::substr($model->tag, 30);
                             }
                         ],
                         [
                             'class' => '\kartik\grid\DataColumn',
-                            'attribute'=>'forum_name',
+                            'attribute'=>'count',
                             'value' => function ($model, $key, $index, $widget) {
-                                return CUtils::substr(Forums::findOne(['forum_id'=>$model->forum_id])->forum_name, 50);
+                                return $model->count;
                             }
                         ],
                         [
-                            'attribute' => 'topic_status_display',
+                            'attribute' => 'tag_status',
                             'class' => '\kartik\grid\DataColumn',
                             'width'=>'200px',
                             'value' => function ($model, $key, $index, $widget) {
                                 /**
-                                 * @var $model Topics
+                                 * @var $model Tags
                                  */
                                 return $model->getStatusName();
                             },
                             'filterType' => GridView::FILTER_SELECT2,
-                            'filter' => Topics::getStatus(),
+                            'filter' => Tags::getStatus(),
                             'filterWidgetOptions' => [
                                 'pluginOptions' => ['allowClear' => true],
                             ],
                             'filterInputOptions' => ['placeholder' => Yii::t('app', 'Tất cả')],
-                        ],
-                        [
-                            'class' => '\kartik\grid\DataColumn',
-                            'attribute'=>'topic_last_post_time',
-                            'value' => function ($model, $key, $index, $widget) {
-                                return date('d/m/Y H:i:s', $model->topic_last_post_time);
-                            }
                         ],
                         ['class' => 'kartik\grid\ActionColumn',
                             'template'=>'{view}{update}',

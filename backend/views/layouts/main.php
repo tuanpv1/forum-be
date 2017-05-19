@@ -124,6 +124,11 @@ $arrlang = array();
                             'label' => '<i class="glyphicon glyphicon-comment"></i> ' . Yii::t('app', 'Bình luận'),
                             'url' => ['posts/index']
                         ],
+                        [
+                            'encode' => false,
+                            'label' => '<i class="glyphicon glyphicon-comment"></i> ' . Yii::t('app', 'Quản lý tags'),
+                            'url' => ['tags/index']
+                        ],
                     ]
                 ],
                 [
