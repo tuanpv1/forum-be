@@ -36,7 +36,7 @@ abstract class BaseMethod extends Object
      * @param string $signature signature to be verified.
      * @param string $baseString signature base string.
      * @param string $key signature key.
-     * @return bool success.
+     * @return boolean success.
      */
     public function verify($signature, $baseString, $key)
     {

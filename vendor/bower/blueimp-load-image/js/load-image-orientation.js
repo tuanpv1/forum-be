@@ -6,7 +6,7 @@
  * https://blueimp.net
  *
  * Licensed under the MIT license:
- * https://opensource.org/licenses/MIT
+ * http://www.opensource.org/licenses/MIT
  */
 
 /* global define */
@@ -15,13 +15,9 @@
   'use strict'
   if (typeof define === 'function' && define.amd) {
     // Register as an anonymous AMD module:
-    define(['./load-image', './load-image-scale', './load-image-meta'], factory)
+    define(['./load-image'], factory)
   } else if (typeof module === 'object' && module.exports) {
-    factory(
-      require('./load-image'),
-      require('./load-image-scale'),
-      require('./load-image-meta')
-    )
+    factory(require('./load-image'))
   } else {
     // Browser globals:
     factory(window.loadImage)
@@ -42,7 +38,7 @@
 
   // Determines if meta data should be loaded automatically:
   loadImage.hasMetaOption = function (options) {
-    return options && options.orientation === true ||
+    return options.orientation === true ||
       originalHasMetaOption.call(loadImage, options)
   }
 

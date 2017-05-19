@@ -13,7 +13,7 @@ use yii\helpers\FileHelper;
 /**
  * Request represents HTTP request.
  *
- * @property string $fullUrl Full target URL.
+ * @property string $fullUrl Full target URL. This property is read-only.
  * @property string $method Request method.
  * @property array $options Request options. This property is read-only.
  * @property string|array $url Target URL or URL parameters.
@@ -49,7 +49,7 @@ class Request extends Message
      */
     private $_options = [];
     /**
-     * @var bool whether request object has been prepared for sending or not.
+     * @var boolean whether request object has been prepared for sending or not.
      * @see prepare()
      */
     private $isPrepared = false;
@@ -75,18 +75,6 @@ class Request extends Message
     public function getUrl()
     {
         return $this->_url;
-    }
-
-    /**
-     * Sets full target URL.
-     * This method can be use during request formatting and preparation.
-     * Do not use it for the target URL specification, use [[setUrl()]] instead.
-     * @param string $fullUrl full target URL.
-     * @since 2.0.3
-     */
-    public function setFullUrl($fullUrl)
-    {
-        $this->_fullUrl = $fullUrl;
     }
 
     /**
@@ -121,13 +109,13 @@ class Request extends Message
 
     /**
      * Following options are supported:
-     * - timeout: int, the maximum number of seconds to allow request to be executed.
+     * - timeout: integer, the maximum number of seconds to allow request to be executed.
      * - proxy: string, URI specifying address of proxy server. (e.g. tcp://proxy.example.com:5100).
      * - userAgent: string, the contents of the "User-Agent: " header to be used in a HTTP request.
-     * - followLocation: bool, whether to follow any "Location: " header that the server sends as part of the HTTP header.
-     * - maxRedirects: int, the max number of redirects to follow.
+     * - followLocation: boolean, whether to follow any "Location: " header that the server sends as part of the HTTP header.
+     * - maxRedirects: integer, the max number of redirects to follow.
      * - protocolVersion: float|string, HTTP protocol version.
-     * - sslVerifyPeer: bool, whether verification of the peer's certificate should be performed.
+     * - sslVerifyPeer: boolean, whether verification of the peer's certificate should be performed.
      * - sslCafile: string, location of Certificate Authority file on local filesystem which should be used with
      *   the 'sslVerifyPeer' option to authenticate the identity of the remote peer.
      * - sslCapath: string, a directory that holds multiple CA certificates.
@@ -160,41 +148,8 @@ class Request extends Message
      */
     public function addOptions(array $options)
     {
-        // `array_merge()` will produce invalid result for cURL options,
-        // while `ArrayHelper::merge()` is unable to override cURL options
-        foreach ($options as $key => $value) {
-            if (is_array($value) && isset($this->_options[$key])) {
-                $value = ArrayHelper::merge($this->_options[$key], $value);
-            }
-            $this->_options[$key] = $value;
-        }
+        $this->options = ArrayHelper::merge($this->options, $options); // `array_merge()` will produce invalid result for cURL options
         return $this;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setData($data)
-    {
-        if ($this->isPrepared) {
-            $this->setContent(null);
-            $this->isPrepared = false;
-        }
-
-        return parent::setData($data);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function addData($data)
-    {
-        if ($this->isPrepared) {
-            $this->setContent(null);
-            $this->isPrepared = false;
-        }
-
-        return parent::addData($data);
     }
 
     /**
@@ -294,26 +249,21 @@ class Request extends Message
             if (isset($params[0])) {
                 $url = $params[0];
                 unset($params[0]);
-            } else {
-                $url = '';
+            }
+            if (!empty($params)) {
+                if (strpos($url, '?') === false) {
+                    $url .= '?';
+                } else {
+                    $url .= '&';
+                }
+                $url .= http_build_query($params);
             }
         }
 
         if (!empty($this->client->baseUrl)) {
-            if (empty($url)) {
-                $url = $this->client->baseUrl;
-            } elseif (!preg_match('/^https?:\\/\\//i', $url)) {
+            if (!preg_match('/^https?:\\/\\//i', $url)) {
                 $url = $this->client->baseUrl . '/' . $url;
             }
-        }
-
-        if (!empty($params)) {
-            if (strpos($url, '?') === false) {
-                $url .= '?';
-            } else {
-                $url .= '&';
-            }
-            $url .= http_build_query($params);
         }
 
         return $url;
@@ -322,9 +272,6 @@ class Request extends Message
     /**
      * Prepares multi-part content.
      * @param array $content multi part content.
-     * @see https://tools.ietf.org/html/rfc7578
-     * @see https://tools.ietf.org/html/rfc2616#section-19.5.1 for the Content-Disposition header
-     * @see https://tools.ietf.org/html/rfc6266 for more details on the Content-Disposition header
      */
     private function prepareMultiPartContent(array $content)
     {
@@ -336,7 +283,7 @@ class Request extends Message
         if (!empty($data)) {
             foreach ($this->composeFormInputs($data) as $name => $value) {
                 $name = str_replace($disallowedChars, '_', $name);
-                $contentDisposition = 'Content-Disposition: form-data; name="' . $name . '"';
+                $contentDisposition = 'Content-Disposition: form-data; name="' . $name . '";';
                 $contentParts[] = implode("\r\n", [$contentDisposition, '', $value]);
             }
         }
@@ -345,10 +292,10 @@ class Request extends Message
         foreach ($content as $name => $contentParams) {
             $headers = [];
             $name = str_replace($disallowedChars, '_', $name);
-            $contentDisposition = 'Content-Disposition: form-data; name="' . $name . '"';
+            $contentDisposition = 'Content-Disposition: form-data; name="' . $name . '";';
             if (isset($contentParams['fileName'])) {
                 $fileName = str_replace($disallowedChars, '_', $contentParams['fileName']);
-                $contentDisposition .= '; filename="' . $fileName . '"';
+                $contentDisposition .= ' filename="' . $fileName . '"';
             }
             $headers[] = $contentDisposition;
             if (isset($contentParams['contentType'])) {

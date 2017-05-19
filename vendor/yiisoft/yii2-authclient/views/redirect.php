@@ -3,7 +3,7 @@ use yii\helpers\Json;
 
 /* @var $this \yii\base\View */
 /* @var $url string */
-/* @var $enforceRedirect bool */
+/* @var $enforceRedirect boolean */
 ?>
 <!DOCTYPE html>
 <html>

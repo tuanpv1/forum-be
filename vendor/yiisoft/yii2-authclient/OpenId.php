@@ -70,7 +70,7 @@ class OpenId extends BaseClient
      */
     public $optionalAttributes = [];
     /**
-     * @var bool whether to verify the peer's certificate.
+     * @var boolean whether to verify the peer's certificate.
      */
     public $verifyPeer;
     /**
@@ -212,7 +212,7 @@ class OpenId extends BaseClient
     /**
      * Checks if the server specified in the url exists.
      * @param string $url URL to check
-     * @return bool true, if the server exists; false otherwise
+     * @return boolean true, if the server exists; false otherwise
      */
     public function hostExists($url)
     {
@@ -321,7 +321,7 @@ class OpenId extends BaseClient
      * @param string $matchAttributeName name of the source tag attribute, which should contain $matchAttributeValue
      * @param string $matchAttributeValue required value of $matchAttributeName
      * @param string $valueAttributeName name of the source tag attribute, which should contain searched value.
-     * @return string|bool searched value, "false" on failure.
+     * @return string|boolean searched value, "false" on failure.
      */
     protected function extractHtmlTagValue($content, $tag, $matchAttributeName, $matchAttributeValue, $valueAttributeName)
     {
@@ -336,14 +336,12 @@ class OpenId extends BaseClient
      * Performs Yadis and HTML discovery.
      * @param string $url Identity URL.
      * @return array OpenID provider info, following keys will be available:
-     *
-     * - url: string, OP Endpoint (i.e. OpenID provider address).
-     * - version: int, OpenID protocol version used by provider.
-     * - identity: string, identity value.
-     * - identifier_select: bool, whether to request OP to select identity for an user in OpenID 2, does not affect OpenID 1.
-     * - ax: bool, whether AX attributes should be used.
-     * - sreg: bool, whether SREG attributes should be used.
-     *
+     * - 'url' - string OP Endpoint (i.e. OpenID provider address).
+     * - 'version' - integer OpenID protocol version used by provider.
+     * - 'identity' - string identity value.
+     * - 'identifier_select' - boolean whether to request OP to select identity for an user in OpenID 2, does not affect OpenID 1.
+     * - 'ax' - boolean whether AX attributes should be used.
+     * - 'sreg' - boolean whether SREG attributes should be used.
      * @throws Exception on failure.
      */
     public function discover($url)
@@ -652,7 +650,7 @@ class OpenId extends BaseClient
 
     /**
      * Returns authentication URL. Usually, you want to redirect your user to it.
-     * @param bool $identifierSelect whether to request OP to select identity for an user in OpenID 2, does not affect OpenID 1.
+     * @param boolean $identifierSelect whether to request OP to select identity for an user in OpenID 2, does not affect OpenID 1.
      * @return string the authentication URL.
      * @throws Exception on failure.
      */
@@ -677,8 +675,8 @@ class OpenId extends BaseClient
 
     /**
      * Performs OpenID verification with the OP.
-     * @param bool $validateRequiredAttributes whether to validate required attributes.
-     * @return bool whether the verification was successful.
+     * @param boolean $validateRequiredAttributes whether to validate required attributes.
+     * @return boolean whether the verification was successful.
      */
     public function validate($validateRequiredAttributes = true)
     {
@@ -732,7 +730,7 @@ class OpenId extends BaseClient
 
     /**
      * Checks if all required attributes are present in the server response.
-     * @return bool whether all required attributes are present.
+     * @return boolean whether all required attributes are present.
      */
     protected function validateRequiredAttributes()
     {
@@ -848,7 +846,7 @@ class OpenId extends BaseClient
      * Compares 2 URLs taking in account possible GET parameters order miss match and URL encoding inconsistencies.
      * @param string $expectedUrl expected URL.
      * @param string $actualUrl actual URL.
-     * @return bool whether URLs are equal.
+     * @return boolean whether URLs are equal.
      */
     protected function compareUrl($expectedUrl, $actualUrl)
     {

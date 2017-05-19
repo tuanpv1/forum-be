@@ -35,9 +35,6 @@ abstract class BaseMigrateController extends Controller
      * @var string the directory containing the migration classes. This can be either
      * a path alias or a directory path.
      *
-     * Migration classes located at this path should be declared without a namespace.
-     * Use [[migrationNamespaces]] property in case you are using namespaced migrations.
-     *
      * If you have set up [[migrationNamespaces]], you may set this field to `null` in order
      * to disable usage of migrations that are not namespaced.
      */
@@ -76,7 +73,7 @@ abstract class BaseMigrateController extends Controller
     {
         return array_merge(
             parent::options($actionID),
-            ['migrationPath', 'migrationNamespaces'], // global for all actions
+            ['migrationPath'], // global for all actions
             $actionID === 'create' ? ['templateFile'] : [] // action create
         );
     }
@@ -86,7 +83,7 @@ abstract class BaseMigrateController extends Controller
      * It checks the existence of the [[migrationPath]].
      * @param \yii\base\Action $action the action to be executed.
      * @throws InvalidConfigException if directory specified in migrationPath doesn't exist and action isn't "create".
-     * @return bool whether the action should continue to be executed.
+     * @return boolean whether the action should continue to be executed.
      */
     public function beforeAction($action)
     {
@@ -128,10 +125,10 @@ abstract class BaseMigrateController extends Controller
      * yii migrate 3   # apply the first 3 new migrations
      * ```
      *
-     * @param int $limit the number of new migrations to be applied. If 0, it means
+     * @param integer $limit the number of new migrations to be applied. If 0, it means
      * applying all available new migrations.
      *
-     * @return int the status of the action execution. 0 means normal, other values mean abnormal.
+     * @return integer the status of the action execution. 0 means normal, other values mean abnormal.
      */
     public function actionUp($limit = 0)
     {
@@ -187,11 +184,11 @@ abstract class BaseMigrateController extends Controller
      * yii migrate/down all # revert all migrations
      * ```
      *
-     * @param int $limit the number of migrations to be reverted. Defaults to 1,
+     * @param integer $limit the number of migrations to be reverted. Defaults to 1,
      * meaning the last applied migration will be reverted.
      * @throws Exception if the number of the steps specified is less than 1.
      *
-     * @return int the status of the action execution. 0 means normal, other values mean abnormal.
+     * @return integer the status of the action execution. 0 means normal, other values mean abnormal.
      */
     public function actionDown($limit = 1)
     {
@@ -249,11 +246,11 @@ abstract class BaseMigrateController extends Controller
      * yii migrate/redo all # redo all migrations
      * ```
      *
-     * @param int $limit the number of migrations to be redone. Defaults to 1,
+     * @param integer $limit the number of migrations to be redone. Defaults to 1,
      * meaning the last applied migration will be redone.
      * @throws Exception if the number of the steps specified is less than 1.
      *
-     * @return int the status of the action execution. 0 means normal, other values mean abnormal.
+     * @return integer the status of the action execution. 0 means normal, other values mean abnormal.
      */
     public function actionRedo($limit = 1)
     {
@@ -355,7 +352,7 @@ abstract class BaseMigrateController extends Controller
      *
      * @param string $version the version at which the migration history should be marked.
      * This can be either the timestamp or the full name of the migration.
-     * @return int CLI exit code
+     * @return integer CLI exit code
      * @throws Exception if the version argument is invalid or the version cannot be found.
      */
     public function actionMark($version)
@@ -446,7 +443,7 @@ abstract class BaseMigrateController extends Controller
      * yii migrate/history all # showing the whole history
      * ```
      *
-     * @param int $limit the maximum number of migrations to be displayed.
+     * @param integer $limit the maximum number of migrations to be displayed.
      * If it is "all", the whole migration history will be displayed.
      * @throws \yii\console\Exception if invalid limit value passed
      */
@@ -490,7 +487,7 @@ abstract class BaseMigrateController extends Controller
      * yii migrate/new all # showing all new migrations
      * ```
      *
-     * @param int $limit the maximum number of new migrations to be displayed.
+     * @param integer $limit the maximum number of new migrations to be displayed.
      * If it is `all`, all available new migrations will be displayed.
      * @throws \yii\console\Exception if invalid limit value passed
      */
@@ -640,7 +637,7 @@ abstract class BaseMigrateController extends Controller
     /**
      * Upgrades with the specified migration class.
      * @param string $class the migration class name
-     * @return bool whether the migration is successful
+     * @return boolean whether the migration is successful
      */
     protected function migrateUp($class)
     {
@@ -668,7 +665,7 @@ abstract class BaseMigrateController extends Controller
     /**
      * Downgrades with the specified migration class.
      * @param string $class the migration class name
-     * @return bool whether the migration is successful
+     * @return boolean whether the migration is successful
      */
     protected function migrateDown($class)
     {
@@ -711,7 +708,7 @@ abstract class BaseMigrateController extends Controller
 
     /**
      * Migrates to the specified apply time in the past.
-     * @param int $time UNIX timestamp value.
+     * @param integer $time UNIX timestamp value.
      */
     protected function migrateToTime($time)
     {
@@ -730,7 +727,7 @@ abstract class BaseMigrateController extends Controller
     /**
      * Migrates to the certain version.
      * @param string $version name in the full format.
-     * @return int CLI exit code
+     * @return integer CLI exit code
      * @throws Exception if the provided version cannot be found.
      */
     protected function migrateToVersion($version)
@@ -830,7 +827,7 @@ abstract class BaseMigrateController extends Controller
 
     /**
      * Returns the migration history.
-     * @param int $limit the maximum number of records in the history to be returned. `null` for "no limit".
+     * @param integer $limit the maximum number of records in the history to be returned. `null` for "no limit".
      * @return array the migration history
      */
     abstract protected function getMigrationHistory($limit);

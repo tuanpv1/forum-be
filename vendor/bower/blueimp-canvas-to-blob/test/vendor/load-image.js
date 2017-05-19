@@ -6,7 +6,7 @@
  * https://blueimp.net
  *
  * Licensed under the MIT license:
- * https://opensource.org/licenses/MIT
+ * http://www.opensource.org/licenses/MIT
  */
 
 /* global define, URL, webkitURL, FileReader */
@@ -285,8 +285,6 @@
             canvas.width,
             canvas.height
           )
-          sourceX = 0
-          sourceY = 0
           sourceWidth = canvas.width
           sourceHeight = canvas.height
           img = document.createElement('canvas')

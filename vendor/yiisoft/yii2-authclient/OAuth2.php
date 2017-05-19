@@ -18,8 +18,7 @@ use yii\web\HttpException;
  * ```php
  * use yii\authclient\OAuth2;
  *
- * // assuming class MyAuthClient extends OAuth2
- * $oauthClient = new MyAuthClient();
+ * $oauthClient = new OAuth2();
  * $url = $oauthClient->buildAuthUrl(); // Build authorization URL
  * Yii::$app->getResponse()->redirect($url); // Redirect to authorization URL.
  * // After user returns at our site:
@@ -52,7 +51,7 @@ abstract class OAuth2 extends BaseOAuth
      */
     public $tokenUrl;
     /**
-     * @var bool whether to use and validate auth 'state' parameter in authentication flow.
+     * @var boolean whether to use and validate auth 'state' parameter in authentication flow.
      * If enabled - the opaque value will be generated and applied to auth URL to maintain
      * state between the request and callback. The authorization server includes this value,
      * when redirecting the user-agent back to the client.
