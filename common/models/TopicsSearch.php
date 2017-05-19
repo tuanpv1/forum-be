@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use DateTime;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -19,9 +20,9 @@ class TopicsSearch extends Topics
     public function rules()
     {
         return [
-            [['topic_id', 'forum_id', 'icon_id', 'topic_attachment', 'topic_reported', 'topic_poster', 'topic_time', 'topic_time_limit', 'topic_views', 'topic_status', 'topic_type', 'topic_first_post_id', 'topic_last_post_id', 'topic_last_poster_id', 'topic_last_post_time', 'topic_last_view_time', 'topic_moved_id', 'topic_bumped', 'topic_bumper', 'poll_start', 'poll_length', 'poll_max_options', 'poll_last_vote', 'poll_vote_change', 'topic_visibility', 'topic_delete_time', 'topic_delete_user', 'topic_posts_approved', 'topic_posts_unapproved', 'topic_posts_softdeleted', 'topic_status_display'], 'integer'],
+            [['topic_id', 'forum_id', 'icon_id', 'topic_attachment', 'topic_reported', 'topic_poster', 'topic_time', 'topic_time_limit', 'topic_views', 'topic_status', 'topic_type', 'topic_first_post_id', 'topic_last_post_id', 'topic_last_poster_id', 'topic_last_view_time', 'topic_moved_id', 'topic_bumped', 'topic_bumper', 'poll_start', 'poll_length', 'poll_max_options', 'poll_last_vote', 'poll_vote_change', 'topic_visibility', 'topic_delete_time', 'topic_delete_user', 'topic_posts_approved', 'topic_posts_unapproved', 'topic_posts_softdeleted', 'topic_status_display'], 'integer'],
             [['topic_title', 'topic_first_poster_name', 'topic_first_poster_colour', 'topic_last_poster_name', 'topic_last_poster_colour', 'topic_last_post_subject', 'poll_title', 'topic_delete_reason'], 'safe'],
-            ['forum_name', 'safe'],
+            [['forum_name', 'topic_last_post_time'], 'safe'],
         ];
     }
 
@@ -84,6 +85,7 @@ class TopicsSearch extends Topics
             // $query->where('0=1');
             return $dataProvider;
         }
+        Yii::info($params);
 
         // grid filtering conditions
         $query->andFilterWhere([
@@ -100,7 +102,7 @@ class TopicsSearch extends Topics
             'topic_first_post_id' => $this->topic_first_post_id,
             'topic_last_post_id' => $this->topic_last_post_id,
             'topic_last_poster_id' => $this->topic_last_poster_id,
-            'topic_last_post_time' => $this->topic_last_post_time,
+//            'topic_last_post_time' => $this->topic_last_post_time,
             'topic_last_view_time' => $this->topic_last_view_time,
             'topic_moved_id' => $this->topic_moved_id,
             'topic_bumped' => $this->topic_bumped,
@@ -131,7 +133,11 @@ class TopicsSearch extends Topics
             $query->innerJoin('phpbb_forums', 'phpbb_forums.forum_id = phpbb_topics.forum_id')
                 ->andWhere(['like', "LOWER(forum_name)", strtolower($this->forum_name)]);
         }
-//        $query->orderBy(['topic_id' => SORT_DESC]);
+        if($this->topic_last_post_time){
+            $created_at_defaut = DateTime::createFromFormat("d/m/Y", $this->topic_last_post_time)->setTime(0, 0)->format('Y-m-d H:i:s');
+            $query->andFilterWhere(['>=', 'phpbb_topics.topic_last_post_time', strtotime($created_at_defaut)]);
+            $query->andFilterWhere(['<=', 'phpbb_topics.topic_last_post_time', strtotime($created_at_defaut) + 86400]);// mỗi ngày cách nhau 86400
+        }
         return $dataProvider;
     }
 }

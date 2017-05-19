@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use DateTime;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -88,7 +89,7 @@ class PostsSearch extends Posts
             'phpbb_posts.forum_id' => $this->forum_id,
             'phpbb_posts.poster_id' => $this->poster_id,
             'phpbb_posts.icon_id' => $this->icon_id,
-            'phpbb_posts.post_time' => $this->post_time,
+//            'phpbb_posts.post_time' => $this->post_time,
             'phpbb_posts.post_reported' => $this->post_reported,
             'phpbb_posts.enable_bbcode' => $this->enable_bbcode,
             'phpbb_posts.post_visibility' => $this->post_visibility,
@@ -98,7 +99,11 @@ class PostsSearch extends Posts
         $query->andFilterWhere(['like', 'post_username', $this->post_username])
             ->andFilterWhere(['like', 'post_subject', $this->post_subject])
             ->andFilterWhere(['like', 'post_text', $this->post_text]);
-//        $query->orderBy(['topic_id'=>SORT_DESC]);
+        if($this->post_time){
+            $created_at_defaut = DateTime::createFromFormat("d/m/Y", $this->post_time)->setTime(0, 0)->format('Y-m-d H:i:s');
+            $query->andFilterWhere(['>=', 'phpbb_posts.post_time', strtotime($created_at_defaut)]);
+            $query->andFilterWhere(['<=', 'phpbb_posts.post_time', strtotime($created_at_defaut) + 86400]);// mỗi ngày cách nhau 86400
+        }
         return $dataProvider;
     }
 }
