@@ -161,11 +161,24 @@ $this->registerJs($js, \yii\web\View::POS_END);
                             'filterInputOptions' => ['placeholder' => Yii::t('app', 'Tất cả')],
                         ],
                         [
-                            'class' => '\kartik\grid\DataColumn',
-                            'attribute'=>'topic_last_post_time',
+                            'attribute' => 'topic_last_post_time',
+                            'filterType' => GridView::FILTER_DATE,
+                            'filterWidgetOptions' => [
+                                'pluginOptions' => [
+                                    'showSeconds' => true,
+                                    'showMeridian' => false,
+                                    'autoclose' => true,
+                                    'minuteStep' => 60,
+                                    'secondStep' => 60,
+                                    'disableMousewheel' => false
+                                ]
+                            ],
                             'value' => function ($model, $key, $index, $widget) {
-                                return date('d/m/Y H:i:s', $model->topic_last_post_time);
-                            }
+                                /**
+                                 * @var $model \common\models\Topics
+                                 */
+                                return date('d/m/Y H:i:s',$model->topic_last_post_time) ;
+                            },
                         ],
                         ['class' => 'kartik\grid\ActionColumn',
                             'template'=>'{view}{update}',

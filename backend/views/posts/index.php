@@ -6,7 +6,7 @@ use kartik\grid\GridView;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $searchModel common\models\TopicsSearch */
+/* @var $searchModel common\models\PostsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Bình luận';
@@ -174,11 +174,24 @@ $this->registerJs($js, \yii\web\View::POS_END);
                             'filterInputOptions' => ['placeholder' => Yii::t('app', 'Tất cả')],
                         ],
                         [
-                            'class' => '\kartik\grid\DataColumn',
                             'attribute' => 'post_time',
+                            'filterType' => GridView::FILTER_DATE,
+                            'filterWidgetOptions' => [
+                                'pluginOptions' => [
+                                    'showSeconds' => true,
+                                    'showMeridian' => false,
+                                    'autoclose' => true,
+                                    'minuteStep' => 60,
+                                    'secondStep' => 60,
+                                    'disableMousewheel' => false
+                                ]
+                            ],
                             'value' => function ($model, $key, $index, $widget) {
-                                return date('d/m/Y H:i:s', $model->post_time);
-                            }
+                                /**
+                                 * @var $model \common\models\Posts
+                                 */
+                                return date('d/m/Y H:i:s',$model->post_time) ;
+                            },
                         ],
                         ['class' => 'kartik\grid\ActionColumn',
                             'template' => '{view}',
