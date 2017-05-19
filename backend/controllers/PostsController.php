@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\helpers\CUtils;
 use common\models\KpiSum;
 use common\models\Posts;
 use common\models\PostsSearch;
@@ -169,7 +170,7 @@ class PostsController extends Controller
 
     public function actionUpdateStatus($id)
     {
-        $model = Posts::findOne(['post_id' => $id]);
+        $model = Posts::findOne(['topic_id' => $id]);
 
 
         if (isset($_POST['hasEditable'])) {
@@ -177,19 +178,20 @@ class PostsController extends Controller
             $post = Yii::$app->request->post();
             if ($post['editableKey']) {
                 // read or convert your posted information
-                $post = Posts::findOne(['post_id' => $post['editableKey']]);
+                $topic = Posts::findOne(['post_id' => $post['editableKey']]);
                 $index = $post['editableIndex'];
-                if ($post || $model->post_id != $post->post_id) {
-                    $post->load($post['Posts'][$index], '');
-                    /** cuongvm 20160725 - phải insert created_at, updated_at bằng tay, không dùng behaviors - begin */
-//                    $model->updated_at = time();
-                    /** cuongvm 20160725 - phải insert created_at, updated_at bằng tay, không dùng behaviors - end */
-                    if ($post->update()) {
+                if ($topic || $model->topic_id != $topic->topic_id) {
+                    $topic->load($post['Posts'][$index], '');
+                    if ($topic->update()) {
                         // tao log
+                        $description = 'UPDATE STATUS CONTENT';
+                        $ip_address = CUtils::clientIP();
 
                         echo \yii\helpers\Json::encode(['output' => '', 'message' => '']);
                     } else {
                         // tao log
+                        $description = 'UPDATE STATUS CONTENT';
+                        $ip_address = CUtils::clientIP();
 
                         echo \yii\helpers\Json::encode(['output' => '', 'message' => \Yii::t('app', 'Dữ liệu không hợp lệ')]);
                     }
@@ -205,10 +207,9 @@ class PostsController extends Controller
         }
     }
 
-
     public function actionUpdateVisibility($id)
     {
-        $model = Posts::findOne(['post_id' => $id]);
+        $model = Posts::findOne(['topic_id' => $id]);
 
 
         if (isset($_POST['hasEditable'])) {
@@ -216,16 +217,20 @@ class PostsController extends Controller
             $post = Yii::$app->request->post();
             if ($post['editableKey']) {
                 // read or convert your posted information
-                $post = Posts::findOne(['post_id' => $post['editableKey']]);
+                $topic = Posts::findOne(['post_id' => $post['editableKey']]);
                 $index = $post['editableIndex'];
-                if ($post || $model->post_id != $post->post_id) {
-                    $post->load($post['Posts'][$index], '');
-                    if ($post->update()) {
+                if ($topic || $model->topic_id != $topic->topic_id) {
+                    $topic->load($post['Posts'][$index], '');
+                    if ($topic->update()) {
                         // tao log
+                        $description = 'UPDATE STATUS CONTENT';
+                        $ip_address = CUtils::clientIP();
 
                         echo \yii\helpers\Json::encode(['output' => '', 'message' => '']);
                     } else {
                         // tao log
+                        $description = 'UPDATE STATUS CONTENT';
+                        $ip_address = CUtils::clientIP();
 
                         echo \yii\helpers\Json::encode(['output' => '', 'message' => \Yii::t('app', 'Dữ liệu không hợp lệ')]);
                     }

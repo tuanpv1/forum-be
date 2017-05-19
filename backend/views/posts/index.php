@@ -153,7 +153,7 @@ $this->registerJs($js, \yii\web\View::POS_END);
                                     'data' => Posts::getListStatus('filter'),
                                     'placement' => \kartik\popover\PopoverX::ALIGN_LEFT,
                                     'formOptions' => [
-                                        'action' => ['posts/update-visibility', 'id' => $model->post_id]
+                                        'action' => ['posts/update-status', 'id' => $model->post_id]
                                     ],
                                 ];
                             },
