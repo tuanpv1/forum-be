@@ -140,38 +140,56 @@ $this->registerJs($js, \yii\web\View::POS_END);
                             }
                         ],
                         [
+                            'class' => 'kartik\grid\EditableColumn',
                             'attribute' => 'post_visibility',
-                            'class' => '\kartik\grid\DataColumn',
                             'width' => '200px',
-                            'value' => function ($model, $key, $index, $widget) {
-                                /**
-                                 * @var $model Posts
-                                 */
-                                return $model->getStatusName();
+                            'refreshGrid' => true,
+                            'editableOptions' => function ($model, $key, $index) {
+                                return [
+                                    'header' => \Yii::t('app', 'Trạng thái'),
+                                    'size' => 'md',
+                                    'displayValueConfig' => Posts::getListStatus('filter'),
+                                    'inputType' => \kartik\editable\Editable::INPUT_DROPDOWN_LIST,
+                                    'data' => Posts::getListStatus('filter'),
+                                    'placement' => \kartik\popover\PopoverX::ALIGN_LEFT,
+                                    'formOptions' => [
+                                        'action' => ['posts/update-visibility', 'id' => $model->post_id]
+                                    ],
+                                ];
                             },
                             'filterType' => GridView::FILTER_SELECT2,
-                            'filter' => Posts::getStatus(),
+                            'filter' => Posts::getListStatus('filter'),
                             'filterWidgetOptions' => [
                                 'pluginOptions' => ['allowClear' => true],
                             ],
-                            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Tất cả')],
+
+                            'filterInputOptions' => ['placeholder' => 'Tất cả'],
                         ],
                         [
+                            'class' => 'kartik\grid\EditableColumn',
                             'attribute' => 'post_status_display',
-                            'class' => '\kartik\grid\DataColumn',
                             'width' => '200px',
-                            'value' => function ($model, $key, $index, $widget) {
-                                /**
-                                 * @var $model Posts
-                                 */
-                                return $model->getStatusAnswerName();
+                            'refreshGrid' => true,
+                            'editableOptions' => function ($model, $key, $index) {
+                                return [
+                                    'header' => \Yii::t('app', 'Trạng thái'),
+                                    'size' => 'md',
+                                    'displayValueConfig' => Posts::getListStatusAnswer('filter'),
+                                    'inputType' => \kartik\editable\Editable::INPUT_DROPDOWN_LIST,
+                                    'data' => Posts::getListStatusAnswer('filter'),
+                                    'placement' => \kartik\popover\PopoverX::ALIGN_LEFT,
+                                    'formOptions' => [
+                                        'action' => ['posts/update-status', 'id' => $model->post_id]
+                                    ],
+                                ];
                             },
                             'filterType' => GridView::FILTER_SELECT2,
-                            'filter' => Posts::getStatusAnswer(),
+                            'filter' => Posts::getListStatusAnswer('filter'),
                             'filterWidgetOptions' => [
                                 'pluginOptions' => ['allowClear' => true],
                             ],
-                            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Tất cả')],
+
+                            'filterInputOptions' => ['placeholder' => 'Tất cả'],
                         ],
                         [
                             'attribute' => 'post_time',

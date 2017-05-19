@@ -166,4 +166,78 @@ class PostsController extends Controller
             ];
         }
     }
+
+    public function actionUpdateStatus($id)
+    {
+        $model = Posts::findOne(['post_id' => $id]);
+
+
+        if (isset($_POST['hasEditable'])) {
+            // read your posted model attributes
+            $post = Yii::$app->request->post();
+            if ($post['editableKey']) {
+                // read or convert your posted information
+                $post = Posts::findOne(['post_id' => $post['editableKey']]);
+                $index = $post['editableIndex'];
+                if ($post || $model->post_id != $post->post_id) {
+                    $post->load($post['Posts'][$index], '');
+                    /** cuongvm 20160725 - phải insert created_at, updated_at bằng tay, không dùng behaviors - begin */
+//                    $model->updated_at = time();
+                    /** cuongvm 20160725 - phải insert created_at, updated_at bằng tay, không dùng behaviors - end */
+                    if ($post->update()) {
+                        // tao log
+
+                        echo \yii\helpers\Json::encode(['output' => '', 'message' => '']);
+                    } else {
+                        // tao log
+
+                        echo \yii\helpers\Json::encode(['output' => '', 'message' => \Yii::t('app', 'Dữ liệu không hợp lệ')]);
+                    }
+                } else {
+                    echo \yii\helpers\Json::encode(['output' => '', 'message' => \Yii::t('app', 'Dữ liệu không tồn tại')]);
+                }
+            } // else if nothing to do always return an empty JSON encoded output
+            else {
+                echo \yii\helpers\Json::encode(['output' => '', 'message' => '']);
+            }
+
+            return;
+        }
+    }
+
+
+    public function actionUpdateVisibility($id)
+    {
+        $model = Posts::findOne(['post_id' => $id]);
+
+
+        if (isset($_POST['hasEditable'])) {
+            // read your posted model attributes
+            $post = Yii::$app->request->post();
+            if ($post['editableKey']) {
+                // read or convert your posted information
+                $post = Posts::findOne(['post_id' => $post['editableKey']]);
+                $index = $post['editableIndex'];
+                if ($post || $model->post_id != $post->post_id) {
+                    $post->load($post['Posts'][$index], '');
+                    if ($post->update()) {
+                        // tao log
+
+                        echo \yii\helpers\Json::encode(['output' => '', 'message' => '']);
+                    } else {
+                        // tao log
+
+                        echo \yii\helpers\Json::encode(['output' => '', 'message' => \Yii::t('app', 'Dữ liệu không hợp lệ')]);
+                    }
+                } else {
+                    echo \yii\helpers\Json::encode(['output' => '', 'message' => \Yii::t('app', 'Dữ liệu không tồn tại')]);
+                }
+            } // else if nothing to do always return an empty JSON encoded output
+            else {
+                echo \yii\helpers\Json::encode(['output' => '', 'message' => '']);
+            }
+
+            return;
+        }
+    }
 }

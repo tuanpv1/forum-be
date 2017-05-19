@@ -90,6 +90,39 @@ class Posts extends \yii\db\ActiveRecord
         return $ls;
     }
 
+
+    public static function getListStatus($type = 'all')
+    {
+        return ['all' => [
+            self::STATUS_POST_VISIBILITY => Yii::t('app', 'Hiển thị'),
+            self::STATUS_POST_INVISIBILITY => Yii::t('app', 'Ẩn'),
+
+        ],
+            'filter' => [
+                self::STATUS_POST_VISIBILITY => Yii::t('app', 'Hiển thị'),
+                self::STATUS_POST_INVISIBILITY => Yii::t('app', 'Ẩn'),
+            ],
+        ][$type];
+    }
+
+    public static function getListStatusAnswer($type = 'all')
+    {
+        return ['all' => [
+            self::STATUS_ANSWER_RIGHT => Yii::t('app', 'Trả lời đúng'),
+            self::STATUS_ANSWER_WRONG => Yii::t('app', 'Trả lời sai'),
+            self::STATUS_ANSWER_APPROVE => Yii::t('app', 'Chưa duyệt'),
+            self::STATUS_ANSWER_NEGATIVE => Yii::t('app', 'Nội dung tiêu cực'),
+
+        ],
+            'filter' => [
+                self::STATUS_ANSWER_RIGHT => Yii::t('app', 'Trả lời đúng'),
+                self::STATUS_ANSWER_WRONG => Yii::t('app', 'Trả lời sai'),
+                self::STATUS_ANSWER_APPROVE => Yii::t('app', 'Chưa duyệt'),
+                self::STATUS_ANSWER_NEGATIVE => Yii::t('app', 'Nội dung tiêu cực'),
+            ],
+        ][$type];
+    }
+
     public function getStatusAnswerName()
     {
         $lst = self::getStatusAnswer();
@@ -105,7 +138,7 @@ class Posts extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['topic_id', 'forum_id', 'poster_id', 'icon_id', 'post_time', 'post_reported', 'enable_bbcode', 'enable_smilies', 'enable_magic_url', 'enable_sig', 'post_attachment', 'post_postcount', 'post_edit_time', 'post_edit_user', 'post_edit_count', 'post_edit_locked', 'post_visibility', 'post_delete_time', 'post_delete_user','post_status_display'], 'integer'],
+            [['topic_id', 'forum_id', 'poster_id', 'icon_id', 'post_time', 'post_reported', 'enable_bbcode', 'enable_smilies', 'enable_magic_url', 'enable_sig', 'post_attachment', 'post_postcount', 'post_edit_time', 'post_edit_user', 'post_edit_count', 'post_edit_locked', 'post_visibility', 'post_delete_time', 'post_delete_user', 'post_status_display'], 'integer'],
             [['post_text'], 'required'],
             [['post_text'], 'string'],
             [['poster_ip'], 'string', 'max' => 40],

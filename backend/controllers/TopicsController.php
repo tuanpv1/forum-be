@@ -277,28 +277,67 @@ class TopicsController extends Controller
     }
 
     public function actionApprove()
-{
-    Yii::$app->response->format = Response::FORMAT_JSON;
-    $post = Yii::$app->request->post();
-    if (isset($post['ids'])) {
-        $ids = $post['ids'];
-        $status = $post['status'];
-        $feedbacks = Topics::findAll($ids);
-        $feedbacksApprove = 0;
-        foreach ($feedbacks as $feedback) {
-            if ($feedback->approve($status)) {
-                $feedbacksApprove++;
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $post = Yii::$app->request->post();
+        if (isset($post['ids'])) {
+            $ids = $post['ids'];
+            $status = $post['status'];
+            $feedbacks = Topics::findAll($ids);
+            $feedbacksApprove = 0;
+            foreach ($feedbacks as $feedback) {
+                if ($feedback->approve($status)) {
+                    $feedbacksApprove++;
+                }
             }
+            return [
+                'success' => true,
+                'message' => "Duyệt " . $feedbacksApprove . " Chủ đề thành công!"
+            ];
+        } else {
+            return [
+                'success' => false,
+                'message' => 'Không tìm thấy Chủ đề trên hệ thống'
+            ];
         }
-        return [
-            'success' => true,
-            'message' => "Duyệt " . $feedbacksApprove . " Chủ đề thành công!"
-        ];
-    } else {
-        return [
-            'success' => false,
-            'message' => 'Không tìm thấy Chủ đề trên hệ thống'
-        ];
     }
-}
+
+    public function actionUpdateStatus($id)
+    {
+        $model = Topics::findOne(['topic_id' => $id]);
+
+
+        if (isset($_POST['hasEditable'])) {
+            // read your posted model attributes
+            $post = Yii::$app->request->post();
+            if ($post['editableKey']) {
+                // read or convert your posted information
+                $topic = Topics::findOne(['topic_id' => $post['editableKey']]);
+                $index = $post['editableIndex'];
+                if ($topic || $model->topic_id != $topic->topic_id) {
+                    $topic->load($post['Topics'][$index], '');
+                    if ($topic->update()) {
+                        // tao log
+                        $description = 'UPDATE STATUS CONTENT';
+                        $ip_address = CUtils::clientIP();
+
+                        echo \yii\helpers\Json::encode(['output' => '', 'message' => '']);
+                    } else {
+                        // tao log
+                        $description = 'UPDATE STATUS CONTENT';
+                        $ip_address = CUtils::clientIP();
+
+                        echo \yii\helpers\Json::encode(['output' => '', 'message' => \Yii::t('app', 'Dữ liệu không hợp lệ')]);
+                    }
+                } else {
+                    echo \yii\helpers\Json::encode(['output' => '', 'message' => \Yii::t('app', 'Dữ liệu không tồn tại')]);
+                }
+            } // else if nothing to do always return an empty JSON encoded output
+            else {
+                echo \yii\helpers\Json::encode(['output' => '', 'message' => '']);
+            }
+
+            return;
+        }
+    }
 }

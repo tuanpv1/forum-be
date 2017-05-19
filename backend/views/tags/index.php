@@ -122,21 +122,30 @@ $this->registerJs($js, \yii\web\View::POS_END);
                             }
                         ],
                         [
+                            'class' => 'kartik\grid\EditableColumn',
                             'attribute' => 'tag_status',
-                            'class' => '\kartik\grid\DataColumn',
-                            'width'=>'200px',
-                            'value' => function ($model, $key, $index, $widget) {
-                                /**
-                                 * @var $model Tags
-                                 */
-                                return $model->getStatusName();
+                            'width' => '200px',
+                            'refreshGrid' => true,
+                            'editableOptions' => function ($model, $key, $index) {
+                                return [
+                                    'header' => \Yii::t('app', 'Trạng thái'),
+                                    'size' => 'md',
+                                    'displayValueConfig' => Tags::getListStatus('filter'),
+                                    'inputType' => \kartik\editable\Editable::INPUT_DROPDOWN_LIST,
+                                    'data' => Tags::getListStatus('filter'),
+                                    'placement' => \kartik\popover\PopoverX::ALIGN_LEFT,
+                                    'formOptions' => [
+                                        'action' => ['tags/update-status', 'id' => $model->id]
+                                    ],
+                                ];
                             },
                             'filterType' => GridView::FILTER_SELECT2,
-                            'filter' => Tags::getStatus(),
+                            'filter' => Tags::getListStatus('filter'),
                             'filterWidgetOptions' => [
                                 'pluginOptions' => ['allowClear' => true],
                             ],
-                            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Tất cả')],
+
+                            'filterInputOptions' => ['placeholder' => 'Tất cả'],
                         ],
                         ['class' => 'kartik\grid\ActionColumn',
                             'template'=>'{view}{update}',

@@ -163,4 +163,39 @@ class TagsController extends Controller
             ];
         }
     }
+
+    public function actionUpdateStatus($id)
+    {
+        $model = Tags::findOne(['id' => $id]);
+
+
+        if (isset($_POST['hasEditable'])) {
+            // read your posted model attributes
+            $post = Yii::$app->request->post();
+            if ($post['editableKey']) {
+                // read or convert your posted information
+                $tag = Tags::findOne(['id' => $post['editableKey']]);
+                $index = $post['editableIndex'];
+                if ($tag || $model->id != $tag->id) {
+                    $tag->load($post['Tags'][$index], '');
+                    if ($tag->update()) {
+                        // tao log
+
+                        echo \yii\helpers\Json::encode(['output' => '', 'message' => '']);
+                    } else {
+                        // tao log
+
+                        echo \yii\helpers\Json::encode(['output' => '', 'message' => \Yii::t('app', 'Dữ liệu không hợp lệ')]);
+                    }
+                } else {
+                    echo \yii\helpers\Json::encode(['output' => '', 'message' => \Yii::t('app', 'Dữ liệu không tồn tại')]);
+                }
+            } // else if nothing to do always return an empty JSON encoded output
+            else {
+                echo \yii\helpers\Json::encode(['output' => '', 'message' => '']);
+            }
+
+            return;
+        }
+    }
 }

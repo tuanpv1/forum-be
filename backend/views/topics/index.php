@@ -144,21 +144,30 @@ $this->registerJs($js, \yii\web\View::POS_END);
                             }
                         ],
                         [
+                            'class' => 'kartik\grid\EditableColumn',
                             'attribute' => 'topic_status_display',
-                            'class' => '\kartik\grid\DataColumn',
-                            'width'=>'200px',
-                            'value' => function ($model, $key, $index, $widget) {
-                                /**
-                                 * @var $model Topics
-                                 */
-                                return $model->getStatusName();
+                            'width' => '200px',
+                            'refreshGrid' => true,
+                            'editableOptions' => function ($model, $key, $index) {
+                                return [
+                                    'header' => \Yii::t('app', 'Trạng thái'),
+                                    'size' => 'md',
+                                    'displayValueConfig' => Topics::getListStatus('filter'),
+                                    'inputType' => \kartik\editable\Editable::INPUT_DROPDOWN_LIST,
+                                    'data' => Topics::getListStatus('filter'),
+                                    'placement' => \kartik\popover\PopoverX::ALIGN_LEFT,
+                                    'formOptions' => [
+                                        'action' => ['topics/update-status', 'id' => $model->topic_id]
+                                    ],
+                                ];
                             },
                             'filterType' => GridView::FILTER_SELECT2,
-                            'filter' => Topics::getStatus(),
+                            'filter' => Topics::getListStatus('filter'),
                             'filterWidgetOptions' => [
                                 'pluginOptions' => ['allowClear' => true],
                             ],
-                            'filterInputOptions' => ['placeholder' => Yii::t('app', 'Tất cả')],
+
+                            'filterInputOptions' => ['placeholder' => 'Tất cả'],
                         ],
                         [
                             'attribute' => 'topic_last_post_time',
