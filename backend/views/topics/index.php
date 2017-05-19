@@ -128,9 +128,8 @@ $this->registerJs($js, \yii\web\View::POS_END);
 
                     ],
                     'columns' => [
-                        ['class' => 'yii\grid\SerialColumn'],
+                        ['class' => 'kartik\grid\SerialColumn'],
                         [
-                            'class' => '\kartik\grid\DataColumn',
                             'attribute'=>'topic_title',
                             'value' => function ($model, $key, $index, $widget) {
                                 return CUtils::substr($model->topic_title, 50);
@@ -161,7 +160,6 @@ $this->registerJs($js, \yii\web\View::POS_END);
                             'filterInputOptions' => ['placeholder' => Yii::t('app', 'Tất cả')],
                         ],
                         [
-                            'class' => '\kartik\grid\DataColumn',
                             'attribute'=>'topic_last_post_time',
                             'value' => function ($model, $key, $index, $widget) {
                                 return date('d/m/Y H:i:s', $model->topic_last_post_time);

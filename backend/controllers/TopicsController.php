@@ -57,7 +57,6 @@ class TopicsController extends Controller
      */
     public function actionIndex()
     {
-
         $searchModel = new TopicsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 

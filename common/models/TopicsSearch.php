@@ -57,8 +57,8 @@ class TopicsSearch extends Topics
         }
         $query = Topics::find()
             ->select('phpbb_topics.topic_id,phpbb_topics.forum_id,phpbb_topics.topic_title,phpbb_topics.topic_status_display,phpbb_topics.topic_last_post_time');
-//        $roles = AclUsers::findAll(['user_id' => $user_id, 'auth_setting' => AclUsers::AUTH_ROLE_ID]);
-//        $array_role_id = [];
+        $roles = AclUsers::findAll(['user_id' => $user_id, 'auth_setting' => AclUsers::AUTH_ROLE_ID]);
+        $array_role_id = [];
         if (!in_array(ConstGeneral::ADMIN_ID, ConstGeneral::checkPermissionUserGroup($user_id))) {
             if (is_array($array_forum_id) && $array_forum_id != null) {
                 $query->andWhere(['IN', 'phpbb_topics.forum_id', $array_forum_id]);
@@ -124,9 +124,8 @@ class TopicsSearch extends Topics
             ->andFilterWhere(['like', 'topic_delete_reason', $this->topic_delete_reason]);
         if ($this->forum_name) {
             $query->innerJoin('phpbb_forums', 'phpbb_forums.forum_id = phpbb_topics.forum_id')
-                ->andWhere(['like', "LOWER(forum_name)", strtolower($this->forum_name)]);
+                ->andFilterWhere(['like', "LOWER(forum_name)", strtolower($this->forum_name)]);
         }
-        $query->orderBy(['topic_id' => SORT_DESC]);
         return $dataProvider;
     }
 }
