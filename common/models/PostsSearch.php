@@ -18,8 +18,8 @@ class PostsSearch extends Posts
     public function rules()
     {
         return [
-            [['post_id', 'topic_id', 'forum_id', 'poster_id', 'icon_id', 'post_time', 'post_reported', 'enable_bbcode', 'enable_smilies', 'enable_magic_url', 'enable_sig', 'post_attachment', 'post_postcount', 'post_edit_time', 'post_edit_user', 'post_edit_count', 'post_edit_locked', 'post_visibility', 'post_delete_time', 'post_delete_user', 'post_status_display'], 'integer'],
-            [['poster_ip', 'post_username', 'post_subject', 'post_text', 'post_checksum', 'bbcode_bitfield', 'bbcode_uid', 'post_edit_reason', 'post_delete_reason'], 'safe'],
+            [['post_id', 'topic_id', 'forum_id', 'poster_id', 'icon_id', 'post_reported', 'enable_bbcode', 'enable_smilies', 'enable_magic_url', 'enable_sig', 'post_attachment', 'post_postcount', 'post_edit_time', 'post_edit_user', 'post_edit_count', 'post_edit_locked', 'post_visibility', 'post_delete_time', 'post_delete_user', 'post_status_display'], 'integer'],
+            [['poster_ip', 'post_username', 'post_subject', 'post_text', 'post_checksum', 'bbcode_bitfield', 'bbcode_uid', 'post_edit_reason', 'post_delete_reason','post_time'], 'safe'],
         ];
     }
 
