@@ -49,18 +49,44 @@ $this->params['breadcrumbs'][] = $this->title;
                             },
                         ],
                         [
-                            'class' => '\kartik\grid\DataColumn',
                             'attribute' => 'ban_start',
+                            'filterType' => GridView::FILTER_DATE,
+                            'filterWidgetOptions' => [
+                                'pluginOptions' => [
+                                    'showSeconds' => true,
+                                    'showMeridian' => false,
+                                    'autoclose' => true,
+                                    'minuteStep' => 60,
+                                    'secondStep' => 60,
+                                    'disableMousewheel' => false
+                                ]
+                            ],
                             'value' => function ($model, $key, $index, $widget) {
-                                return date('d/m/Y H:i:s', $model->ban_start);
-                            }
+                                /**
+                                 * @var $model \common\models\Banlist
+                                 */
+                                return date('d/m/Y H:i:s',$model->ban_start) ;
+                            },
                         ],
                         [
-                            'class' => '\kartik\grid\DataColumn',
                             'attribute' => 'ban_end',
+                            'filterType' => GridView::FILTER_DATE,
+                            'filterWidgetOptions' => [
+                                'pluginOptions' => [
+                                    'showSeconds' => true,
+                                    'showMeridian' => false,
+                                    'autoclose' => true,
+                                    'minuteStep' => 60,
+                                    'secondStep' => 60,
+                                    'disableMousewheel' => false
+                                ]
+                            ],
                             'value' => function ($model, $key, $index, $widget) {
-                                return date('d/m/Y H:i:s', $model->ban_end);
-                            }
+                                /**
+                                 * @var $model \common\models\Banlist
+                                 */
+                                return date('d/m/Y H:i:s',$model->ban_end) ;
+                            },
                         ],
                         ['class' => 'kartik\grid\ActionColumn',
                             'template' => '{view}',

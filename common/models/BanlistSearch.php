@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use DateTime;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -19,8 +20,8 @@ class BanlistSearch extends Banlist
     public function rules()
     {
         return [
-            [['ban_id', 'ban_userid', 'ban_start', 'ban_end', 'ban_exclude'], 'integer'],
-            [['ban_ip', 'ban_email', 'ban_reason', 'ban_give_reason','type'], 'safe'],
+            [['ban_id', 'ban_userid', 'ban_exclude'], 'integer'],
+            [['ban_ip', 'ban_email', 'ban_reason', 'ban_give_reason','type','ban_start', 'ban_end'], 'safe'],
         ];
     }
 
@@ -71,8 +72,8 @@ class BanlistSearch extends Banlist
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'ban_start' => $this->ban_start,
-            'ban_end' => $this->ban_end,
+//            'ban_start' => $this->ban_start,
+//            'ban_end' => $this->ban_end,
             'ban_exclude' => $this->ban_exclude,
         ]);
 
@@ -80,7 +81,16 @@ class BanlistSearch extends Banlist
             ->andFilterWhere(['like', 'ban_email', $this->ban_email])
             ->andFilterWhere(['like', 'ban_reason', $this->ban_reason])
             ->andFilterWhere(['like', 'ban_give_reason', $this->ban_give_reason]);
-
+        if($this->ban_start){
+            $created_at_defaut = DateTime::createFromFormat("d/m/Y", $this->ban_start)->setTime(0, 0)->format('Y-m-d H:i:s');
+            $query->andFilterWhere(['>=', 'phpbb_banlist.ban_start', strtotime($created_at_defaut)]);
+            $query->andFilterWhere(['<=', 'phpbb_banlist.ban_start', strtotime($created_at_defaut) + 86400]);// mỗi ngày cách nhau 86400
+        }
+        if($this->ban_end){
+            $created_at_defaut = DateTime::createFromFormat("d/m/Y", $this->ban_end)->setTime(0, 0)->format('Y-m-d H:i:s');
+            $query->andFilterWhere(['>=', 'phpbb_banlist.ban_end', strtotime($created_at_defaut)]);
+            $query->andFilterWhere(['<=', 'phpbb_banlist.ban_end', strtotime($created_at_defaut) + 86400]);// mỗi ngày cách nhau 86400
+        }
         return $dataProvider;
     }
 }
