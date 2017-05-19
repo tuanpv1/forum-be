@@ -57,20 +57,20 @@ class TopicsController extends Controller
      */
     public function actionIndex()
     {
-        if (isset($_POST['hasEditable'])) {
-            // read your posted model attributes
-            $post = Yii::$app->request->post();
-            if ($post['editableKey']) {
-                // read or convert your posted information
-                $feedback = Topics::findOne($post['editableKey']);
-                $index = $post['editableIndex'];
-
-            } // else if nothing to do always return an empty JSON encoded output
-            else {
-                echo \yii\helpers\Json::encode(['output' => '', 'message' => '']);
-            }
-            return;
-        }
+//        if (isset($_POST['hasEditable'])) {
+//            // read your posted model attributes
+//            $post = Yii::$app->request->post();
+//            if ($post['editableKey']) {
+//                // read or convert your posted information
+//                $feedback = Topics::findOne($post['editableKey']);
+//                $index = $post['editableIndex'];
+//
+//            } // else if nothing to do always return an empty JSON encoded output
+//            else {
+//                echo \yii\helpers\Json::encode(['output' => '', 'message' => '']);
+//            }
+//            return;
+//        }
         $searchModel = new TopicsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
