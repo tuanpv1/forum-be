@@ -37,6 +37,7 @@ class Groups extends \yii\db\ActiveRecord
     const GROUP_GLOBAL_MODERATORS = 4;
     const GROUP_ADMINISTRATORS = 5;
     const GROUP_NEWLY_REGISTERED = 6;
+    const GROUP_NEWLY_REGISTEREDLY = 7;
     /**
      * @inheritdoc
      */
@@ -92,8 +93,9 @@ class Groups extends \yii\db\ActiveRecord
 
     public static function getGroups(){
         $ls = [
-            self::GROUP_REGISTERED => Yii::t('app','REGISTERED'),
-            self::GROUP_GLOBAL_MODERATORS => Yii::t('app','MODERATORS'),
+            self::GROUP_NEWLY_REGISTEREDLY => Yii::t('app','Thành viên thường'),
+            self::GROUP_REGISTERED => Yii::t('app','Thành viên chính thức'),
+            self::GROUP_GLOBAL_MODERATORS => Yii::t('app','Mod'),
         ];
         return $ls;
     }
