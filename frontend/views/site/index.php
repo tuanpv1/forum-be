@@ -13,7 +13,7 @@
                                 <div class="col col-50-50-c0 first rebrandColumn1" style="padding: 0px; min-height:418px; ">
                                     <div class="col-wrapper" style="padding: 0px; margin-right: 28px; min-height:418px;" >
                                         <div style="padding: 50px; margin-left: 30px; margin-top: 30px;" >
-                                            <form id="Login" name="Login" method="post" class="form" action="http://localhost/php-bb/ucp.php?mode=login" style="margin: 0px;">
+                                            <form id="Login" name="Login" method="post" class="form" action="http://localhost:8080/phpbb/ucp.php?mode=login" style="margin: 0px;">
                                                 <div class="row rebrandErrMsgContainerDiv">
 
                                                 </div>

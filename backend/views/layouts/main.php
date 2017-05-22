@@ -110,6 +110,18 @@ $arrlang = array();
             $rightItems = [
                 [
                     'encode' => false,
+                    'label' => '<i class="glyphicon glyphicon-pencil"></i> ' . Yii::t('app', 'Danh sách nhóm quyền'),
+                    'linkOptions' => ['data-hover' => 'megamenu-dropdown', 'data-close-others' => 'true'],
+                    'url' => ['phpbb-groups/index'],
+                ],
+                [
+                    'encode' => false,
+                    'label' => '<i class="glyphicon glyphicon-pencil"></i> ' . Yii::t('app', 'Quản lý danh mục'),
+                    'linkOptions' => ['data-hover' => 'megamenu-dropdown', 'data-close-others' => 'true'],
+                    'url' => ['category/index'],
+                ],
+                [
+                    'encode' => false,
                     'label' => '<i class="glyphicon glyphicon-pencil"></i> ' . Yii::t('app', 'Quản lý chủ đề'),
                     'linkOptions' => ['data-hover' => 'megamenu-dropdown', 'data-close-others' => 'true'],
                     'options' => ['class' => 'menu-dropdown mega-menu-dropdown'],
