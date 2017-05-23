@@ -12,6 +12,9 @@ use Yii;
  * @property string $role_description
  * @property string $role_type
  * @property integer $role_order
+ * @property string $description
+ *
+ * @property AclRolesData[] $aclRolesData
  */
 class AclRoles extends \yii\db\ActiveRecord
 {
@@ -22,6 +25,12 @@ class AclRoles extends \yii\db\ActiveRecord
     {
         return 'phpbb_acl_roles';
     }
+    public $viewAttr = [];
+
+    const ROLE_FORUM_READONLY = 17 ; //chi duoc xem danh muc  ap dung cho anonymous
+    const ROLE_FORUM_POLLS = 21 ; //cho phep post comment bai viet, su dung bieu tuong trong danh muc ap dung cho nguoi dung la mod va thanh vien chinh thuc
+    const ROLE_FORUM_NEW_MEMBER = 24 ; //ap dung cho thanh vien thuong
+    const ROLE_FORUM_FULL = 14; // ap dung cho admin
 
     /**
      * @inheritdoc
@@ -30,7 +39,7 @@ class AclRoles extends \yii\db\ActiveRecord
     {
         return [
             [['role_description'], 'required'],
-            [['role_description'], 'string'],
+            [['role_description', 'description'], 'string'],
             [['role_order'], 'integer'],
             [['role_name'], 'string', 'max' => 255],
             [['role_type'], 'string', 'max' => 10],
@@ -44,10 +53,30 @@ class AclRoles extends \yii\db\ActiveRecord
     {
         return [
             'role_id' => 'Role ID',
-            'role_name' => 'Role Name',
-            'role_description' => 'Role Description',
+            'role_name' => 'Tên quyền',
+            'role_description' => 'Mô tả chi tiết',
             'role_type' => 'Role Type',
             'role_order' => 'Role Order',
+            'description' => 'Mô tả',
         ];
+    }
+
+    public function getAclRolesOptionData()
+    {
+        $texts = '';
+        $listData = AclRolesData::find()
+            ->andWhere(['role_id' => $this->role_id])
+            ->andWhere(['auth_setting' => AclRolesData::STATUS_ACTIVE])
+            ->all();
+        foreach ($listData as $item) {
+            /** @var $item AclRolesData */
+            $texts .= $item->aclOptions->description.'<br>';
+        }
+        return $texts;
+    }
+
+    public function getAclRolesData()
+    {
+        $this->hasMany(AclRolesData::className(), ['role_id' => 'role_id']);
     }
 }

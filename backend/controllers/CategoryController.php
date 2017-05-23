@@ -2,7 +2,10 @@
 
 namespace backend\controllers;
 
+use common\models\AclGroups;
+use common\models\AclRoles;
 use common\models\Category;
+use common\models\Groups;
 use kartik\form\ActiveForm;
 use Yii;
 use yii\data\ArrayDataProvider;
@@ -104,7 +107,6 @@ class CategoryController extends Controller
         }
 
         if ($model->load(Yii::$app->request->post())) {
-
             if ($model->parent_id) {
                 $model->forum_topics_per_page = 5;
                 $model->forum_type = 1;
@@ -130,9 +132,14 @@ class CategoryController extends Controller
                 $model->parent_id = 0;
                 $model->forum_type = 0;
                 $modelRight = Category::find()->orderBy(['right_id' => SORT_DESC])->one();
+                if ($modelRight) {
+                    $left_id = (int)$modelRight->right_id + 1;
+                    $right_id = (int)$modelRight->right_id + 2;
+                } else {
+                    $left_id = 1;
+                    $right_id = 2;
+                }
                 /** @var  $modelRight Category */
-                $left_id = (int)$modelRight->right_id + 1;
-                $right_id = (int)$modelRight->right_id + 2;
             }
             $model->left_id = $left_id;
             $model->right_id = $right_id;
@@ -152,6 +159,57 @@ class CategoryController extends Controller
             $model->rh_topictags_enabled = 1;
 
             $model->save(false);
+
+            //phan quyen danh muc mac dinh cho guest
+
+            $modelAclGroup = new AclGroups();
+            $modelAclGroup->group_id = Groups::GROUP_GUESTS;
+            $modelAclGroup->forum_id = $model->forum_id;
+            $modelAclGroup->auth_option_id = 0;
+            $modelAclGroup->auth_role_id = AclRoles::ROLE_FORUM_READONLY;
+            $modelAclGroup->auth_setting = 0;
+            $modelAclGroup->save();
+
+            //phan quyen danh muc mac dinh cho tai khoan thanh vien thuong
+
+            $modeAclUserNew = new AclGroups();
+            $modeAclUserNew->group_id = Groups::GROUP_NEWLY_REGISTEREDLY;
+            $modeAclUserNew->forum_id = $model->forum_id;
+            $modeAclUserNew->auth_option_id = 0;
+            $modeAclUserNew->auth_role_id = AclRoles::ROLE_FORUM_NEW_MEMBER;
+            $modeAclUserNew->auth_setting = 0;
+            $modeAclUserNew->save();
+
+            //phan quyen danh muc mac dinh cho tai khoan thanh vien chinh thuc
+
+            $modelAclUserNormal = new AclGroups;
+            $modelAclUserNormal->group_id = Groups::GROUP_REGISTERED;
+            $modelAclUserNormal->forum_id = $model->forum_id;
+            $modelAclUserNormal->auth_option_id = 0;
+            $modelAclUserNormal->auth_role_id = AclRoles::ROLE_FORUM_POLLS;
+            $modelAclUserNormal->auth_setting = 0;
+            $modelAclUserNormal->save();
+
+            //phan quyen danh muc mac dinh cho tai khoan mod
+
+            $modelAclMod = new AclGroups;
+            $modelAclMod->group_id = Groups::GROUP_GLOBAL_MODERATORS;
+            $modelAclMod->forum_id = $model->forum_id;
+            $modelAclMod->auth_option_id = 0;
+            $modelAclMod->auth_role_id = AclRoles::ROLE_FORUM_POLLS;
+            $modelAclMod->auth_setting = 0;
+            $modelAclMod->save();
+
+            //phan quyen danh muc mac dinh cho admin
+
+            $modelAclAdmin = new AclGroups;
+            $modelAclAdmin->group_id = Groups::GROUP_ADMINISTRATORS;
+            $modelAclAdmin->forum_id = $model->forum_id;
+            $modelAclAdmin->auth_option_id = 0;
+            $modelAclAdmin->auth_role_id = AclRoles::ROLE_FORUM_FULL;
+            $modelAclAdmin->auth_setting = 0;
+            $modelAclAdmin->save();
+
 
             Yii::info($model->getErrors());
 

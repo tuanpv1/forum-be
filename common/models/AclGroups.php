@@ -5,9 +5,9 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "phpbb_acl_users".
+ * This is the model class for table "phpbb_acl_groups".
  *
- * @property string $user_id
+ * @property string $group_id
  * @property string $forum_id
  * @property string $auth_option_id
  * @property string $auth_role_id
@@ -20,7 +20,7 @@ class AclGroups extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'phpbb_acl_users';
+        return 'phpbb_acl_groups';
     }
 
     /**
@@ -29,7 +29,7 @@ class AclGroups extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'forum_id', 'auth_option_id', 'auth_role_id', 'auth_setting'], 'integer'],
+            [['group_id', 'forum_id', 'auth_option_id', 'auth_role_id', 'auth_setting'], 'integer'],
         ];
     }
 
@@ -39,7 +39,7 @@ class AclGroups extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'user_id' => 'User ID',
+            'group_id' => 'Group ID',
             'forum_id' => 'Forum ID',
             'auth_option_id' => 'Auth Option ID',
             'auth_role_id' => 'Auth Role ID',

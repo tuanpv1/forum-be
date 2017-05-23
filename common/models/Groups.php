@@ -33,11 +33,10 @@ class Groups extends \yii\db\ActiveRecord
 {
     const GROUP_GUESTS = 1;
     const GROUP_REGISTERED = 2;
-    const GROUP_REGISTERED_COPPA = 3;
     const GROUP_GLOBAL_MODERATORS = 4;
     const GROUP_ADMINISTRATORS = 5;
-    const GROUP_NEWLY_REGISTERED = 6;
     const GROUP_NEWLY_REGISTEREDLY = 7;
+
     /**
      * @inheritdoc
      */
@@ -91,12 +90,33 @@ class Groups extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function getGroups(){
+    public static function getGroups()
+    {
         $ls = [
-            self::GROUP_NEWLY_REGISTEREDLY => Yii::t('app','Thành viên thường'),
-            self::GROUP_REGISTERED => Yii::t('app','Thành viên chính thức'),
-            self::GROUP_GLOBAL_MODERATORS => Yii::t('app','Mod'),
+            self::GROUP_NEWLY_REGISTEREDLY => Yii::t('app', 'Thành viên thường'),
+            self::GROUP_REGISTERED => Yii::t('app', 'Thành viên chính thức'),
+            self::GROUP_GLOBAL_MODERATORS => Yii::t('app', 'Mod'),
         ];
         return $ls;
+    }
+
+    public static function setGroupName($group_id)
+    {
+        switch ($group_id) {
+            case Groups::GROUP_ADMINISTRATORS:
+                return Yii::t('app', 'Admin');
+                break;
+            case Groups::GROUP_GLOBAL_MODERATORS:
+                return Yii::t('app', 'Mod');
+                break;
+            case Groups::GROUP_REGISTERED:
+                return Yii::t('app', 'Thành viên chính thức');
+                break;
+            case Groups::GROUP_NEWLY_REGISTEREDLY:
+                return Yii::t('app', 'Thành viên thường');
+                break;
+            default:
+                return Yii::t('app', 'Thành viên chính thức');
+        }
     }
 }

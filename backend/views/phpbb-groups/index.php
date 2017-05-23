@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="portlet-title">
                     <div class="caption">
                         <i class="fa fa-cogs font-green-sharp"></i>
-                        <span class="caption-subject font-green-sharp bold uppercase">Danh sách nhóm quyền</span>
+                        <span class="caption-subject font-green-sharp bold uppercase">Danh sách nhóm</span>
                     </div>
                     <div class="tools">
                         <a href="javascript:;" class="collapse">
@@ -41,12 +41,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'attribute' => 'group_id',
                                 'label' => 'Tên nhóm',
                                 'value'=>function ($model, $key, $index, $widget) {
-                                    /** @var $model \common\models\PhpbbGroups */
-                                    return $model->forum_name;
+                                    /** @var $model \common\models\Groups */
+                                    return $model->setGroupName($model->group_id);
                                 },
-                            ],
-                            ['class' => 'kartik\grid\ActionColumn',
-                                'template'=>'',
                             ],
                         ],
                     ]); ?>

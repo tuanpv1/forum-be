@@ -142,7 +142,7 @@ $this->registerJs($js, \yii\web\View::POS_END);
                             'width' => '200px',
                             'attribute' => 'group_id',
                             'value' => function ($model, $key, $index, $widget) {
-                                return Groups::findOne(['group_id' => $model->group_id])->group_name;
+                                return Groups::setGroupName(Groups::findOne(['group_id' => $model->group_id])->group_id);
                             },
                             'filterType' => GridView::FILTER_SELECT2,
                             'filter' => Groups::getGroups(),

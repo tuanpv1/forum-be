@@ -5,12 +5,11 @@ namespace common\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\PhpbbGroups;
 
 /**
  * PhpbbGroupsSearch represents the model behind the search form about `common\models\PhpbbGroups`.
  */
-class PhpbbGroupsSearch extends PhpbbGroups
+class PhpbbGroupsSearch extends Groups
 {
     /**
      * @inheritdoc
@@ -41,7 +40,7 @@ class PhpbbGroupsSearch extends PhpbbGroups
      */
     public function search($params)
     {
-        $query = PhpbbGroups::find();
+        $query = Groups::find()->andWhere(['IN','group_id',[Groups::GROUP_ADMINISTRATORS,Groups::GROUP_GLOBAL_MODERATORS,Groups::GROUP_REGISTERED,Groups::GROUP_NEWLY_REGISTEREDLY]]);
 
         // add conditions that should always apply here
 

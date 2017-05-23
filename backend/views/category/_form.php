@@ -7,7 +7,6 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\Category */
 /* @var $form yii\widgets\ActiveForm */
-$showPreview = !$model->isNewRecord && !empty($model->images);
 ?>
 
 <?php $form = ActiveForm::begin([

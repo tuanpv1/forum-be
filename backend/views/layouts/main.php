@@ -110,15 +110,26 @@ $arrlang = array();
             $rightItems = [
                 [
                     'encode' => false,
-                    'label' => '<i class="glyphicon glyphicon-pencil"></i> ' . Yii::t('app', 'Danh sách nhóm quyền'),
+                    'label' => '<i class="glyphicon glyphicon-cog"></i> ' . Yii::t('app', 'Quản lý quyền hệ thống'),
                     'linkOptions' => ['data-hover' => 'megamenu-dropdown', 'data-close-others' => 'true'],
-                    'url' => ['phpbb-groups/index'],
-                ],
-                [
-                    'encode' => false,
-                    'label' => '<i class="glyphicon glyphicon-pencil"></i> ' . Yii::t('app', 'Quản lý danh mục'),
-                    'linkOptions' => ['data-hover' => 'megamenu-dropdown', 'data-close-others' => 'true'],
-                    'url' => ['category/index'],
+                    'options' => ['class' => 'menu-dropdown mega-menu-dropdown'],
+                    'items' => [
+                        [
+                            'encode' => false,
+                            'label' => '<i class="glyphicon glyphicon-user"></i> ' . Yii::t('app', 'Nhóm người dùng'),
+                            'url' => ['phpbb-groups/index'],
+                        ],
+                        [
+                            'encode' => false,
+                            'label' => '<i class="glyphicon glyphicon-barcode"></i> ' . Yii::t('app', 'Nhóm quyền'),
+                            'url' => ['acl-roles/index'],
+                        ],
+                        [
+                            'encode' => false,
+                            'label' => '<i class="glyphicon glyphicon-th-list"></i> ' . Yii::t('app', 'Quyền chi tiết'),
+                            'url' => ['acl-options/index'],
+                        ],
+                    ]
                 ],
                 [
                     'encode' => false,
@@ -142,6 +153,13 @@ $arrlang = array();
                             'url' => ['tags/index']
                         ],
                     ]
+                ],
+                [
+                    'encode' => false,
+                    'label' => '<i class="glyphicon glyphicon-duplicate"></i> ' . Yii::t('app', 'Quản lý danh mục'),
+                    'linkOptions' => ['data-hover' => 'megamenu-dropdown', 'data-close-others' => 'true'],
+                    'options' => ['class' => 'menu-dropdown mega-menu-dropdown'],
+                    'url' => ['category/index'],
                 ],
                 [
                     'label' => '<i class="glyphicon glyphicon-menu-hamburger"></i> ' . Yii::t('app', 'Quản lý Users'),
