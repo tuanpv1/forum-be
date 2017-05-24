@@ -119,7 +119,7 @@ class CategoryController extends Controller
                     $item->update();
                 }
                 $updateTable = Category::find()->andWhere('left_id <= :left_id', ['left_id' => (int)$modelParent->left_id])
-                    ->andWhere('right_id >= :right_id', ['right_id' => (int)$model->left_id])->all();
+                    ->andWhere('right_id >= :right_id', ['right_id' => (int)$modelParent->left_id])->all();
                 foreach ($updateTable as $item) {
                     /** @var $item Category */
                     $item->right_id = (int)$item->right_id + 2;
@@ -250,7 +250,7 @@ class CategoryController extends Controller
                     $item->right_id = (int)$item->right_id + 3;
                     $item->update();
                 }
-                $modelParent->right_id = (int)$modelParent->right_id + 3;
+                $modelParent->right_id = (int)$modelParent->right_id + 2;
                 $modelParent->save();
                 $model->left_id = (int)$modelParent->right_id - 2;
                 $model->right_id = (int)$modelParent->right_id - 1;

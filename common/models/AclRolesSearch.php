@@ -2,10 +2,10 @@
 
 namespace common\models;
 
+use common\models\AclRoles;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\AclRoles;
 
 /**
  * AclRolesSearch represents the model behind the search form about `common\models\AclRoles`.
@@ -41,7 +41,7 @@ class AclRolesSearch extends AclRoles
      */
     public function search($params)
     {
-        $query = AclRoles::find();
+        $query = AclRoles::find()->andWhere(['status'=>AclRoles::STATUS_ACTIVE]);
 
         // add conditions that should always apply here
 

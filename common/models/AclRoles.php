@@ -9,9 +9,11 @@ use Yii;
  *
  * @property string $role_id
  * @property string $role_name
+ * @property string $display_name
  * @property string $role_description
  * @property string $role_type
  * @property integer $role_order
+ * @property integer $status
  * @property string $description
  *
  * @property AclRolesData[] $aclRolesData
@@ -21,6 +23,9 @@ class AclRoles extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+
+    const STATUS_ACTIVE = 1;
+    const STATUS_INACTIVE = 0;
 
     public $list_id;
 
@@ -42,9 +47,9 @@ class AclRoles extends \yii\db\ActiveRecord
     {
         return [
             [['role_description'], 'required'],
-            [['list_id'], 'safe'],
+            [['list_id','display_name'], 'safe'],
             [['role_description', 'description'], 'string'],
-            [['role_order'], 'integer'],
+            [['role_order','status'], 'integer'],
             [['role_name'], 'string', 'max' => 255],
             [['role_type'], 'string', 'max' => 10],
         ];
@@ -62,7 +67,9 @@ class AclRoles extends \yii\db\ActiveRecord
             'role_type' => 'Role Type',
             'role_order' => 'Role Order',
             'description' => 'Mô tả',
+            'status' => 'Trạng thái',
             'list_id' => 'Quyền chi tiết',
+            'display_name' => 'Tên hiển thị',
         ];
     }
 

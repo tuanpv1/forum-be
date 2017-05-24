@@ -50,6 +50,16 @@ $this->params['breadcrumbs'][] = $this->title;
                             ],
                             [
                                 'class' => '\kartik\grid\DataColumn',
+                                'attribute' => 'display_name',
+                                'format' => 'html',
+                                'label' => 'Tên hiển thị',
+                                'value' => function ($model, $key, $index, $widget) {
+                                    /** @var $model \common\models\AclRoles */
+                                    return $model->display_name;
+                                },
+                            ],
+                            [
+                                'class' => '\kartik\grid\DataColumn',
                                 'attribute' => 'role_name',
                                 'format' => 'html',
                                 'label' => 'Tên quyền',
