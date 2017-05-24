@@ -46,6 +46,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'expandOneOnly'=>true
                             ],
                             [
+                                'attribute'=>'role_id'
+                            ],
+                            [
                                 'class' => '\kartik\grid\DataColumn',
                                 'attribute' => 'role_name',
                                 'format' => 'html',

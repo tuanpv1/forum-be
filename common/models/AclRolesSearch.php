@@ -66,7 +66,7 @@ class AclRolesSearch extends AclRoles
         $query->andFilterWhere(['like', 'role_name', $this->role_name])
             ->andFilterWhere(['like', 'role_description', $this->role_description])
             ->andFilterWhere(['like', 'role_type', $this->role_type]);
-        $query->orderBy(['role_order'=>SORT_ASC]);
+        $query->orderBy(['role_name'=>SORT_ASC,'role_order'=>SORT_ASC]);
         return $dataProvider;
     }
 }

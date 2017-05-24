@@ -2,12 +2,14 @@
 
 namespace backend\controllers;
 
-use Yii;
 use common\models\AclRoles;
+use common\models\AclRolesData;
 use common\models\AclRolesSearch;
+use Yii;
+use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * AclRolesController implements the CRUD actions for AclRoles model.
@@ -83,8 +85,22 @@ class AclRolesController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $model->list_id = ArrayHelper::getColumn(AclRolesData::find()
+            ->select(['phpbb_acl_options.auth_option_id'])
+            ->innerJoin('phpbb_acl_options', 'phpbb_acl_options.auth_option_id = phpbb_acl_roles_data.auth_option_id')
+            ->andWhere(['phpbb_acl_roles_data.role_id' => $id])->all(), 'auth_option_id');
+        if ($model->load(Yii::$app->request->post())) {
+            $aclRoleDataDel = AclRolesData::deleteAll(['role_id' => $id]);
+            if(is_array($model->list_id)) {
+                foreach ($model->list_id as $value) {
+                    $aclRoleData = new AclRolesData();
+                    $aclRoleData->role_id = $id;
+                    $aclRoleData->auth_option_id = (int)$value;
+                    $aclRoleData->auth_setting = 1;
+                    $aclRoleData->save();
+                }
+            }
+            $model->save();
             return $this->redirect(['view', 'id' => $model->role_id]);
         } else {
             return $this->render('update', [

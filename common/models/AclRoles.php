@@ -21,6 +21,9 @@ class AclRoles extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+
+    public $list_id;
+
     public static function tableName()
     {
         return 'phpbb_acl_roles';
@@ -39,6 +42,7 @@ class AclRoles extends \yii\db\ActiveRecord
     {
         return [
             [['role_description'], 'required'],
+            [['list_id'], 'safe'],
             [['role_description', 'description'], 'string'],
             [['role_order'], 'integer'],
             [['role_name'], 'string', 'max' => 255],
@@ -58,6 +62,7 @@ class AclRoles extends \yii\db\ActiveRecord
             'role_type' => 'Role Type',
             'role_order' => 'Role Order',
             'description' => 'Mô tả',
+            'list_id' => 'Quyền chi tiết',
         ];
     }
 

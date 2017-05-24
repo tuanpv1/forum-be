@@ -11,6 +11,7 @@ use Yii;
  * @property string $auth_option
  * @property string $description
  * @property integer $is_global
+ * @property integer $type
  * @property integer $is_local
  * @property integer $founder_only
  *
@@ -26,6 +27,11 @@ class AclOptions extends \yii\db\ActiveRecord
         return 'phpbb_acl_options';
     }
 
+    const TYPE_FORUM = 1;
+    const TYPE_ADMIN = 2;
+    const TYPE_MODE = 3;
+    const TYPE_USER = 4;
+
     public $viewAttr = [];
 
     /**
@@ -34,7 +40,7 @@ class AclOptions extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['is_global', 'is_local', 'founder_only'], 'integer'],
+            [['is_global', 'is_local', 'founder_only','type'], 'integer'],
             [['description'], 'string'],
             [['auth_option'], 'string', 'max' => 50],
             [['auth_option'], 'unique'],

@@ -24,6 +24,9 @@ use yii\helpers\Html;
 
     <?= $form->field($model, 'role_name')->textInput(['maxlength' => 200, 'class' => 'input-circle', 'readOnly' => true]) ?>
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+    <?php if(!$model->isNewRecord) { ?>
+        <?= $form->field($model,'list_id')->checkboxList(\common\models\AclRolesData::getRoleOptionId($model->role_id))?>
+    <?php }?>
 </div>
 <div class="form-actions">
     <div class="row">
