@@ -316,7 +316,13 @@ class TopicsController extends Controller
                 $index = $post['editableIndex'];
                 if ($topic || $model->topic_id != $topic->topic_id) {
                     $topic->load($post['Topics'][$index], '');
+                    $model->topic_posts_approved = 1;
+                    $model->topic_posts_unapproved = 0;
+                    $model->topic_visibility = 1;
                     if ($topic->update()) {
+                        $post = Posts::findOne(['topic_id'=>$model->topic_id]);
+                        $post->post_visibility = 1;
+                        $post->update(false);
                         // tao log
                         $description = 'UPDATE STATUS CONTENT';
                         $ip_address = CUtils::clientIP();

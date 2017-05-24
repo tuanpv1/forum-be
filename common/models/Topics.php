@@ -190,7 +190,12 @@ class Topics extends \yii\db\ActiveRecord
     public function approve($status)
     {
         $this->topic_status_display = $status;
-
+        $this->topic_posts_approved =1;
+        $this->topic_posts_unapproved = 0;
+        $this->topic_visibility = 1;
+        $post = Posts::findOne(['topic_id'=>$this->topic_id]);
+        $post->post_visibility = 1;
+        $post->update(false);
         return $this->update(false);
     }
 
