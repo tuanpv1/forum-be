@@ -4,6 +4,9 @@ namespace backend\controllers;
 
 use common\components\ActionAdmin;
 use common\helpers\Message;
+use common\models\AclOptions;
+use common\models\AclRoles;
+use common\models\AclUsers;
 use common\models\Groups;
 use common\models\UserGroup;
 use common\models\UserNotifications;
@@ -267,6 +270,158 @@ class UsersController extends Controller
                 'message' => 'Không tìm thấy Users trên hệ thống'
             ];
         }
+    }
+
+    // TuanPV
+
+    public function actionAddAclUser($id){
+    /* @var $model Users */
+    $model = Users::findOne(['user_id' => $id]);
+
+    Yii::$app->response->format = Response::FORMAT_JSON;
+
+    $success = false;
+    $message = Yii::t('app','Users/Quyền không tồn tại');
+
+    if ($model) {
+        $post = Yii::$app->request->post();
+
+        if (isset($post['addItems'])) {
+            $items = $post['addItems'];
+
+            $count = 0;
+
+            foreach ($items as $item) {
+                $role = AclOptions::findOne(['auth_option_id' => $item]);
+                $mapping = new AclUsers();
+                $mapping->auth_option_id = $item;
+                $mapping->user_id = $id;
+                if ($mapping->save()) {
+                    $count ++;
+                }
+            }
+
+
+            if ($count >0) {
+                $success = true;
+                $message = Yii::t('app','Đã thêm ').$count.Yii::t('app',' quyền cho người dùng ').$model->username;
+
+            }
+        }
+    }
+
+    return [
+        'success' => $success,
+        'message' => $message
+    ];
+}
+
+    //TuanPV
+    public function actionRevokeOptionItem()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $post = Yii::$app->request->post();
+
+        $success = false;
+        $message = Yii::t('app','Tham số không đúng');
+
+        if (isset($post['users']) && isset($post['item'])) {
+            $user = $post['users'];
+            $item = $post['item'];
+
+            $mapping = AclUsers::find()->andWhere(['user_id' => $user, 'auth_option_id' => $item])->one();
+            if ($mapping) {
+                if ($mapping->delete()) {
+                    $success = true;
+                    $message = Yii::t('app','Đã xóa quyền ').$item.Yii::t('app','khỏi user ').$user.'!';
+                } else {
+                    $message = Yii::t('app','Lỗi hệ thống, vui lòng thử lại sau');
+                }
+            } else {
+                $message = Yii::t('app','Quyền').$item.Yii::t('app','chưa được cấp cho user').$user.'!';
+            }
+
+        }
+
+        return [
+            'success' => $success,
+            'message' => $message
+        ];
+    }
+
+    public function actionAddRoleUser($id){
+        /* @var $model Users */
+        $model = Users::findOne(['user_id' => $id]);
+
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        $success = false;
+        $message = Yii::t('app','Users/Nhóm quyền không tồn tại');
+
+        if ($model) {
+            $post = Yii::$app->request->post();
+
+            if (isset($post['addItems'])) {
+                $items = $post['addItems'];
+
+                $count = 0;
+
+                foreach ($items as $item) {
+                    $role = AclRoles::findOne(['role_id' => $item]);
+                    $mapping = new AclUsers();
+                    $mapping->auth_role_id = $item;
+                    $mapping->user_id = $id;
+                    if ($mapping->save()) {
+                        $count ++;
+                    }
+                }
+
+
+                if ($count >0) {
+                    $success = true;
+                    $message = Yii::t('app','Đã thêm ').$count.Yii::t('app',' nhóm quyền cho người dùng ').$model->username;
+
+                }
+            }
+        }
+
+        return [
+            'success' => $success,
+            'message' => $message
+        ];
+    }
+
+    //TuanPV
+    public function actionRevokeRoleItem()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $post = Yii::$app->request->post();
+
+        $success = false;
+        $message = Yii::t('app','Tham số không đúng');
+
+        if (isset($post['users']) && isset($post['item'])) {
+            $user = $post['users'];
+            $item = $post['item'];
+
+            $mapping = AclUsers::find()->andWhere(['user_id' => $user, 'auth_role_id' => $item])->one();
+            if ($mapping) {
+                if ($mapping->delete()) {
+                    $success = true;
+                    $message = Yii::t('app','Đã xóa quyền ').$item.Yii::t('app','khỏi user ').$user.'!';
+                } else {
+                    $message = Yii::t('app','Lỗi hệ thống, vui lòng thử lại sau');
+                }
+            } else {
+                $message = Yii::t('app','Quyền').$item.Yii::t('app','chưa được cấp cho user').$user.'!';
+            }
+
+        }
+
+        return [
+            'success' => $success,
+            'message' => $message
+        ];
     }
 
 }

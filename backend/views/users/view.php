@@ -33,7 +33,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         </li>
                         <li class=" <?= ($active == 2) ? 'active' : '' ?>">
                             <a href="#tab2" data-toggle="tab" >
-                                Phân quyền </a>
+                                Phân nhóm quyền </a>
+                        </li>
+                        <li class=" <?= ($active == 3) ? 'active' : '' ?>">
+                            <a href="#tab3" data-toggle="tab" >
+                                Phân quyền chi tiết </a>
                         </li>
                     </ul>
                     <div class="tab-content">
@@ -42,6 +46,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         </div>
                         <div class="tab-pane <?= ($active == 2) ? 'active' : '' ?>" id="tab2">
                             <?=$this->render('_user_role',['model'=>$model])?>
+                        </div>
+                        <div class="tab-pane <?= ($active == 3) ? 'active' : '' ?>" id="tab3">
+                            <?=$this->render('_user_option',['model'=>$model])?>
                         </div>
                     </div>
                 </div>

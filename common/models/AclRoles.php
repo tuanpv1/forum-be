@@ -49,7 +49,7 @@ class AclRoles extends \yii\db\ActiveRecord
             [['role_description'], 'required'],
             [['list_id','display_name'], 'safe'],
             [['role_description', 'description'], 'string'],
-            [['role_order','status'], 'integer'],
+            [['role_order','status','role_id'], 'integer'],
             [['role_name'], 'string', 'max' => 255],
             [['role_type'], 'string', 'max' => 10],
         ];

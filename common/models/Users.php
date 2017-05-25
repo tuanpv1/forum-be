@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
@@ -348,5 +349,57 @@ class Users extends ActiveRecord implements IdentityInterface
     public function generateAuthKey()
     {
         $this->auth_key = Yii::$app->security->generateRandomString();
+    }
+
+    public function getAuthAclUser()
+    {
+        return new ActiveDataProvider([
+            'query' => $this->getAclUser()
+        ]);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAclUser()
+    {
+        return
+            AclUsers::find()
+                ->select('phpbb_acl_options.auth_option_id,phpbb_acl_options.description,phpbb_acl_options.type')
+                ->innerJoin('phpbb_acl_options','phpbb_acl_options.auth_option_id = phpbb_acl_users.auth_option_id')
+                ->andWhere(['phpbb_acl_users.user_id'=>$this->user_id]);
+    }
+
+    public function getAllOptionUser()
+    {
+        $roles = AclOptions::find()
+            ->andWhere('auth_option_id NOT IN (SELECT auth_option_id FROM phpbb_acl_users where user_id = :id)', [':id' => $this->user_id])
+            ->andWhere(['type'=>AclOptions::TYPE_USER]);
+
+        return $roles->all();
+    }
+
+    public function getAuthRoleUser()
+    {
+        return new ActiveDataProvider([
+            'query' => $this->getRoleUser()
+        ]);
+    }
+
+    private function getRoleUser()
+    {
+        return
+            AclUsers::find()
+                ->innerJoin('phpbb_acl_roles','phpbb_acl_roles.role_id = phpbb_acl_users.auth_role_id')
+                ->andWhere(['phpbb_acl_users.user_id'=>$this->user_id]);
+    }
+
+    public function getAllRolesUser()
+    {
+        $roles = AclRoles::find()
+            ->andWhere('role_id NOT IN (SELECT auth_role_id FROM phpbb_acl_users where user_id = :id)', [':id' => $this->user_id])
+            ->andWhere(['role_type'=>'u_']);
+
+        return $roles->all();
     }
 }

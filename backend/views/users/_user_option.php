@@ -25,13 +25,13 @@ ToastAsset::config($this, [
 $authAclUserGridId = "authAclUserGridId";
 $formID= "add-permission-form";
 
-$revokeUrl = Url::to(['users/revoke-role-item']);
+$revokeOptionUrl = Url::to(['users/revoke-option-item']);
 
 $js = <<<JS
-function revokeItemRole(item){
-    if(confirm("Bạn có thực sự muốn xóa nhóm quyền '" + item + "' khỏi user '" + "$model->username" + "' không?")){
+function revokeItem(item){
+    if(confirm("Bạn có thực sự muốn xóa quyền '" + item + "' khỏi user '" + "$model->username" + "' không?")){
     jQuery.post(
-        '{$revokeUrl}'
+        '{$revokeOptionUrl}'
         ,{ users: "$model->user_id", item:item}
         )
         .done(function(result) {
@@ -88,21 +88,21 @@ $this->registerJs($js, View::POS_END);
         <h3 class="form-section"><?= \Yii::t('app', 'Quyền User') ?></h3>
         <?= GridView::widget([
             'id' => $authAclUserGridId,
-            'dataProvider' => $model->getAuthRoleUser(),
+            'dataProvider' => $model->getAuthAclUser(),
             'responsive' => true,
             'pjax' => true,
             'hover' => true,
             'columns' => [
                 ['class' => 'kartik\grid\SerialColumn'],
                 [
-                    'attribute' => 'auth_role_id',
+                    'attribute' => 'auth_option_id',
                     'format' => 'html',
                     'vAlign' => 'middle',
                     'value' => function ($model, $key, $index, $widget) {
                         /**
                          * @var $model \common\models\AclUsers
                          */
-                        $res = AclRoles::findOne(['role_id'=>5])->role_name;
+                        $res = \common\models\AclOptions::findOne(['auth_option_id'=>$model->auth_option_id])->auth_option;
                         return $res;
                     },
                 ],
@@ -112,9 +112,10 @@ $this->registerJs($js, View::POS_END);
                     'vAlign' => 'middle',
                     'value' => function ($model, $key, $index, $widget) {
                         /**
-                         * @var $model \common\models\AclUsers
+                         * @var $model \common\models\AclOptions
                          */
-                        return AclRoles::findOne(['role_id'=>5])->description;
+                        $res = AclOptions::findOne(['auth_option_id'=>$model->auth_option_id])->description;
+                        return $res;
                     },
                 ],
                 ['class' => 'kartik\grid\ActionColumn',
@@ -123,9 +124,9 @@ $this->registerJs($js, View::POS_END);
                         'revoke' => function ($url, $model1, $key) {
                             return Html::button('<i class="glyphicon glyphicon-remove-circle"></i> '.\Yii::t('app', 'Xóa quyền'), [
                                 'type' => 'button',
-                                'title' => ''.\Yii::t('app', 'Xóa nhóm quyền'),
+                                'title' => ''.\Yii::t('app', 'Xóa quyền'),
                                 'class' => 'btn btn-danger',
-                                'onclick' => "revokeItemRole('$model1->auth_role_id');"
+                                'onclick' => "revokeItem('$model1->auth_option_id');"
                             ]);
                         },
                     ],
@@ -133,17 +134,18 @@ $this->registerJs($js, View::POS_END);
             ],
         ]); ?>
 
-        <h3 class="form-section"><?= \Yii::t('app', 'Thêm nhóm quyền') ?></h3>
+        <h3 class="form-section"><?= \Yii::t('app', 'Thêm quyền') ?></h3>
         <?php
         $form = ActiveForm::begin([
             'id' => $formID,
-            'action' => ['users/add-role-user', 'id' => $model->user_id]
+            'action' => ['users/add-acl-user', 'id' => $model->user_id]
         ]);
         ?>
 
         <div class="form-group">
             <?php
-            $roles = ArrayHelper::map($model->getAllRolesUser(), "role_id", "role_name");
+            $roles = ArrayHelper::map($model->getAllOptionUser(), "auth_option_id", "auth_option");
+            //                                            $data = ["Nhóm quyền" => $roles];
             $data = $roles;
             echo Select2::widget([
                 'name' => 'addItems',
@@ -157,7 +159,7 @@ $this->registerJs($js, View::POS_END);
         </div>
 
         <div class="form-group">
-            <?= Html::submitButton(''.\Yii::t('app', 'Thêm nhóm quyền'),['class' => 'btn btn-primary']) ?>
+            <?= Html::submitButton(''.\Yii::t('app', 'Thêm quyền'),['class' => 'btn btn-primary']) ?>
         </div>
 
         <?php ActiveForm::end(); ?>
