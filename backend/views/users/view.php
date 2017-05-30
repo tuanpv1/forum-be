@@ -42,13 +42,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane <?= ($active == 1) ? 'active' : '' ?>" id="tab1">
-                            <?=$this->render('_detail',['model'=>$model])?>
+                            <?= Yii::$app->controller->renderPartial('_detail',['model'=>$model])?>
                         </div>
                         <div class="tab-pane <?= ($active == 2) ? 'active' : '' ?>" id="tab2">
-                            <?=$this->render('_user_role',['model'=>$model])?>
+                            <?= Yii::$app->controller->renderPartial('_user_role',['model'=>$model])?>
                         </div>
                         <div class="tab-pane <?= ($active == 3) ? 'active' : '' ?>" id="tab3">
-                            <?=$this->render('_user_option',['model'=>$model])?>
+                            <?= Yii::$app->controller->renderPartial('_user_option',['model'=>$model])?>
                         </div>
                     </div>
                 </div>
