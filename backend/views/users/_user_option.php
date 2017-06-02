@@ -13,7 +13,7 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\User */
+/* @var $model common\models\Users */
 
 ?>
 <?php
@@ -28,8 +28,8 @@ $formID= "add-permission-form";
 $revokeOptionUrl = Url::to(['users/revoke-option-item']);
 
 $js = <<<JS
-function revokeItem(item){
-    if(confirm("Bạn có thực sự muốn xóa quyền '" + item + "' khỏi user '" + "$model->username" + "' không?")){
+function revokeItem(item,name_option){
+    if(confirm("Bạn có thực sự muốn xóa quyền '" + name_option + "' khỏi user '" + "$model->username" + "' không?")){
     jQuery.post(
         '{$revokeOptionUrl}'
         ,{ users: "$model->user_id", item:item}
@@ -102,7 +102,7 @@ $this->registerJs($js, View::POS_END);
                         /**
                          * @var $model \common\models\AclUsers
                          */
-                        $res = \common\models\AclOptions::findOne(['auth_option_id'=>$model->auth_option_id])->auth_option;
+                        $res = AclOptions::findOne(['auth_option_id'=>$model->auth_option_id])->auth_option;
                         return $res;
                     },
                 ],
@@ -122,11 +122,12 @@ $this->registerJs($js, View::POS_END);
                     'template' => '{revoke}',
                     'buttons'=> [
                         'revoke' => function ($url, $model1, $key) {
+                            $name_option = AclOptions::findOne(['auth_option_id'=>$model1->auth_option_id])->auth_option;
                             return Html::button('<i class="glyphicon glyphicon-remove-circle"></i> '.\Yii::t('app', 'Xóa quyền'), [
                                 'type' => 'button',
                                 'title' => ''.\Yii::t('app', 'Xóa quyền'),
                                 'class' => 'btn btn-danger',
-                                'onclick' => "revokeItem('$model1->auth_option_id');"
+                                'onclick' => "revokeItem('$model1->auth_option_id','$name_option');"
                             ]);
                         },
                     ],
@@ -145,7 +146,6 @@ $this->registerJs($js, View::POS_END);
         <div class="form-group">
             <?php
             $roles = ArrayHelper::map($model->getAllOptionUser(), "auth_option_id", "auth_option");
-            //                                            $data = ["Nhóm quyền" => $roles];
             $data = $roles;
             echo Select2::widget([
                 'name' => 'addItems',

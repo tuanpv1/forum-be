@@ -23,13 +23,13 @@ ToastAsset::config($this, [
 ]);
 
 $authAclUserGridId = "authAclUserGridId";
-$formID= "add-permission-form";
+$formIdRole= "add-role-form";
 
 $revokeUrl = Url::to(['users/revoke-role-item']);
 
 $js = <<<JS
-function revokeItemRole(item){
-    if(confirm("Bạn có thực sự muốn xóa nhóm quyền '" + item + "' khỏi user '" + "$model->username" + "' không?")){
+function revokeItemRole(item,name_item){
+    if(confirm("Bạn có thực sự muốn xóa nhóm quyền '" + name_item + "' khỏi user '" + "$model->username" + "' không?")){
     jQuery.post(
         '{$revokeUrl}'
         ,{ users: "$model->user_id", item:item}
@@ -53,8 +53,8 @@ $this->registerJs($js, View::POS_END);
 
 $js = <<<JS
 // get the form id and set the event
-jQuery('#{$formID}').on('beforeSubmit', function(e) {
-    \$form = jQuery('#{$formID}');
+jQuery('#{$formIdRole}').on('beforeSubmit', function(e) {
+    \$form = jQuery('#{$formIdRole}');
    $.post(
         \$form.attr("action"), // serialize Yii2 form
         \$form.serialize()
@@ -102,7 +102,7 @@ $this->registerJs($js, View::POS_END);
                         /**
                          * @var $model \common\models\AclUsers
                          */
-                        $res = AclRoles::findOne(['role_id'=>5])->role_name;
+                        $res =$model->auth_role_id?AclRoles::findOne(['role_id'=>$model->auth_role_id])->role_name:'';
                         return $res;
                     },
                 ],
@@ -114,18 +114,19 @@ $this->registerJs($js, View::POS_END);
                         /**
                          * @var $model \common\models\AclUsers
                          */
-                        return AclRoles::findOne(['role_id'=>5])->description;
+                        return $model->auth_role_id?AclRoles::findOne(['role_id'=>$model->auth_role_id])->description:'';
                     },
                 ],
                 ['class' => 'kartik\grid\ActionColumn',
                     'template' => '{revoke}',
                     'buttons'=> [
                         'revoke' => function ($url, $model1, $key) {
+                            $name_item = AclRoles::findOne(['role_id'=>$model1->auth_role_id])->role_name;
                             return Html::button('<i class="glyphicon glyphicon-remove-circle"></i> '.\Yii::t('app', 'Xóa quyền'), [
                                 'type' => 'button',
                                 'title' => ''.\Yii::t('app', 'Xóa nhóm quyền'),
                                 'class' => 'btn btn-danger',
-                                'onclick' => "revokeItemRole('$model1->auth_role_id');"
+                                'onclick' => "revokeItemRole('$model1->auth_role_id','$name_item');"
                             ]);
                         },
                     ],
@@ -136,7 +137,7 @@ $this->registerJs($js, View::POS_END);
         <h3 class="form-section"><?= \Yii::t('app', 'Thêm nhóm quyền') ?></h3>
         <?php
         $form = ActiveForm::begin([
-            'id' => $formID,
+            'id' => $formIdRole,
             'action' => ['users/add-role-user', 'id' => $model->user_id]
         ]);
         ?>

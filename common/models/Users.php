@@ -365,9 +365,8 @@ class Users extends ActiveRecord implements IdentityInterface
     {
         return
             AclUsers::find()
-                ->select('phpbb_acl_options.auth_option_id,phpbb_acl_options.description,phpbb_acl_options.type')
-                ->innerJoin('phpbb_acl_options','phpbb_acl_options.auth_option_id = phpbb_acl_users.auth_option_id')
-                ->andWhere(['phpbb_acl_users.user_id'=>$this->user_id]);
+                ->andWhere(['user_id'=>$this->user_id])
+                ->andWhere(['auth_setting'=>AclUsers::AUTH_OPITON_ID]);
     }
 
     public function getAllOptionUser()
@@ -388,10 +387,9 @@ class Users extends ActiveRecord implements IdentityInterface
 
     private function getRoleUser()
     {
-        return
-            AclUsers::find()
-                ->innerJoin('phpbb_acl_roles','phpbb_acl_roles.role_id = phpbb_acl_users.auth_role_id')
-                ->andWhere(['phpbb_acl_users.user_id'=>$this->user_id]);
+        return AclUsers::find()
+                ->andWhere(['user_id'=>$this->user_id])
+                ->andWhere(['auth_setting'=>AclUsers::AUTH_ROLE_ID]);
     }
 
     public function getAllRolesUser()

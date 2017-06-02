@@ -295,6 +295,7 @@ class UsersController extends Controller
                 $role = AclOptions::findOne(['auth_option_id' => $item]);
                 $mapping = new AclUsers();
                 $mapping->auth_option_id = $item;
+                $mapping->auth_setting = AclUsers::AUTH_OPITON_ID;
                 $mapping->user_id = $id;
                 if ($mapping->save()) {
                     $count ++;
@@ -363,13 +364,14 @@ class UsersController extends Controller
 
             if (isset($post['addItems'])) {
                 $items = $post['addItems'];
-
+                Yii::info($items);
                 $count = 0;
 
                 foreach ($items as $item) {
                     $role = AclRoles::findOne(['role_id' => $item]);
                     $mapping = new AclUsers();
                     $mapping->auth_role_id = $item;
+                    $mapping->auth_setting = AclUsers::AUTH_ROLE_ID;
                     $mapping->user_id = $id;
                     if ($mapping->save()) {
                         $count ++;
