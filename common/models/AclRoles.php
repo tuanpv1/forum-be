@@ -27,6 +27,11 @@ class AclRoles extends \yii\db\ActiveRecord
     const STATUS_ACTIVE = 1;
     const STATUS_INACTIVE = 0;
 
+    const TYPE_FORUM = 'f_';
+    const TYPE_ADMIN = 'a_';
+    const TYPE_USER = 'u_';
+    const TYPE_MODE = 'm_';
+
     public $list_id;
 
     public static function tableName()

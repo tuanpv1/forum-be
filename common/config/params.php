@@ -22,5 +22,5 @@ return [
             '127.0.0.0/16',
         ],
     ],
-    'tvod1Only' => false
+    'forum_url' => 'http://localhost:8080/phpbb/ucp.php?mode=login'
 ];

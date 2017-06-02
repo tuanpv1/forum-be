@@ -28,6 +28,7 @@ use Yii;
  * @property string $group_message_limit
  * @property string $group_legend
  * @property string $group_max_recipients
+ * @property string $group_display_name
  */
 class Groups extends \yii\db\ActiveRecord
 {
@@ -53,7 +54,7 @@ class Groups extends \yii\db\ActiveRecord
         return [
             [['group_type', 'group_founder_manage', 'group_skip_auth', 'group_desc_options', 'group_display', 'group_avatar_width', 'group_avatar_height', 'group_rank', 'group_sig_chars', 'group_receive_pm', 'group_message_limit', 'group_legend', 'group_max_recipients'], 'integer'],
             [['group_desc'], 'required'],
-            [['group_desc'], 'string'],
+            [['group_desc','group_display_name'], 'string'],
             [['group_name', 'group_desc_bitfield', 'group_avatar', 'group_avatar_type'], 'string', 'max' => 255],
             [['group_desc_uid'], 'string', 'max' => 8],
             [['group_colour'], 'string', 'max' => 6],

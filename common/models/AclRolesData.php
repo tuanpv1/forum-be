@@ -80,4 +80,13 @@ class AclRolesData extends \yii\db\ActiveRecord
             ->andWhere(['type'=>$type])->asArray()->all();
         return ArrayHelper::map($aclRoleData, 'id', 'name');
     }
+
+    public static function getRoleOptionType($type)
+    {
+
+        $aclRoleData = AclOptions::find()
+            ->select(['phpbb_acl_options.auth_option_id as id', 'phpbb_acl_options.description as name'])
+            ->andWhere(['type'=>$type])->asArray()->all();
+        return ArrayHelper::map($aclRoleData, 'id', 'name');
+    }
 }

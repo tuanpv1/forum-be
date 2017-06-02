@@ -7,7 +7,7 @@ use kartik\grid\GridView;
 /* @var $searchModel common\models\PhpbbGroupsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Quản lý danh mục ';
+$this->title = 'Danh sách nhóm người dùng ';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
     <div class="row">

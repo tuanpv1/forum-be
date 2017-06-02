@@ -10,6 +10,7 @@
  */
 .select2-container--krajee {
     display: block;
+    z-index: 99999;
 }
 
 .select2-container--krajee .select2-selection {

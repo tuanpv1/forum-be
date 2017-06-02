@@ -233,6 +233,7 @@ class CategoryController extends Controller
     {
         $model = $this->findModel($id);
         $model->setScenario('admin_create_update');
+        $paren_id_old = $model->parent_id;
         $post = Yii::$app->request->post();
         if (Yii::$app->request->isAjax && isset($post['ajax']) && $model->load($post)) {
             Yii::$app->response->format = Response::FORMAT_JSON;
@@ -240,25 +241,26 @@ class CategoryController extends Controller
         }
 
         if ($model->load(Yii::$app->request->post())) {
-
-            if ($model->parent_id) {
-                $modelParent = Category::findOne(['forum_id' => $model->parent_id]);
-                $updateTable = Category::find()->andWhere('left_id >  :left_id', ['left_id' => (int)$modelParent->right_id])->all();
-                foreach ($updateTable as $item) {
-                    /** @var $item Category */
-                    $item->left_id = (int)$item->left_id + 3;
-                    $item->right_id = (int)$item->right_id + 3;
-                    $item->update();
+            if($model->parent_id != $paren_id_old){
+                if ($model->parent_id) {
+                    $modelParent = Category::findOne(['forum_id' => $model->parent_id]);
+                    $updateTable = Category::find()->andWhere('left_id >  :left_id', ['left_id' => (int)$modelParent->right_id])->all();
+                    foreach ($updateTable as $item) {
+                        /** @var $item Category */
+                        $item->left_id = (int)$item->left_id + 3;
+                        $item->right_id = (int)$item->right_id + 3;
+                        $item->update();
+                    }
+                    $modelParent->right_id = (int)$modelParent->right_id + 2;
+                    $modelParent->save();
+                    $model->left_id = (int)$modelParent->right_id - 2;
+                    $model->right_id = (int)$modelParent->right_id - 1;
+                } else {
+                    $modelRight = Category::find()->orderBy(['right_id' => SORT_DESC])->one();
+                    /** @var  $modelRight Category */
+                    $model->left_id = (int)$modelRight->right_id + 1;
+                    $model->right_id = (int)$modelRight->right_id + 2;
                 }
-                $modelParent->right_id = (int)$modelParent->right_id + 2;
-                $modelParent->save();
-                $model->left_id = (int)$modelParent->right_id - 2;
-                $model->right_id = (int)$modelParent->right_id - 1;
-            } else {
-                $modelRight = Category::find()->orderBy(['right_id' => SORT_DESC])->one();
-                /** @var  $modelRight Category */
-                $model->left_id = (int)$modelRight->right_id + 1;
-                $model->right_id = (int)$modelRight->right_id + 2;
             }
             $model->save(false);
             \Yii::$app->getSession()->setFlash('success', 'Cập nhật thành công');

@@ -114,20 +114,25 @@ $arrlang = array();
                     'linkOptions' => ['data-hover' => 'megamenu-dropdown', 'data-close-others' => 'true'],
                     'options' => ['class' => 'menu-dropdown mega-menu-dropdown'],
                     'items' => [
+//                        [
+//                            'encode' => false,
+//                            'label' => '<i class="glyphicon glyphicon-user"></i> ' . Yii::t('app', 'Nhóm người dùng'),
+//                            'url' => ['phpbb-groups/index'],
+//                        ],
+//                        [
+//                            'encode' => false,
+//                            'label' => '<i class="glyphicon glyphicon-barcode"></i> ' . Yii::t('app', 'Nhóm quyền'),
+//                            'url' => ['acl-roles/index'],
+//                        ],
+//                        [
+//                            'encode' => false,
+//                            'label' => '<i class="glyphicon glyphicon-th-list"></i> ' . Yii::t('app', 'Quyền chi tiết'),
+//                            'url' => ['acl-options/index'],
+//                        ],
                         [
                             'encode' => false,
-                            'label' => '<i class="glyphicon glyphicon-user"></i> ' . Yii::t('app', 'Nhóm người dùng'),
-                            'url' => ['phpbb-groups/index'],
-                        ],
-                        [
-                            'encode' => false,
-                            'label' => '<i class="glyphicon glyphicon-barcode"></i> ' . Yii::t('app', 'Nhóm quyền'),
-                            'url' => ['acl-roles/index'],
-                        ],
-                        [
-                            'encode' => false,
-                            'label' => '<i class="glyphicon glyphicon-th-list"></i> ' . Yii::t('app', 'Quyền chi tiết'),
-                            'url' => ['acl-options/index'],
+                            'label' => '<i class="glyphicon glyphicon-th-list"></i> ' . Yii::t('app', 'Cấp quyền danh mục'),
+                            'url' => ['acl-roles/index-category'],
                         ],
                     ]
                 ],
