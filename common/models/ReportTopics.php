@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use DateTime;
 use Yii;
 
 /**
@@ -18,6 +19,8 @@ use Yii;
  */
 class ReportTopics extends \yii\db\ActiveRecord
 {
+    public $from_date;
+    public $to_date;
     /**
      * @inheritdoc
      */
@@ -50,6 +53,7 @@ class ReportTopics extends \yii\db\ActiveRecord
     {
         return [
             [['date_report', 'forum_id', 'topic_id', 'like_count', 'total_post', 'view_count', 'rate_count'], 'integer'],
+            [['from_date', 'to_date'], 'safe'],
         ];
     }
 
@@ -67,6 +71,31 @@ class ReportTopics extends \yii\db\ActiveRecord
             'total_post' => 'Total Post',
             'view_count' => 'View Count',
             'rate_count' => 'Rate Count',
+            'from_date' => 'Từ ngày',
+            'to_date' => 'Đến ngày',
         ];
+    }
+
+    public function generateReport()
+    {
+        if ($this->from_date != '' && DateTime::createFromFormat("d/m/Y", $this->from_date)) {
+            $from_date = DateTime::createFromFormat("d/m/Y", $this->from_date)->setTime(0, 0)->format('Y-m-d H:i:s');
+        } else {
+            $from_date = (new DateTime('now'))->setTime(0, 0)->format('Y-m-d H:i:s');
+        }
+
+        if ($this->to_date != '' && DateTime::createFromFormat("d/m/Y", $this->to_date)) {
+            $to_date = DateTime::createFromFormat("d/m/Y", $this->to_date)->setTime(23, 59, 59)->format('Y-m-d H:i:s');
+        } else {
+            $to_date = (new DateTime('now'))->setTime(23, 59, 59)->format('Y-m-d H:i:s');
+        }
+
+        $param = Yii::$app->request->queryParams;
+        $searchModel = new ReportTopicsSearch();
+        $param['ReportTopicsSearch']['from_date'] =$from_date;
+        $param['ReportTopicsSearch']['to_date'] =$to_date;
+        $dataProvider = $searchModel->search($param);
+
+        return $dataProvider;
     }
 }

@@ -222,8 +222,6 @@ class ReportController extends Controller
                     echo '****** ERROR! Chay bao cao khong thanh cong ******';
                     $transaction->rollBack();
                 }
-                $transaction->commit();
-                echo '****** Chay bao cao hoan thanh! ******';
             }
             $transaction->commit();
             echo '****** Chay bao cao hoan thanh! ******';
@@ -284,8 +282,6 @@ class ReportController extends Controller
                 echo '****** ERROR! Chay bao cao khong thanh cong ******';
                 $transaction->rollBack();
             }
-            $transaction->commit();
-            echo '****** Chay bao cao hoan thanh! ******';
             $transaction->commit();
             echo '****** Chay bao cao hoan thanh! ******';
 

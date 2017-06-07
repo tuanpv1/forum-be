@@ -1,7 +1,8 @@
 <?php
 
 use common\helpers\CommonUtils;
-use common\models\ReportSubscriberService;
+use common\models\Forums;
+use common\models\ReportTopics;
 use common\models\Service;
 use common\models\Site;
 use common\models\Subscriber;
@@ -55,65 +56,33 @@ $this->registerJs('onchangeTypeTime()');
 
                             <div class="row">
                                 <div class="col-md-12">
+
                                     <div class="col-md-2">
-                                        <?= $form->field($report, 'site_id')->dropDownList( ArrayHelper::merge(['' => ''.\Yii::t('app', 'Tất cả')],Site::listSite()), ['id'=>'site-id']); ?>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <?= $form->field($report, 'white_list')->dropDownList( ArrayHelper::merge(['' => ''.\Yii::t('app', 'Tất cả')],ReportSubscriberService::listWhitelistTypes()), ['id'=>'white_list']); ?>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <?php
-                                        /**
-                                         * @var $services \common\models\Service[]
-                                         */
-                                        $dataList = [];
-                                        $services = Service::find()
-                                            ->andWhere(['site_id'=>$site_id])
-                                            ->orWhere(['status' => Service::STATUS_ACTIVE])
-                                            ->orWhere(['status' => Service::STATUS_INACTIVE])
-                                            ->all();
-                                        foreach ($services as $service) {
-                                            $dataList[$service->id] = $service->name;
-                                        }
-                                        echo $form->field($report, 'service_id')->widget(DepDrop::classname(),
-                                            [
-                                                'data' => $dataList,
-                                                'type' => DepDrop::TYPE_SELECT2 ,
-                                                'options' => ['id'=>'service-id','placeholder' => ''.\Yii::t('app', 'Tất cả')],
-                                                'select2Options' => ['pluginOptions' => ['allowClear' => true]],
-                                                'pluginOptions' => [
-                                                    'depends' => ['site-id'],
-                                                    'placeholder'=>'Tất cả',
-                                                    'url' => Url::to(['/report/find-service-by-site']),
-                                                ]
-                                            ]);
-                                        ?>
+                                        <?= $form->field($report, 'forum_id')->dropDownList( ArrayHelper::merge(['' => ''.\Yii::t('app', 'Tất cả')],Forums::listForum()), ['id'=>'site-id']); ?>
                                     </div>
 
-                                    <div id="date">
-                                        <div class="col-md-2">
-                                            <?= $form->field($report, 'from_date')->widget(\kartik\widgets\DatePicker::classname(), [
-                                                'options' => ['placeholder' => ''.\Yii::t('app', 'Ngày bắt đầu')],
-                                                'type' => \kartik\widgets\DatePicker::TYPE_INPUT,
-                                                'pluginOptions' => [
-                                                    'autoclose' => true,
-                                                    'todayHighlight' => true,
-                                                    'format' => 'dd/mm/yyyy'
-                                                ]
-                                            ]); ?>
+                                    <div class="col-md-2">
+                                        <?= $form->field($report, 'from_date')->widget(\kartik\widgets\DatePicker::classname(), [
+                                            'options' => ['placeholder' => ''.\Yii::t('app', 'Ngày bắt đầu')],
+                                            'type' => \kartik\widgets\DatePicker::TYPE_INPUT,
+                                            'pluginOptions' => [
+                                                'autoclose' => true,
+                                                'todayHighlight' => true,
+                                                'format' => 'dd/mm/yyyy'
+                                            ]
+                                        ]); ?>
+                                    </div>
 
-                                        </div>
-                                        <div class="col-md-2">
-                                            <?= $form->field($report, 'to_date')->widget(\kartik\widgets\DatePicker::classname(), [
-                                                'options' => ['placeholder' => ''.\Yii::t('app', 'Ngày kết thúc')],
-                                                'type' => \kartik\widgets\DatePicker::TYPE_INPUT,
-                                                'pluginOptions' => [
-                                                    'autoclose' => true,
-                                                    'todayHighlight' => true,
-                                                    'format' => 'dd/mm/yyyy'
-                                                ]
-                                            ]); ?>
-                                        </div>
+                                    <div class="col-md-2">
+                                        <?= $form->field($report, 'to_date')->widget(\kartik\widgets\DatePicker::classname(), [
+                                            'options' => ['placeholder' => ''.\Yii::t('app', 'Ngày kết thúc')],
+                                            'type' => \kartik\widgets\DatePicker::TYPE_INPUT,
+                                            'pluginOptions' => [
+                                                'autoclose' => true,
+                                                'todayHighlight' => true,
+                                                'format' => 'dd/mm/yyyy'
+                                            ]
+                                        ]); ?>
                                     </div>
 
                                     <div class="col-md-4">
@@ -125,7 +94,7 @@ $this->registerJs('onchangeTypeTime()');
                                         <?=
                                         // Chú ý: Xuất file khác so với view
                                         ExportMenu::widget([
-                                            'dataProvider' => $dataProviderDetail,
+                                            'dataProvider' => $dataProvider,
                                             'columns' => [
                                                 [
                                                     'class' => '\kartik\grid\DataColumn',
@@ -197,47 +166,64 @@ $this->registerJs('onchangeTypeTime()');
                     <?php $gridColumns =[
                         [
                             'class' => '\kartik\grid\DataColumn',
-                            'attribute' => 'report_date',
+                            'attribute' => 'date_report',
                             'width' => '150px',
                             'value' => function ($model) {
-                                /**  @var $model \common\models\ReportSubscriberService */
-                                return DateTime::createFromFormat("Y-m-d H:i:s", $model->report_date)->format('d-m-Y');
+                                /**  @var $model \common\models\ReportTopics */
+                                return DateTime::createFromFormat("Y-m-d H:i:s", $model->date_report)->format('d-m-Y');
                             },
                             'pageSummary' => "".\Yii::t('app', 'Tổng số')
                         ],
 
                         [
                             'class' => '\kartik\grid\DataColumn',
-                            'attribute' => 'subscriber_register',
+                            'attribute' => 'topic_id',
                             //                                    'format'=>['decimal'],
                             'value' => function ($model) {
-                                /**  @var $model \common\models\ReportSubscriberService */
-                                return $model->subscriber_register;
+                                /**  @var $model \common\models\ReportTopics */
+                                return $model->topic_id;
                             },
-                            'pageSummary' => true,
-//                                'pageSummary' => CommonUtils::formatNumber($dataProvider->query->sum('subscriber_register')?$dataProvider->query->sum('subscriber_register'):0)
                         ],
 
                         [
                             'class' => '\kartik\grid\DataColumn',
-                            'attribute' => 'subscriber_retry',
+                            'attribute' => 'total_post',
                             'value' => function ($model) {
-                                /**  @var $model \common\models\ReportSubscriberService */
-                                return $model->subscriber_retry;
+                                /**  @var $model \common\models\ReportTopics */
+                                return $model->total_post;
                             },
                             'pageSummary' => true,
-//                                'pageSummary' => CommonUtils::formatNumber($dataProvider->query->sum('subscriber_retry')?$dataProvider->query->sum('subscriber_retry'):0)
+                            'pageSummary' => CommonUtils::formatNumber($dataProvider->query->sum('total_post')?$dataProvider->query->sum('total_post'):0)
                         ],
-
                         [
                             'class' => '\kartik\grid\DataColumn',
-                            'attribute' => 'subscriber_expired',
+                            'attribute' => 'like_count',
                             'value' => function ($model) {
-                                /**  @var $model \common\models\ReportSubscriberService */
-                                return $model->subscriber_expired;
+                                /**  @var $model \common\models\ReportTopics */
+                                return $model->like_count;
                             },
                             'pageSummary' => true,
-//                                'pageSummary' => CommonUtils::formatNumber($dataProvider->query->sum('subscriber_expired')?$dataProvider->query->sum('subscriber_expired'):0)
+                            'pageSummary' => CommonUtils::formatNumber($dataProvider->query->sum('like_count')?$dataProvider->query->sum('like_count'):0)
+                        ],
+                        [
+                            'class' => '\kartik\grid\DataColumn',
+                            'attribute' => 'view_count',
+                            'value' => function ($model) {
+                                /**  @var $model \common\models\ReportTopics */
+                                return $model->view_count;
+                            },
+                            'pageSummary' => true,
+                            'pageSummary' => CommonUtils::formatNumber($dataProvider->query->sum('view_count')?$dataProvider->query->sum('view_count'):0)
+                        ],
+                        [
+                            'class' => '\kartik\grid\DataColumn',
+                            'attribute' => 'rate_count',
+                            'value' => function ($model) {
+                                /**  @var $model \common\models\ReportTopics */
+                                return $model->rate_count;
+                            },
+                            'pageSummary' => true,
+                            'pageSummary' => CommonUtils::formatNumber($dataProvider->query->sum('rate_count')?$dataProvider->query->sum('rate_count'):0)
                         ],
                     ]
                     ?>

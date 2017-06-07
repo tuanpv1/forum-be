@@ -68,6 +68,16 @@ class Forums extends \yii\db\ActiveRecord
     }
     private static $catTree  = array();
 
+    public static function listForum()
+    {
+        $objs = Forums::find()->all();
+        $lst  = [];
+        foreach ($objs as $obj) {
+            $lst[$obj->forum_id] = $obj->forum_name;
+        }
+        return $lst;
+    }
+
 
     /**
      * @inheritdoc

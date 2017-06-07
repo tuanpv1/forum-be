@@ -201,6 +201,19 @@ $arrlang = array();
                         ],
                     ]
                 ],
+                [
+                    'encode' => false,
+                    'label' => '<i class="glyphicon glyphicon-pencil"></i> ' . Yii::t('app', 'Quản lý báo cáo'),
+                    'linkOptions' => ['data-hover' => 'megamenu-dropdown', 'data-close-others' => 'true'],
+                    'options' => ['class' => 'menu-dropdown mega-menu-dropdown'],
+                    'items' => [
+                        [
+                            'encode' => false,
+                            'label' => '<i class="glyphicon glyphicon-subtitles"></i> ' . Yii::t('app', 'Báp cáp bài viết'),
+                            'url' => ['report/report-topic'],
+                        ],
+                    ]
+                ],
             ];
 
 
