@@ -97,6 +97,7 @@ class UsersController extends Controller
                 $model->user_inactive_time = time();
                 $model->user_actkey = Users::gen_rand_string(mt_rand(6,10));
             }elseif($model->user_type == Users::USER_TYPE_ACTIVE){
+                $model->updated_at = time();
                 $model->user_actkey = '';
                 $model->user_inactive_reason = Users::USER_TYPE_ACTIVE;
                 $model->user_inactive_time = 0;

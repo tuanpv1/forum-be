@@ -62,6 +62,7 @@ use yii\web\IdentityInterface;
  * @property integer $user_allow_viewonline
  * @property integer $user_allow_viewemail
  * @property integer $user_allow_massemail
+ * @property integer $updated_at
  * @property string $user_options
  * @property string $user_avatar
  * @property string $user_avatar_type
@@ -166,7 +167,7 @@ class Users extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['user_type', 'group_id', 'user_perm_from', 'user_regdate', 'user_passchg', 'user_email_hash', 'user_lastvisit', 'user_lastmark', 'user_lastpost_time', 'user_last_search', 'user_warnings', 'user_last_warning', 'user_login_attempts', 'user_inactive_reason', 'user_inactive_time', 'user_posts', 'user_style', 'user_rank', 'user_new_privmsg', 'user_unread_privmsg', 'user_last_privmsg', 'user_message_rules', 'user_full_folder', 'user_emailtime', 'user_topic_show_days', 'user_post_show_days', 'user_notify', 'user_notify_pm', 'user_notify_type', 'user_allow_pm', 'user_allow_viewonline', 'user_allow_viewemail', 'user_allow_massemail', 'user_options', 'user_avatar_width', 'user_avatar_height', 'user_new', 'user_reminded', 'user_reminded_time'], 'integer'],
+            [['updated_at','user_type', 'group_id', 'user_perm_from', 'user_regdate', 'user_passchg', 'user_email_hash', 'user_lastvisit', 'user_lastmark', 'user_lastpost_time', 'user_last_search', 'user_warnings', 'user_last_warning', 'user_login_attempts', 'user_inactive_reason', 'user_inactive_time', 'user_posts', 'user_style', 'user_rank', 'user_new_privmsg', 'user_unread_privmsg', 'user_last_privmsg', 'user_message_rules', 'user_full_folder', 'user_emailtime', 'user_topic_show_days', 'user_post_show_days', 'user_notify', 'user_notify_pm', 'user_notify_type', 'user_allow_pm', 'user_allow_viewonline', 'user_allow_viewemail', 'user_allow_massemail', 'user_options', 'user_avatar_width', 'user_avatar_height', 'user_new', 'user_reminded', 'user_reminded_time'], 'integer'],
             [['user_permissions', 'user_sig'], 'required'],
             [['user_permissions', 'user_sig' , 'auth_key'], 'string'],
             [['user_ip'], 'string', 'max' => 40],
@@ -280,6 +281,7 @@ class Users extends ActiveRecord implements IdentityInterface
             if(!empty($check_activity_users_post)){
                 return false;
             }
+            $this->updated_at = time();
             $this->user_type = $status;
             return $this->update(false);
         }else{
