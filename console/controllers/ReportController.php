@@ -198,12 +198,30 @@ class ReportController extends Controller
                 echo  '****** LỖI! Khong co User ******';
             }
             foreach ($users as $user){
-
-                $addReportUser = LikeCommentUser::addNewRecord($beginPreDay,$total_user,$user_ban,$user_new);
+                /** @var Users $user */
+                $user_id = $user->user_id;
+                $like_count = PostsLikes::find()
+                    ->andWhere(['user_id'=>$user_id])
+                    ->andWhere(['between', 'timestamp', $beginPreDay, $endPreDay])
+                    ->andWhere(['type'=>'post'])
+                    ->count();
+                $comment_true_count = Posts::find()
+                    ->andWhere(['between', 'post_time', $beginPreDay, $endPreDay])
+                    ->andWhere(['post_status_display'=>Posts::STATUS_ANSWER_RIGHT])
+                    ->andWhere(['poster_id'=>$user_id])
+                    ->count();
+                $comment_false_count = Posts::find()
+                    ->andWhere(['between', 'post_time', $beginPreDay, $endPreDay])
+                    ->andWhere(['post_status_display'=>Posts::STATUS_ANSWER_WRONG])
+                    ->andWhere(['poster_id'=>$user_id])
+                    ->count();
+                $addReportUser = LikeCommentUser::addNewRecord($beginPreDay,$user_id,$like_count,$comment_true_count, $comment_false_count);
                 if (!$addReportUser) {
                     echo '****** ERROR! Report voucher Daily Fail ******';
                     $transaction->rollBack();
                 }
+                $transaction->commit();
+                echo '****** Chay bao cao hoan thanh! ******';
             }
             $transaction->commit();
             echo '****** Chay bao cao hoan thanh! ******';

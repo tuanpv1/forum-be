@@ -24,6 +24,21 @@ class LikeCommentUser extends \yii\db\ActiveRecord
         return 'phpbb_like_comment_user';
     }
 
+    public static function addNewRecord($beginPreDay, $user_id, $like_count, $comment_true_count, $comment_false_count)
+    {
+        $model = new LikeCommentUser();
+        $model->user_id = $user_id;
+        $model->date_report = $beginPreDay;
+        $model->like_count = $like_count;
+        $model->answer_true = $comment_true_count;
+        $model->answer_false = $comment_false_count;
+        if(!$model->save()){
+            $model->getErrors();
+            return false;
+        }
+        return true;
+    }
+
     /**
      * @inheritdoc
      */
