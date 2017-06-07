@@ -22,6 +22,19 @@ class ReportUserPositive extends \yii\db\ActiveRecord
         return 'phpbb_report_user_positive';
     }
 
+    public static function addNewRecord($beginPreDay, $users_id_positive, $users_id_negative)
+    {
+        $model = new ReportUserPositive();
+        $model->date_report = $beginPreDay;
+        $model->user_positive_id = $users_id_positive;
+        $model->user_negative_id = $users_id_negative;
+        if(!$model->save()){
+            $model->getErrors();
+            return false;
+        }
+        return true;
+    }
+
     /**
      * @inheritdoc
      */

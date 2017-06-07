@@ -13,6 +13,7 @@ use common\models\Banlist;
 use common\models\Campaign;
 use common\models\CampaignPromotion;
 use common\models\Category;
+use common\models\ConfigSystem;
 use common\models\Content;
 use common\models\ContentProfile;
 use common\models\ContentViewLog;
@@ -76,7 +77,7 @@ class ReportController extends Controller
             print("Thoi gian bat dau: $beginPreDay : Thoi gian ket thuc: $endPreDay ");
             print("Chuyen sang ngay: $to_day_date \n");
 
-            echo "Deleted report game daily date:" . date("d-m-Y H:i:s", $beginPreDay) . ' timestamp:' . $beginPreDay;
+            echo "Xoa bao cao chay truoc do trong ngay:" . date("d-m-Y H:i:s", $beginPreDay) . ' timestamp:' . $beginPreDay;
             ReportTopics::deleteAll(['between', 'report_date', $beginPreDay, $endPreDay]);
 
             $forums = Forums::find()->all();
@@ -109,7 +110,7 @@ class ReportController extends Controller
                     $rp_topic_add = ReportTopics::addNewRecord($to_day_date, $forum_id, $topic_id, $total_post, $like_count, $view_count, $rate_count);
 
                     if (!$rp_topic_add) {
-                        echo '****** ERROR! Report voucher Daily Fail ******';
+                        echo '****** ERROR! Chay bao cao khong thanh cong ******';
                         $transaction->rollBack();
                     }
                 }
@@ -142,7 +143,7 @@ class ReportController extends Controller
             print("Thoi gian bat dau: $beginPreDay : Thoi gian ket thuc: $endPreDay ");
             print("Chuyen sang ngay: $to_day_date \n");
 
-            echo "Deleted report game daily date:" . date("d-m-Y H:i:s", $beginPreDay) . ' timestamp:' . $beginPreDay;
+            echo "Xoa bao cao chay truoc do trong ngay:" . date("d-m-Y H:i:s", $beginPreDay) . ' timestamp:' . $beginPreDay;
             ReportUsers::deleteAll(['between', 'report_date', $beginPreDay, $endPreDay]);
             $group = [Groups::GROUP_NEWLY_REGISTEREDLY, Groups::GROUP_REGISTERED];
             $total_user = Users::find()
@@ -156,7 +157,7 @@ class ReportController extends Controller
                 ->count();
             $addReportUser = ReportUsers::addNewRecord($beginPreDay, $total_user, $user_ban, $user_new);
             if (!$addReportUser) {
-                echo '****** ERROR! Report voucher Daily Fail ******';
+                echo '****** ERROR! Chay bao cao khong thanh cong ******';
                 $transaction->rollBack();
             }
             $transaction->commit();
@@ -187,7 +188,7 @@ class ReportController extends Controller
             print("Thoi gian bat dau: $beginPreDay : Thoi gian ket thuc: $endPreDay ");
             print("Chuyen sang ngay: $to_day_date \n");
 
-            echo "Deleted report game daily date:" . date("d-m-Y H:i:s", $beginPreDay) . ' timestamp:' . $beginPreDay;
+            echo "Xoa bao cao chay truoc do trong ngay:" . date("d-m-Y H:i:s", $beginPreDay) . ' timestamp:' . $beginPreDay;
             LikeCommentUser::deleteAll(['between', 'report_date', $beginPreDay, $endPreDay]);
             $group = [Groups::GROUP_NEWLY_REGISTEREDLY, Groups::GROUP_REGISTERED];
             $users = Users::find()
@@ -218,7 +219,7 @@ class ReportController extends Controller
                     ->count();
                 $addReportUser = LikeCommentUser::addNewRecord($beginPreDay, $user_id, $like_count, $comment_true_count, $comment_false_count);
                 if (!$addReportUser) {
-                    echo '****** ERROR! Report voucher Daily Fail ******';
+                    echo '****** ERROR! Chay bao cao khong thanh cong ******';
                     $transaction->rollBack();
                 }
                 $transaction->commit();
@@ -235,16 +236,16 @@ class ReportController extends Controller
 
     public function actionReportUserPositive($start_day = '')
     {
-        $config_sysyem = [];
+        $config_sysyem = ConfigSystem::findAll();
         if(!$config_sysyem){
-            print(" Lỗi! Chưa cấu hình tham số  \n");
+            print(" LOI! Chua config tham so  \n");
             exit();
         }
-        $number_like_positive = $config_sysyem->number_like_positive;
-        $number_answer_positve = $config_sysyem->number_answer_positvie;
+        $number_like_positive = $config_sysyem->number_like_postive;
+        $number_answer_positve = $config_sysyem->number_answer_postive;
         $number_answer_negative = $config_sysyem->number_answer_negative;
         if(!$number_answer_positve && !$number_like_positive){
-            print(" Lỗi! Chưa cấu hình tham số  \n");
+            print(" LOI! Chua config tham so  \n");
             exit();
         }
         $transaction = Yii::$app->db->beginTransaction();
@@ -264,7 +265,7 @@ class ReportController extends Controller
             print("Thoi gian bat dau: $beginPreDay : Thoi gian ket thuc: $endPreDay ");
             print("Chuyen sang ngay: $to_day_date \n");
 
-            echo "Deleted report game daily date:" . date("d-m-Y H:i:s", $beginPreDay) . ' timestamp:' . $beginPreDay;
+            echo "Xoa bao cao chay truoc do trong ngay:" . date("d-m-Y H:i:s", $beginPreDay) . ' timestamp:' . $beginPreDay;
             ReportUserPositive::deleteAll(['between', 'report_date', $beginPreDay, $endPreDay]);
             $group = [Groups::GROUP_NEWLY_REGISTEREDLY, Groups::GROUP_REGISTERED];
             $users_id_positive = LikeCommentUser::find()
@@ -280,7 +281,7 @@ class ReportController extends Controller
                 ->all();
             $addReportUserPositive = ReportUserPositive::addNewRecord($beginPreDay, $users_id_positive, $users_id_negative);
             if (!$addReportUserPositive) {
-                echo '****** ERROR! Report voucher Daily Fail ******';
+                echo '****** ERROR! Chay bao cao khong thanh cong ******';
                 $transaction->rollBack();
             }
             $transaction->commit();
