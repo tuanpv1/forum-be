@@ -242,6 +242,7 @@ class ReportController extends Controller
         }
         $number_like_positive = $config_sysyem->number_like_positive;
         $number_answer_positve = $config_sysyem->number_answer_positvie;
+        $number_answer_negative = $config_sysyem->number_answer_negative;
         if(!$number_answer_positve && !$number_like_positive){
             print(" Lỗi! Chưa cấu hình tham số  \n");
             exit();
@@ -266,41 +267,24 @@ class ReportController extends Controller
             echo "Deleted report game daily date:" . date("d-m-Y H:i:s", $beginPreDay) . ' timestamp:' . $beginPreDay;
             ReportUserPositive::deleteAll(['between', 'report_date', $beginPreDay, $endPreDay]);
             $group = [Groups::GROUP_NEWLY_REGISTEREDLY, Groups::GROUP_REGISTERED];
-            $users_id = LikeCommentUser::find()
+            $users_id_positive = LikeCommentUser::find()
                 ->select('user_id')
                 ->andWhere(['>=', 'like_count', $number_like_positive])
+                ->andWhere(['>=', 'answer_true', $number_answer_positve])
                 ->andWhere(['between', 'report_date', $beginPreDay, $endPreDay])
                 ->all();
-            if (!$users) {
+            $users_id_negative = LikeCommentUser::find()
+                ->select('user_id')
+                ->andWhere(['<=', 'answer_false', $number_answer_negative])
+                ->andWhere(['between', 'report_date', $beginPreDay, $endPreDay])
+                ->all();
+            $addReportUserPositive = ReportUserPositive::addNewRecord($beginPreDay, $users_id_positive, $users_id_negative);
+            if (!$addReportUserPositive) {
+                echo '****** ERROR! Report voucher Daily Fail ******';
                 $transaction->rollBack();
-                echo '****** LỖI! Khong co User ******';
             }
-            foreach ($users as $user) {
-                /** @var Users $user */
-                $user_id = $user->user_id;
-                $like_count = PostsLikes::find()
-                    ->andWhere(['user_id' => $user_id])
-                    ->andWhere(['between', 'timestamp', $beginPreDay, $endPreDay])
-                    ->andWhere(['type' => 'post'])
-                    ->count();
-                $comment_true_count = Posts::find()
-                    ->andWhere(['between', 'post_time', $beginPreDay, $endPreDay])
-                    ->andWhere(['post_status_display' => Posts::STATUS_ANSWER_RIGHT])
-                    ->andWhere(['poster_id' => $user_id])
-                    ->count();
-                $comment_false_count = Posts::find()
-                    ->andWhere(['between', 'post_time', $beginPreDay, $endPreDay])
-                    ->andWhere(['post_status_display' => Posts::STATUS_ANSWER_WRONG])
-                    ->andWhere(['poster_id' => $user_id])
-                    ->count();
-                $addReportUser = LikeCommentUser::addNewRecord($beginPreDay, $user_id, $like_count, $comment_true_count, $comment_false_count);
-                if (!$addReportUser) {
-                    echo '****** ERROR! Report voucher Daily Fail ******';
-                    $transaction->rollBack();
-                }
-                $transaction->commit();
-                echo '****** Chay bao cao hoan thanh! ******';
-            }
+            $transaction->commit();
+            echo '****** Chay bao cao hoan thanh! ******';
             $transaction->commit();
             echo '****** Chay bao cao hoan thanh! ******';
 
