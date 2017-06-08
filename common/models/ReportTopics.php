@@ -64,13 +64,13 @@ class ReportTopics extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'date_report' => 'Date Report',
-            'forum_id' => 'Forum ID',
-            'topic_id' => 'Topic ID',
-            'like_count' => 'Like Count',
-            'total_post' => 'Total Post',
-            'view_count' => 'View Count',
-            'rate_count' => 'Rate Count',
+            'date_report' => 'Ngày',
+            'forum_id' => 'Danh mục',
+            'topic_id' => 'Tổng số bài viết',
+            'like_count' => 'Tổng số like',
+            'total_post' => 'Tổng số comment',
+            'view_count' => 'Tổng số lượt xem',
+            'rate_count' => 'Trung bình đánh giá',
             'from_date' => 'Từ ngày',
             'to_date' => 'Đến ngày',
         ];
@@ -90,10 +90,15 @@ class ReportTopics extends \yii\db\ActiveRecord
             $to_date = (new DateTime('now'))->setTime(23, 59, 59)->format('Y-m-d H:i:s');
         }
 
+        $started = strtotime($from_date);
+        $finished = strtotime($to_date);
+
         $param = Yii::$app->request->queryParams;
         $searchModel = new ReportTopicsSearch();
-        $param['ReportTopicsSearch']['from_date'] =$from_date;
-        $param['ReportTopicsSearch']['to_date'] =$to_date;
+        $param['ReportTopicsSearch']['from_date'] =$started;
+        $param['ReportTopicsSearch']['to_date'] =$finished;
+        $param['ReportTopicsSearch']['forum_id'] =$this->forum_id;
+
         $dataProvider = $searchModel->search($param);
 
         return $dataProvider;

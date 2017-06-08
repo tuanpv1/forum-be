@@ -78,9 +78,9 @@ class ReportController extends Controller
             print("Chuyen sang ngay: $to_day_date \n");
 
             echo "Xoa bao cao chay truoc do trong ngay:" . date("d-m-Y H:i:s", $beginPreDay) . ' timestamp:' . $beginPreDay;
-            ReportTopics::deleteAll(['between', 'report_date', $beginPreDay, $endPreDay]);
+            ReportTopics::deleteAll(['between', 'date_report', $beginPreDay, $endPreDay]);
 
-            $forums = Forums::find()->all();
+            $forums = Forums::find()->select('forum_id')->all();
             if (!$forums) {
                 $transaction->rollBack();
                 echo 'n****** Lỗi! Không tìm thấy Forums ******';
@@ -91,33 +91,32 @@ class ReportController extends Controller
                 $topics = Topics::find()
                     ->andWhere(['forum_id' => $forum_id])
                     ->all();
-                if (!$topics) {
-                    break;
-                }
-                /** @var  $topic Topics */
-                foreach ($topics as $topic) {
-                    $topic_id = $topic->topic_id;
-                    $like_count = PostsLikes::find()
-                        ->andWhere(['post_id' => $topic_id])
-                        ->count();
-                    $total_post = Posts::find()
-                        ->innerJoin('phpbb_topics', 'phpbb_topics.topic_id = phpbb_posts.topic_id')
-                        ->andWhere('phpbb_topics.topic_first_post_id <> phpbb_posts.post_id')
-                        ->andWhere(['topic_id' => $topic_id])
-                        ->count();
-                    $view_count = $topic->topic_views;
-                    $rate_count = 0;
-                    $rp_topic_add = ReportTopics::addNewRecord($to_day_date, $forum_id, $topic_id, $total_post, $like_count, $view_count, $rate_count);
+                if ($topics) {
+                    /** @var  $topic Topics */
+                    foreach ($topics as $topic) {
+                        $topic_id = $topic->topic_id;
+                        $like_count = PostsLikes::find()
+                            ->andWhere(['post_id' => $topic_id])
+                            ->count();
+                        $total_post = Posts::find()
+                            ->innerJoin('phpbb_topics', 'phpbb_topics.topic_id = phpbb_posts.topic_id')
+                            ->andWhere('phpbb_topics.topic_first_post_id <> phpbb_posts.post_id')
+                            ->andWhere(['phpbb_posts.topic_id' => $topic_id])
+                            ->count();
+                        $view_count = $topic->topic_views;
+                        $rate_count = 0;
+                        $rp_topic_add = ReportTopics::addNewRecord($beginPreDay, $forum_id, $topic_id, $total_post, $like_count, $view_count, $rate_count);
 
-                    if (!$rp_topic_add) {
-                        echo '****** ERROR! Chay bao cao khong thanh cong ******';
-                        $transaction->rollBack();
+                        if (!$rp_topic_add) {
+                            echo '****** ERROR! Chay bao cao khong thanh cong ******';
+                            $transaction->rollBack();
+                            die();
+                        }
                     }
                 }
             }
             $transaction->commit();
             echo '****** Chay bao cao hoan thanh! ******';
-
         } catch (Exception $e) {
             $transaction->rollBack();
             echo '****** LOI! Chay bao cao khong thanh cong: ' . $e->getMessage() . '******';
@@ -159,6 +158,7 @@ class ReportController extends Controller
             if (!$addReportUser) {
                 echo '****** ERROR! Chay bao cao khong thanh cong ******';
                 $transaction->rollBack();
+                exit();
             }
             $transaction->commit();
             echo '****** Chay bao cao hoan thanh! ******';
@@ -235,14 +235,14 @@ class ReportController extends Controller
     public function actionReportUserPositive($start_day = '')
     {
         $config_sysyem = ConfigSystem::findAll();
-        if(!$config_sysyem){
+        if (!$config_sysyem) {
             print(" LOI! Chua config tham so  \n");
             exit();
         }
         $number_like_positive = $config_sysyem->number_like_postive;
         $number_answer_positve = $config_sysyem->number_answer_postive;
         $number_answer_negative = $config_sysyem->number_answer_negative;
-        if(!$number_answer_positve && !$number_like_positive){
+        if (!$number_answer_positve && !$number_like_positive) {
             print(" LOI! Chua config tham so  \n");
             exit();
         }

@@ -19,7 +19,7 @@ use yii\helpers\Url;
 /* @var $report \backend\models\ReportUserDailyForm */
 /* @var $this yii\web\View */
 
-$this->title = ''.\Yii::t('app', 'Thống kê gói cước');
+$this->title = ''.\Yii::t('app', 'Báo cáo thhonosh kê bài viết');
 $this->params['breadcrumbs'][] = $this->title;
 
 $js = <<<JS
@@ -51,7 +51,7 @@ $this->registerJs('onchangeTypeTime()');
                         <div class="col-md-12 col-md-offset-0">
                             <?php $form = ActiveForm::begin(
                                 ['method' => 'get',
-                                    'action' => Url::to(['report/report-service-subscriber']),]
+                                    'action' => Url::to(['report/report-topic']),]
                             ); ?>
 
                             <div class="row">
@@ -92,46 +92,71 @@ $this->registerJs('onchangeTypeTime()');
                                         <?php if ($dataProvider) { ?>
 
                                         <?=
-                                        // Chú ý: Xuất file khác so với view
                                         ExportMenu::widget([
                                             'dataProvider' => $dataProvider,
                                             'columns' => [
                                                 [
                                                     'class' => '\kartik\grid\DataColumn',
-                                                    'label' => Yii::t('app','Ngày'),
+                                                    'attribute' => 'date_report',
                                                     'width' => '150px',
                                                     'value' => function ($model) {
-                                                        /**  @var $model \common\models\SubscriberTransaction */
-                                                        return date('d/m/Y H:i:s', $model->transaction_time);
+                                                        /**  @var $model \common\models\ReportTopics */
+                                                        return date('d/m/Y', $model->date_report);
                                                     },
+                                                    'pageSummary' => "".\Yii::t('app', 'Tổng số')
                                                 ],
 
                                                 [
                                                     'class' => '\kartik\grid\DataColumn',
-                                                    'label' => Yii::t('app','Tên tài khoản'),
+                                                    'attribute' => 'topic_id',
                                                     //                                    'format'=>['decimal'],
                                                     'value' => function ($model) {
-                                                        /**  @var $model \common\models\SubscriberTransaction */
-                                                        return Subscriber::findOne(['id'=>$model->subscriber_id])->username;
+                                                        /**  @var $model \common\models\ReportTopics */
+                                                        return $model->topic_id;
                                                     },
+                                                    'pageSummary' => true,
+                                                    'pageSummary' => CommonUtils::formatNumber($dataProvider->query->count('topic_id')?$dataProvider->query->count('topic_id'):0)
                                                 ],
 
                                                 [
                                                     'class' => '\kartik\grid\DataColumn',
-                                                    'label' => Yii::t('app','Gói cước'),
+                                                    'attribute' => 'total_post',
                                                     'value' => function ($model) {
-                                                        /**  @var $model \common\models\SubscriberTransaction */
-                                                        return Service::findOne(['id'=>$model->service_id])->display_name;
+                                                        /**  @var $model \common\models\ReportTopics */
+                                                        return $model->total_post;
                                                     },
+                                                    'pageSummary' => true,
+                                                    'pageSummary' => CommonUtils::formatNumber($dataProvider->query->sum('total_post')?$dataProvider->query->sum('total_post'):0)
                                                 ],
-
                                                 [
                                                     'class' => '\kartik\grid\DataColumn',
-                                                    'label' => Yii::t('app','Tình trạng'),
+                                                    'attribute' => 'like_count',
                                                     'value' => function ($model) {
-                                                        /**  @var $model \common\models\SubscriberTransaction */
-                                                        return $model->getTypeName();
+                                                        /**  @var $model \common\models\ReportTopics */
+                                                        return $model->like_count;
                                                     },
+                                                    'pageSummary' => true,
+                                                    'pageSummary' => CommonUtils::formatNumber($dataProvider->query->sum('like_count')?$dataProvider->query->sum('like_count'):0)
+                                                ],
+                                                [
+                                                    'class' => '\kartik\grid\DataColumn',
+                                                    'attribute' => 'view_count',
+                                                    'value' => function ($model) {
+                                                        /**  @var $model \common\models\ReportTopics */
+                                                        return $model->view_count;
+                                                    },
+                                                    'pageSummary' => true,
+                                                    'pageSummary' => CommonUtils::formatNumber($dataProvider->query->sum('view_count')?$dataProvider->query->sum('view_count'):0)
+                                                ],
+                                                [
+                                                    'class' => '\kartik\grid\DataColumn',
+                                                    'attribute' => 'rate_count',
+                                                    'value' => function ($model) {
+                                                        /**  @var $model \common\models\ReportTopics */
+                                                        return $model->rate_count;
+                                                    },
+                                                    'pageSummary' => true,
+                                                    'pageSummary' => CommonUtils::formatNumber($dataProvider->query->sum('rate_count')?$dataProvider->query->sum('rate_count'):0)
                                                 ],
                                             ],
                                             'showConfirmAlert' => false,
@@ -152,7 +177,7 @@ $this->registerJs('onchangeTypeTime()');
                                                 ExportMenu::FORMAT_EXCEL => false,
                                             ],
                                             'target' => ExportMenu::TARGET_SELF,
-                                            'filename' => "Report_Service_Subscriber"
+                                            'filename' => "Report_Topics"
                                         ])
                                         ?>
                                     </div>
@@ -170,7 +195,7 @@ $this->registerJs('onchangeTypeTime()');
                             'width' => '150px',
                             'value' => function ($model) {
                                 /**  @var $model \common\models\ReportTopics */
-                                return DateTime::createFromFormat("Y-m-d H:i:s", $model->date_report)->format('d-m-Y');
+                                return date('d/m/Y', $model->date_report);
                             },
                             'pageSummary' => "".\Yii::t('app', 'Tổng số')
                         ],
@@ -183,6 +208,8 @@ $this->registerJs('onchangeTypeTime()');
                                 /**  @var $model \common\models\ReportTopics */
                                 return $model->topic_id;
                             },
+                            'pageSummary' => true,
+                            'pageSummary' => CommonUtils::formatNumber($dataProvider->query->count('topic_id')?$dataProvider->query->count('topic_id'):0)
                         ],
 
                         [

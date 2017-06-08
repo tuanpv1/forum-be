@@ -63,7 +63,6 @@ class ReportTopicsSearch extends ReportTopics
         $query->andFilterWhere([
             'id' => $this->id,
             'date_report' => $this->date_report,
-            'forum_id' => $this->forum_id,
             'topic_id' => $this->topic_id,
             'like_count' => $this->like_count,
             'total_post' => $this->total_post,
@@ -76,6 +75,9 @@ class ReportTopicsSearch extends ReportTopics
         }
         if ($this->to_date) {
             $query->andFilterWhere(['<=', 'date_report', $this->to_date]);
+        }
+        if ($this->to_date) {
+            $query->andFilterWhere(['forum_id'=>$this->forum_id]);
         }
 
         return $dataProvider;

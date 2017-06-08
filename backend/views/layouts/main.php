@@ -209,7 +209,7 @@ $arrlang = array();
                     'items' => [
                         [
                             'encode' => false,
-                            'label' => '<i class="glyphicon glyphicon-subtitles"></i> ' . Yii::t('app', 'Báp cáp bài viết'),
+                            'label' => '<i class="glyphicon glyphicon-subtitles"></i> ' . Yii::t('app', 'Báo cáo bài viết theo danh mục'),
                             'url' => ['report/report-topic'],
                         ],
                     ]
