@@ -114,21 +114,21 @@ $arrlang = array();
                     'linkOptions' => ['data-hover' => 'megamenu-dropdown', 'data-close-others' => 'true'],
                     'options' => ['class' => 'menu-dropdown mega-menu-dropdown'],
                     'items' => [
-//                        [
-//                            'encode' => false,
-//                            'label' => '<i class="glyphicon glyphicon-user"></i> ' . Yii::t('app', 'Nhóm người dùng'),
-//                            'url' => ['phpbb-groups/index'],
-//                        ],
-//                        [
-//                            'encode' => false,
-//                            'label' => '<i class="glyphicon glyphicon-barcode"></i> ' . Yii::t('app', 'Nhóm quyền'),
-//                            'url' => ['acl-roles/index'],
-//                        ],
-//                        [
-//                            'encode' => false,
-//                            'label' => '<i class="glyphicon glyphicon-th-list"></i> ' . Yii::t('app', 'Quyền chi tiết'),
-//                            'url' => ['acl-options/index'],
-//                        ],
+                        [
+                            'encode' => false,
+                            'label' => '<i class="glyphicon glyphicon-user"></i> ' . Yii::t('app', 'Nhóm người dùng'),
+                            'url' => ['phpbb-groups/index'],
+                        ],
+                        [
+                            'encode' => false,
+                            'label' => '<i class="glyphicon glyphicon-barcode"></i> ' . Yii::t('app', 'Nhóm quyền'),
+                            'url' => ['acl-roles/index'],
+                        ],
+                        [
+                            'encode' => false,
+                            'label' => '<i class="glyphicon glyphicon-th-list"></i> ' . Yii::t('app', 'Quyền chi tiết'),
+                            'url' => ['acl-options/index'],
+                        ],
                         [
                             'encode' => false,
                             'label' => '<i class="glyphicon glyphicon-th-list"></i> ' . Yii::t('app', 'Cấp quyền danh mục'),
@@ -209,8 +209,13 @@ $arrlang = array();
                     'items' => [
                         [
                             'encode' => false,
-                            'label' => '<i class="glyphicon glyphicon-subtitles"></i> ' . Yii::t('app', 'Báo cáo bài viết theo danh mục'),
+                            'label' => '<i class="glyphicon glyphicon-subtitles"></i> ' . Yii::t('app', 'Báo cáo bài viết'),
                             'url' => ['report/report-topic'],
+                        ],
+                        [
+                            'encode' => false,
+                            'label' => '<i class="glyphicon glyphicon-subtitles"></i> ' . Yii::t('app', 'Báo cáo thành viên'),
+                            'url' => ['report/report-user'],
                         ],
                     ]
                 ],

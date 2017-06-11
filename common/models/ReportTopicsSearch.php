@@ -44,6 +44,46 @@ class ReportTopicsSearch extends ReportTopics
     public function search($params)
     {
         $query = ReportTopics::find();
+        $query->select(
+            'COUNT(topic_id) as topic_id,
+            SUM(total_post) as total_post,
+            SUM(like_count) as like_count,
+            SUM(view_count) as view_count,
+            SUM(rate_count) as rate_count,
+            date_report'
+        );
+        $query->groupBy('date_report');
+
+        // add conditions that should always apply here
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+
+        if ($this->from_date) {
+            $query->andFilterWhere(['>=', 'date_report', $this->from_date]);
+        }
+        if ($this->to_date) {
+            $query->andFilterWhere(['<=', 'date_report', $this->to_date]);
+        }
+        if ($this->forum_id) {
+            $query->andFilterWhere(['forum_id'=>$this->forum_id]);
+        }
+
+        return $dataProvider;
+    }
+
+    public function searchDetail($params)
+    {
+        $query = ReportTopics::find();
 
         // add conditions that should always apply here
 

@@ -46,6 +46,16 @@ class ReportTopics extends \yii\db\ActiveRecord
         return true;
     }
 
+    public static function getDetailReportTopic($date_report,$forum_id)
+    {
+        $param = Yii::$app->request->queryParams;
+        $searchModel = new ReportTopicsSearch();
+        $param['ReportTopicsSearch']['date_report'] =$date_report;
+        $param['ReportTopicsSearch']['forum_id'] = $forum_id;
+        $dataProvider = $searchModel->searchDetail($param);
+        return Yii::$app->controller->renderPartial('report-topic-detail', ['dataProvider' => $dataProvider]);
+    }
+
     /**
      * @inheritdoc
      */

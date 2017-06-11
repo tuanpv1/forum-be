@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use DateTime;
 use Yii;
 
 /**
@@ -15,6 +16,8 @@ use Yii;
  */
 class ReportUsers extends \yii\db\ActiveRecord
 {
+    public $from_date;
+    public $to_date;
     /**
      * @inheritdoc
      */
@@ -44,6 +47,7 @@ class ReportUsers extends \yii\db\ActiveRecord
     {
         return [
             [['date_report', 'total_user', 'user_ban', 'user_register'], 'integer'],
+            [['from_date', 'to_date'], 'safe'],
         ];
     }
 
@@ -54,10 +58,39 @@ class ReportUsers extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'date_report' => 'Date Report',
-            'total_user' => 'Total User',
-            'user_ban' => 'User Ban',
-            'user_register' => 'User Register',
+            'date_report' => 'Ngày',
+            'total_user' => 'Tổng số thành viên',
+            'user_ban' => 'Thành viên bị ban',
+            'user_register' => 'Thành viên đăng ký mới',
+            'from_date' => 'Từ ngày',
+            'to_date' => 'Đến ngày',
         ];
+    }
+
+    public function generateReport()
+    {
+        if ($this->from_date != '' && DateTime::createFromFormat("d/m/Y", $this->from_date)) {
+            $from_date = DateTime::createFromFormat("d/m/Y", $this->from_date)->setTime(0, 0)->format('Y-m-d H:i:s');
+        } else {
+            $from_date = (new DateTime('now'))->setTime(0, 0)->format('Y-m-d H:i:s');
+        }
+
+        if ($this->to_date != '' && DateTime::createFromFormat("d/m/Y", $this->to_date)) {
+            $to_date = DateTime::createFromFormat("d/m/Y", $this->to_date)->setTime(23, 59, 59)->format('Y-m-d H:i:s');
+        } else {
+            $to_date = (new DateTime('now'))->setTime(23, 59, 59)->format('Y-m-d H:i:s');
+        }
+
+        $started = strtotime($from_date);
+        $finished = strtotime($to_date);
+
+        $param = Yii::$app->request->queryParams;
+        $searchModel = new ReportUsersSearch();
+        $param['ReportUsersSearch']['from_date'] =$started;
+        $param['ReportUsersSearch']['to_date'] =$finished;
+
+        $dataProvider = $searchModel->search($param);
+
+        return $dataProvider;
     }
 }

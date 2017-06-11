@@ -83,7 +83,7 @@ class ReportController extends Controller
             $forums = Forums::find()->select('forum_id')->all();
             if (!$forums) {
                 $transaction->rollBack();
-                echo 'n****** Lỗi! Không tìm thấy Forums ******';
+                echo '\n****** Lỗi! Không tìm thấy Forums ******';
             }
             /** @var  $forum Forums */
             foreach ($forums as $forum) {
@@ -143,7 +143,7 @@ class ReportController extends Controller
             print("Chuyen sang ngay: $to_day_date \n");
 
             echo "Xoa bao cao chay truoc do trong ngay:" . date("d-m-Y H:i:s", $beginPreDay) . ' timestamp:' . $beginPreDay;
-            ReportUsers::deleteAll(['between', 'report_date', $beginPreDay, $endPreDay]);
+            ReportUsers::deleteAll(['between', 'date_report', $beginPreDay, $endPreDay]);
             $group = [Groups::GROUP_NEWLY_REGISTEREDLY, Groups::GROUP_REGISTERED];
             $total_user = Users::find()
                 ->andWhere(['IN', 'group_id', $group])
