@@ -14,6 +14,8 @@ use Yii;
  */
 class ConfigSystem extends \yii\db\ActiveRecord
 {
+    const ID = 1;
+
     /**
      * @inheritdoc
      */
@@ -39,9 +41,9 @@ class ConfigSystem extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'number_like_postive' => 'Number Like Postive',
-            'number_answer_postive' => 'Number Answer Postive',
-            'number_answer_negative' => 'Number Answer Negative',
+            'number_like_postive' => 'Mức like tối thiểu để trở thành viên tích cực',
+            'number_answer_postive' => 'Số câu trả lời đúng tối thiểu trờ thành thành viên tích cực',
+            'number_answer_negative' => 'Số câu trả lời sai tối đa',
         ];
     }
 }

@@ -189,7 +189,7 @@ class ReportController extends Controller
             print("Chuyen sang ngay: $to_day_date \n");
 
             echo "Xoa bao cao chay truoc do trong ngay:" . date("d-m-Y H:i:s", $beginPreDay) . ' timestamp:' . $beginPreDay;
-            LikeCommentUser::deleteAll(['between', 'report_date', $beginPreDay, $endPreDay]);
+            LikeCommentUser::deleteAll(['between', 'date_report', $beginPreDay, $endPreDay]);
             $group = [Groups::GROUP_NEWLY_REGISTEREDLY, Groups::GROUP_REGISTERED];
             $users = Users::find()
                 ->andWhere(['IN', 'group_id', $group])
@@ -234,7 +234,7 @@ class ReportController extends Controller
 
     public function actionReportUserPositive($start_day = '')
     {
-        $config_sysyem = ConfigSystem::findAll();
+        $config_sysyem = ConfigSystem::findOne(ConfigSystem::ID);
         if (!$config_sysyem) {
             print(" LOI! Chua config tham so  \n");
             exit();

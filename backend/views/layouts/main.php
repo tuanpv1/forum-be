@@ -1,6 +1,7 @@
 <?php
 use backend\assets\AppAsset;
 use common\models\Banlist;
+use common\models\ConfigSystem;
 use common\models\User;
 use common\widgets\Alert;
 use common\widgets\Nav2;
@@ -133,6 +134,11 @@ $arrlang = array();
                             'encode' => false,
                             'label' => '<i class="glyphicon glyphicon-th-list"></i> ' . Yii::t('app', 'Cấp quyền danh mục'),
                             'url' => ['acl-roles/index-category'],
+                        ],
+                        [
+                            'encode' => false,
+                            'label' => '<i class="glyphicon glyphicon-wrench"></i> ' . Yii::t('app', 'Cài đặt tham số'),
+                            'url' => ['config-system/view'],
                         ],
                     ]
                 ],
