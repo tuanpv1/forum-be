@@ -223,6 +223,11 @@ $arrlang = array();
                             'label' => '<i class="glyphicon glyphicon-subtitles"></i> ' . Yii::t('app', 'Báo cáo thành viên'),
                             'url' => ['report/report-user'],
                         ],
+                        [
+                            'encode' => false,
+                            'label' => '<i class="glyphicon glyphicon-subtitles"></i> ' . Yii::t('app', 'Báo cáo thành viên tích cực'),
+                            'url' => ['report/report-user-positive'],
+                        ],
                     ]
                 ],
             ];

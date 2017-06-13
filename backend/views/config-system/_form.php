@@ -13,7 +13,7 @@ use yii\helpers\Url;
 
     <?php $form = ActiveForm::begin([
         'method' => 'post',
-        'action'=>Url::to(['config-system/create']),
+        'action'=>$model->isNewRecord ?Url::to(['config-system/create']):Url::to(['config-system/update','id'=>$model->id]),
         'type' => ActiveForm::TYPE_HORIZONTAL,
         'fullSpan' => 12,
         'formConfig' => [

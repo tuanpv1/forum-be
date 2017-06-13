@@ -264,23 +264,48 @@ class ReportController extends Controller
             print("Chuyen sang ngay: $to_day_date \n");
 
             echo "Xoa bao cao chay truoc do trong ngay:" . date("d-m-Y H:i:s", $beginPreDay) . ' timestamp:' . $beginPreDay;
-            ReportUserPositive::deleteAll(['between', 'report_date', $beginPreDay, $endPreDay]);
+            ReportUserPositive::deleteAll(['between', 'date_report', $beginPreDay, $endPreDay]);
             $group = [Groups::GROUP_NEWLY_REGISTEREDLY, Groups::GROUP_REGISTERED];
             $users_id_positive = LikeCommentUser::find()
                 ->select('user_id')
                 ->andWhere(['>=', 'like_count', $number_like_positive])
                 ->andWhere(['>=', 'answer_true', $number_answer_positve])
-                ->andWhere(['between', 'report_date', $beginPreDay, $endPreDay])
+                ->andWhere(['between', 'date_report', $beginPreDay, $endPreDay])
                 ->all();
+            $string_positive_id = "";
+            $total_user_positive = 0;
+            if ($users_id_positive) {
+                foreach ($users_id_positive as $item) {
+                    if ($string_positive_id == "") {
+                        $string_positive_id = $item->user_id;
+                    } else {
+                        $string_positive_id .= ";" . $item->user_id;
+                    }
+                    $total_user_positive++;
+                }
+            }
             $users_id_negative = LikeCommentUser::find()
                 ->select('user_id')
-                ->andWhere(['<=', 'answer_false', $number_answer_negative])
-                ->andWhere(['between', 'report_date', $beginPreDay, $endPreDay])
+                ->andWhere(['>=', 'answer_false', $number_answer_negative])
+                ->andWhere(['between', 'date_report', $beginPreDay, $endPreDay])
                 ->all();
-            $addReportUserPositive = ReportUserPositive::addNewRecord($beginPreDay, $users_id_positive, $users_id_negative);
+            $string_negative_id = "";
+            $total_user_negative = 0;
+            if ($users_id_negative) {
+                foreach ($users_id_negative as $item1) {
+                    if ($string_negative_id == "") {
+                        $string_negative_id = $item1->user_id;
+                    } else {
+                        $string_negative_id .= ";" . $item1->user_id;
+                    }
+                    $total_user_negative++;
+                }
+            }
+            $addReportUserPositive = ReportUserPositive::addNewRecord($beginPreDay, $string_positive_id, $string_negative_id, $total_user_positive, $total_user_negative);
             if (!$addReportUserPositive) {
                 echo '****** ERROR! Chay bao cao khong thanh cong ******';
                 $transaction->rollBack();
+                exit();
             }
             $transaction->commit();
             echo '****** Chay bao cao hoan thanh! ******';
