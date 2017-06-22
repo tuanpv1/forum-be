@@ -50,6 +50,7 @@ class Posts extends \yii\db\ActiveRecord
         return 'phpbb_posts';
     }
 
+    public $viewAttr = [];
     const STATUS_POST_VISIBILITY = 1;
     const STATUS_POST_INVISIBILITY = 0;
 
