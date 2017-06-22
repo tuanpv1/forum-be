@@ -242,4 +242,20 @@ class Posts extends \yii\db\ActiveRecord
 
         return $this->update(false);
     }
+
+    public function getCssStatus()
+    {
+        switch ($this->status) {
+            case self::STATUS_ANSWER_RIGHT:
+                return 'label label-primary';
+            case self::STATUS_ANSWER_APPROVE:
+                return 'label label-warning';
+            case self::STATUS_ANSWER_WRONG:
+                return 'label label-danger';
+            case self::STATUS_ANSWER_NEGATIVE:
+                return 'label label-info';
+            default:
+                return 'label label-primary';
+        }
+    }
 }
