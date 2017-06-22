@@ -24,7 +24,7 @@ $grid = [
     [
         'attribute' => 'post_time',
         // 'label' => 'Ngày tạo',
-        'value' => date('d-m-Y H:i:s', $model->pos)
+        'value' => date('d-m-Y H:i:s', $model->post_time)
     ],
 ];
 
