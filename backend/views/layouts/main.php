@@ -135,11 +135,11 @@ $arrlang = array();
                             'label' => '<i class="glyphicon glyphicon-th-list"></i> ' . Yii::t('app', 'Cấp quyền danh mục'),
                             'url' => ['acl-roles/index-category'],
                         ],
-                        [
-                            'encode' => false,
-                            'label' => '<i class="glyphicon glyphicon-wrench"></i> ' . Yii::t('app', 'Cài đặt tham số'),
-                            'url' => ['config-system/view'],
-                        ],
+//                        [
+//                            'encode' => false,
+//                            'label' => '<i class="glyphicon glyphicon-wrench"></i> ' . Yii::t('app', 'Cài đặt tham số'),
+//                            'url' => ['config-system/view'],
+//                        ],
                     ]
                 ],
                 [
@@ -158,11 +158,11 @@ $arrlang = array();
                             'label' => '<i class="glyphicon glyphicon-comment"></i> ' . Yii::t('app', 'Bình luận'),
                             'url' => ['posts/index']
                         ],
-                        [
-                            'encode' => false,
-                            'label' => '<i class="glyphicon glyphicon-comment"></i> ' . Yii::t('app', 'Quản lý tags'),
-                            'url' => ['tags/index']
-                        ],
+//                        [
+//                            'encode' => false,
+//                            'label' => '<i class="glyphicon glyphicon-comment"></i> ' . Yii::t('app', 'Quản lý tags'),
+//                            'url' => ['tags/index']
+//                        ],
                     ]
                 ],
                 [
@@ -207,29 +207,39 @@ $arrlang = array();
                         ],
                     ]
                 ],
-                [
-                    'encode' => false,
-                    'label' => '<i class="glyphicon glyphicon-pencil"></i> ' . Yii::t('app', 'Quản lý báo cáo'),
-                    'linkOptions' => ['data-hover' => 'megamenu-dropdown', 'data-close-others' => 'true'],
-                    'options' => ['class' => 'menu-dropdown mega-menu-dropdown'],
-                    'items' => [
-                        [
-                            'encode' => false,
-                            'label' => '<i class="glyphicon glyphicon-subtitles"></i> ' . Yii::t('app', 'Báo cáo bài viết'),
-                            'url' => ['report/report-topic'],
-                        ],
-                        [
-                            'encode' => false,
-                            'label' => '<i class="glyphicon glyphicon-subtitles"></i> ' . Yii::t('app', 'Báo cáo thành viên'),
-                            'url' => ['report/report-user'],
-                        ],
-                        [
-                            'encode' => false,
-                            'label' => '<i class="glyphicon glyphicon-subtitles"></i> ' . Yii::t('app', 'Báo cáo thành viên tích cực'),
-                            'url' => ['report/report-user-positive'],
-                        ],
-                    ]
-                ],
+//                [
+//                    'encode' => false,
+//                    'label' => '<i class="glyphicon glyphicon-pencil"></i> ' . Yii::t('app', 'Quản lý báo cáo'),
+//                    'linkOptions' => ['data-hover' => 'megamenu-dropdown', 'data-close-others' => 'true'],
+//                    'options' => ['class' => 'menu-dropdown mega-menu-dropdown'],
+//                    'items' => [
+//                        [
+//                            'encode' => false,
+//                            'label' => '<i class="glyphicon glyphicon-subtitles"></i> ' . Yii::t('app', 'BC tổng hợp bài viết'),
+//                            'url' => ['report/report-topic'],
+//                        ],
+//                        [
+//                            'encode' => false,
+//                            'label' => '<i class="glyphicon glyphicon-subtitles"></i> ' . Yii::t('app', 'BC chi tiết theo bài viết'),
+//                            'url' => ['report/report-topic-detail'],
+//                        ],
+//                        [
+//                            'encode' => false,
+//                            'label' => '<i class="glyphicon glyphicon-subtitles"></i> ' . Yii::t('app', 'BC thành viên'),
+//                            'url' => ['report/report-user'],
+//                        ],
+//                        [
+//                            'encode' => false,
+//                            'label' => '<i class="glyphicon glyphicon-subtitles"></i> ' . Yii::t('app', 'BC thành viên tích cực'),
+//                            'url' => ['report/report-user-positive'],
+//                        ],
+//                        [
+//                            'encode' => false,
+//                            'label' => '<i class="glyphicon glyphicon-subtitles"></i> ' . Yii::t('app', 'BC like comment TV'),
+//                            'url' => ['report/report-user-detail'],
+//                        ],
+//                    ]
+//                ],
             ];
 
 

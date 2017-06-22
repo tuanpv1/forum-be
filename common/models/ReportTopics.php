@@ -46,16 +46,6 @@ class ReportTopics extends \yii\db\ActiveRecord
         return true;
     }
 
-    public static function getDetailReportTopic($date_report,$forum_id)
-    {
-        $param = Yii::$app->request->queryParams;
-        $searchModel = new ReportTopicsSearch();
-        $param['ReportTopicsSearch']['date_report'] =$date_report;
-        $param['ReportTopicsSearch']['forum_id'] = $forum_id;
-        $dataProvider = $searchModel->searchDetail($param);
-        return Yii::$app->controller->renderPartial('report-topic-detail', ['dataProvider' => $dataProvider]);
-    }
-
     /**
      * @inheritdoc
      */
@@ -110,6 +100,34 @@ class ReportTopics extends \yii\db\ActiveRecord
         $param['ReportTopicsSearch']['forum_id'] =$this->forum_id;
 
         $dataProvider = $searchModel->search($param);
+
+        return $dataProvider;
+    }
+
+    public function generateReportDetail()
+    {
+        if ($this->from_date != '' && DateTime::createFromFormat("d/m/Y", $this->from_date)) {
+            $from_date = DateTime::createFromFormat("d/m/Y", $this->from_date)->setTime(0, 0)->format('Y-m-d H:i:s');
+        } else {
+            $from_date = (new DateTime('now'))->setTime(0, 0)->format('Y-m-d H:i:s');
+        }
+
+        if ($this->to_date != '' && DateTime::createFromFormat("d/m/Y", $this->to_date)) {
+            $to_date = DateTime::createFromFormat("d/m/Y", $this->to_date)->setTime(23, 59, 59)->format('Y-m-d H:i:s');
+        } else {
+            $to_date = (new DateTime('now'))->setTime(23, 59, 59)->format('Y-m-d H:i:s');
+        }
+
+        $started = strtotime($from_date);
+        $finished = strtotime($to_date);
+
+        $param = Yii::$app->request->queryParams;
+        $searchModel = new ReportTopicsSearch();
+        $param['ReportTopicsSearch']['from_date'] =$started;
+        $param['ReportTopicsSearch']['to_date'] =$finished;
+        $param['ReportTopicsSearch']['forum_id'] =$this->forum_id;
+
+        $dataProvider = $searchModel->searchDetail($param);
 
         return $dataProvider;
     }

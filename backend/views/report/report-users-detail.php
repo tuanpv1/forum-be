@@ -2,11 +2,12 @@
 
 use common\helpers\CommonUtils;
 use common\models\Forums;
-use common\models\ReportTopics;
+use common\models\LikeCommentUser;
 use common\models\Service;
 use common\models\Site;
 use common\models\Subscriber;
 use common\models\SubscriberServiceAsm;
+use common\models\Users;
 use kartik\export\ExportMenu;
 use kartik\form\ActiveForm;
 use kartik\grid\GridView;
@@ -16,12 +17,11 @@ use kartik\widgets\DepDrop;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 
-/* @var $report ReportTopics */
+/* @var $report LikeCommentUser */
 /* @var $this yii\web\View */
 
-$this->title = ''.\Yii::t('app', 'Báo cáo thống kê bài viết');
+$this->title = ''.\Yii::t('app', 'Báo cáo thống kê thành viên');
 $this->params['breadcrumbs'][] = $this->title;
-$forum_id = Html::getInputId($report, 'forum_id');
 ?>
 <div class="row">
     <div class="col-md-12">
@@ -34,14 +34,14 @@ $forum_id = Html::getInputId($report, 'forum_id');
                         <div class="col-md-12 col-md-offset-0">
                             <?php $form = ActiveForm::begin(
                                 ['method' => 'get',
-                                    'action' => Url::to(['report/report-topic']),]
+                                    'action' => Url::to(['report/report-user-detail']),]
                             ); ?>
 
                             <div class="row">
                                 <div class="col-md-12">
 
                                     <div class="col-md-2">
-                                        <?= $form->field($report, 'forum_id')->dropDownList( ArrayHelper::merge(['' => ''.\Yii::t('app', 'Tất cả')],Forums::listForum()), ['id'=>'site-id']); ?>
+                                        <?= $form->field($report, 'username')->textInput(['maxlength' => true]) ?>
                                     </div>
 
                                     <div class="col-md-2">
@@ -75,78 +75,46 @@ $forum_id = Html::getInputId($report, 'forum_id');
                                         <?php if ($dataProvider) { ?>
                                         <?php
                                         $gridColumns =[
-//                                            [
-//                                                'class'=>'kartik\grid\ExpandRowColumn',
-//                                                'width'=>'50px',
-//                                                'value'=>function ($model, $key, $index, $column) {
-//                                                    return GridView::ROW_COLLAPSED;
-//                                                },
-//                                                'detail'=>function ($model,$forum_id) {
-//                                                    /**  @var $model \common\models\ReportTopics */
-//                                                    return ReportTopics::getDetailReportTopic($model->date_report,$forum_id);
-//                                                },
-//                                                'headerOptions'=>['class'=>'kartik-sheet-style'] ,
-//                                                'expandOneOnly'=>true
-//                                            ],
                                             [
                                                 'class' => '\kartik\grid\DataColumn',
                                                 'attribute' => 'date_report',
                                                 'width' => '150px',
                                                 'value' => function ($model) {
-                                                    /**  @var $model \common\models\ReportTopics */
+                                                    /**  @var $model \common\models\LikeCommentUser */
                                                     return date('d/m/Y', $model->date_report);
                                                 },
-//                                                'pageSummary' => "".\Yii::t('app', 'Tổng số')
                                             ],
                                             [
                                                 'class' => '\kartik\grid\DataColumn',
-                                                'attribute' => 'topic_id',
+                                                'attribute' => 'user_id',
                                                 'value' => function ($model) {
-                                                    /**  @var $model \common\models\ReportTopics */
-                                                    return $model->topic_id;
+                                                    /**  @var $model \common\models\LikeCommentUser */
+                                                    return Users::findOne(['user_id'=>$model->user_id])->username;
                                                 },
-//                                                'pageSummary' => true,
-//                                                'pageSummary' => CommonUtils::formatNumber($dataProvider->query->sum('topic_id')?$dataProvider->query->sum('topic_id'):0)
-                                            ],
-                                            [
-                                                'class' => '\kartik\grid\DataColumn',
-                                                'attribute' => 'total_post',
-                                                'value' => function ($model) {
-                                                    /**  @var $model \common\models\ReportTopics */
-                                                    return $model->total_post;
-                                                },
-//                                                'pageSummary' => true,
-//                                                'pageSummary' => CommonUtils::formatNumber($dataProvider->query->sum('total_post')?$dataProvider->query->sum('total_post'):0)
                                             ],
                                             [
                                                 'class' => '\kartik\grid\DataColumn',
                                                 'attribute' => 'like_count',
                                                 'value' => function ($model) {
-                                                    /**  @var $model \common\models\ReportTopics */
+                                                    /**  @var $model \common\models\LikeCommentUser */
                                                     return $model->like_count;
                                                 },
-//                                                'pageSummary' => true,
-//                                                'pageSummary' => CommonUtils::formatNumber($dataProvider->query->sum('like_count')?$dataProvider->query->sum('like_count'):0)
                                             ],
                                             [
                                                 'class' => '\kartik\grid\DataColumn',
-                                                'attribute' => 'view_count',
+                                                'attribute' => 'answer_true',
                                                 'value' => function ($model) {
-                                                    /**  @var $model \common\models\ReportTopics */
-                                                    return $model->view_count;
+                                                    /**  @var $model \common\models\LikeCommentUser */
+                                                    return $model->answer_true;
                                                 },
-//                                                'pageSummary' => true,
-//                                                'pageSummary' => CommonUtils::formatNumber($dataProvider->query->sum('view_count')?$dataProvider->query->sum('view_count'):0)
                                             ],
                                             [
                                                 'class' => '\kartik\grid\DataColumn',
-                                                'attribute' => 'rate_count',
+                                                'attribute' => 'answer_false',
                                                 'value' => function ($model) {
-                                                    /**  @var $model \common\models\ReportTopics */
-                                                    return $model->rate_count;
+                                                    /**  @var $model \common\models\LikeCommentUser */
+                                                    return $model->answer_false;
                                                 },
-//                                                'pageSummary' => true,
-//                                                'pageSummary' => CommonUtils::formatNumber($dataProvider->query->sum('rate_count')?$dataProvider->query->sum('rate_count'):0)
                                             ],
                                         ]
                                         ?>
@@ -173,7 +141,7 @@ $forum_id = Html::getInputId($report, 'forum_id');
                                                 ExportMenu::FORMAT_EXCEL => false,
                                             ],
                                             'target' => ExportMenu::TARGET_SELF,
-                                            'filename' => "Report_Topics"
+                                            'filename' => "Report_Users"
                                         ])
                                         ?>
                                     </div>

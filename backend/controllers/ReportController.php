@@ -11,6 +11,7 @@ namespace backend\controllers;
 use common\components\ActionLogTracking;
 use common\helpers\CUtils;
 use common\models\Category;
+use common\models\LikeCommentUser;
 use common\models\ReportTopics;
 use common\models\ReportUserPositive;
 use common\models\ReportUsers;
@@ -63,6 +64,34 @@ class ReportController  extends Controller
         ]);
     }
 
+    public function actionReportTopicDetail(){
+
+        $param = Yii::$app->request->queryParams;
+        $to_date_default = (new DateTime('now'))->setTime(23, 59, 59)->format('d/m/Y');
+        $from_date_default = (new DateTime('now'))->setTime(0, 0)->modify('-7 days')->format('d/m/Y');
+
+        $from_date = isset($param['ReportTopics']['from_date']) ? $param['ReportTopics']['from_date'] : $from_date_default;
+        $to_date = isset($param['ReportTopics']['to_date']) ? $param['ReportTopics']['to_date'] : $to_date_default;
+        $forum_id = isset($param['ReportTopics']['forum_id']) ? $param['ReportTopics']['forum_id'] : '';
+
+        $started = strtotime(DateTime::createFromFormat("d/m/Y", $from_date)->setTime(0, 0)->format('Y-m-d H:i:s'));
+        $finished = strtotime(DateTime::createFromFormat("d/m/Y", $to_date)->setTime(0, 0)->format('Y-m-d H:i:s'));
+
+        if ($finished < $started) {
+            Yii::$app->session->setFlash('error', Yii::t('app','Ngày kết thúc tìm kiếm không được nhỏ hơn ngày bắt đầu tìm kiếm'));
+        }
+        $report = new ReportTopics();
+        $report->from_date = $from_date;
+        $report->to_date = $to_date;
+        $report->forum_id = $forum_id;
+        $arrayProvider = $report->generateReportDetail();
+
+        return $this->render('report-topic-detail',[
+            'report' => $report,
+            'dataProvider' => $arrayProvider,
+        ]);
+    }
+
     public function actionReportUser(){
 
         $param = Yii::$app->request->queryParams;
@@ -84,6 +113,34 @@ class ReportController  extends Controller
         $arrayProvider = $report->generateReport();
 
         return $this->render('report-users',[
+            'report' => $report,
+            'dataProvider' => $arrayProvider,
+        ]);
+    }
+
+    public function actionReportUserDetail(){
+
+        $param = Yii::$app->request->queryParams;
+        $to_date_default = (new DateTime('now'))->setTime(23, 59, 59)->format('d/m/Y');
+        $from_date_default = (new DateTime('now'))->setTime(0, 0)->modify('-7 days')->format('d/m/Y');
+
+        $from_date = isset($param['LikeCommentUser']['from_date']) ? $param['LikeCommentUser']['from_date'] : $from_date_default;
+        $to_date = isset($param['LikeCommentUser']['to_date']) ? $param['LikeCommentUser']['to_date'] : $to_date_default;
+        $username = isset($param['LikeCommentUser']['username']) ? $param['LikeCommentUser']['username'] : "";
+
+        $started = strtotime(DateTime::createFromFormat("d/m/Y", $from_date)->setTime(0, 0)->format('Y-m-d H:i:s'));
+        $finished = strtotime(DateTime::createFromFormat("d/m/Y", $to_date)->setTime(0, 0)->format('Y-m-d H:i:s'));
+
+        if ($finished < $started) {
+            Yii::$app->session->setFlash('error', Yii::t('app','Ngày kết thúc tìm kiếm không được nhỏ hơn ngày bắt đầu tìm kiếm'));
+        }
+        $report = new LikeCommentUser();
+        $report->from_date = $from_date;
+        $report->to_date = $to_date;
+        $report->username = $username;
+        $arrayProvider = $report->generateReport();
+
+        return $this->render('report-users-detail',[
             'report' => $report,
             'dataProvider' => $arrayProvider,
         ]);
